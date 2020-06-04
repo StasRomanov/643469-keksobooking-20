@@ -18,6 +18,7 @@ var MAP_X_SIZE = mapPins.offsetWidth;
 var MAX_LOCATION_X = MAP_X_SIZE - PIN_WIDTH;
 var MIN_LOCATION_Y = PIN_HEIGHT + SKY_HEIGHT;
 var MAX_LOCATION_Y = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
+var cardBlock = document.createElement('article');
 var hotelHeaderBlock = CARD_TEMPLATE.querySelector('.popup__title');
 var hotelAddressBlock = CARD_TEMPLATE.querySelector('.popup__text--address');
 var hotelPriceBlock = CARD_TEMPLATE.querySelector('.popup__text--price');
@@ -124,6 +125,8 @@ var renderMapPins = function () {
 
 var renderHotelInfo = function () {
   fragment = document.createDocumentFragment();
+  cardBlock.classList.add('map__card');
+  cardBlock.classList.add('popup');
   hotelHeaderBlock.textContent = hotelArrays[0].offer.title;
   hotelAddressBlock.textContent = hotelArrays[0].offer.address;
   hotelPriceBlock.textContent = hotelArrays[0].offer.price;
@@ -140,11 +143,19 @@ var renderHotelInfo = function () {
       hotelTypeBlock.textContent = 'Квартира';
     }
   }
-  hotelRoomsBlock.textContent = hotelArrays[0].offer.rooms + ' комнаты для ' + hotelArrays[0].offer.rooms;
+  hotelRoomsBlock.textContent = hotelArrays[0].offer.rooms + ' комнаты для ' + hotelArrays[0].offer.guests;
   hotelTimeBlock.textContent = 'Заезд после ' + hotelArrays[0].offer.checkin + ', выезд до ' + hotelArrays[0].offer.checkout;
-  hotelFeaturesBlock.textContent = hotelArrays[0].offer.features + '';
+  for (var k = 0; k < hotelArrays[0].offer.features.length; k++) {
+    var listItem = document.createElement('li');
+    listItem.classList.add('popup__feature');
+    listItem.classList.add('popup__feature--' + hotelArrays[0].offer.features[k]);
+    listItem.textContent = hotelArrays[0].offer.features[k];
+    fragment.appendChild(listItem);
+  }
+  hotelFeaturesBlock.appendChild(fragment);
   hotelDescriptionBlock.textContent = hotelArrays[0].offer.description;
   for (var i = 0; i < hotelArrays[0].offer.photos.length; i++) {
+    fragment = document.createDocumentFragment();
     while (hotelPhotosBlock.firstChild) {
       hotelPhotosBlock.removeChild(hotelPhotosBlock.firstChild);
     }
@@ -160,14 +171,10 @@ var renderHotelInfo = function () {
   var cardArray = [hotelHeaderBlock, hotelAddressBlock, hotelPriceBlock, hotelTypeBlock, hotelRoomsBlock,
     hotelRoomsBlock, hotelTimeBlock, hotelFeaturesBlock, hotelDescriptionBlock, hotelPhotosBlock];
   for (var j = 0; j < cardArray.length; j++) {
-    fragmentCard.appendChild(cardArray[j]);
+    cardBlock.appendChild(cardArray[j]);
   }
-  map.insertBefore(fragmentCard, mapFiltersContainer);
+  map.insertBefore(cardBlock, mapFiltersContainer);
 };
 
 renderMapPins();
 renderHotelInfo();
-console.log(HOTEL_PHOTOS.length);
-console.log(HOTEL_PHOTOS);
-console.log(hotelArrays[0].offer.photos.length);
-console.log(hotelArrays[0].offer.photos);
