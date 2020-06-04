@@ -23,21 +23,21 @@ var map = document.querySelector('.map');
 var xLocations = [];
 var yLocations = [];
 
-var randomInteger = function (min, max) {
+var getRandomInteger = function (min, max) {
   var rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
 
 var getLocations = function (array, minLocation, maxLocation) {
   for (var i = 0; i < HOTEL_COUNTER; i++) {
-    array.push(randomInteger(minLocation, maxLocation));
+    array.push(getRandomInteger(minLocation, maxLocation));
   }
 };
 
-var randomArray = function (array) {
+var getRandomArrayLength = function (array) {
   var newArray = [];
   for (var i = 0; i < array.length || newArray.length === 0; i++) {
-    if (randomInteger(1, 2) === 2) {
+    if (getRandomInteger(1, 2) === 2) {
       newArray.push(array[i]);
     }
   }
@@ -70,19 +70,19 @@ var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
   };
 };
 
-var arrayCreator = function () {
+var getAllHotelInfo = function () {
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
-    var hotelAvatar = 'img/avatars/user0' + randomInteger(1, HOTEL_COUNTER) + '.png';
+    var hotelAvatar = 'img/avatars/user0' + getRandomInteger(1, HOTEL_COUNTER) + '.png';
     var hotelTitle = 'hotel' + i;
     var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
-    var hotelPrice = randomInteger(1000, 80000) + '$';
-    var hotelType = HOTEL_TYPES[randomInteger(0, 3)];
-    var hotelRooms = randomInteger(1, 6);
-    var hotelCheckin = TIME[randomInteger(0, TIME.length - 1)];
-    var hotelCheckout = TIME[randomInteger(0, TIME.length - 1)];
-    var hotelFeatures = randomArray(FEATURES);
-    var hotelPhoto = randomArray(HOTEL_PHOTOS);
+    var hotelPrice = getRandomInteger(1000, 80000) + '$';
+    var hotelType = HOTEL_TYPES[getRandomInteger(0, 3)];
+    var hotelRooms = getRandomInteger(1, 6);
+    var hotelCheckin = TIME[getRandomInteger(0, TIME.length - 1)];
+    var hotelCheckout = TIME[getRandomInteger(0, TIME.length - 1)];
+    var hotelFeatures = getRandomArrayLength(FEATURES);
+    var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
     hotelArrays.splice(0, 0, getHotelInfo(
         hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelRooms * 3, hotelCheckin,
         hotelCheckout, hotelFeatures, HOTEL_DESCRIPTION, hotelPhoto, xLocations[i], yLocations[i]
@@ -94,7 +94,7 @@ var renderMapPins = function () {
   map.classList.remove('map--faded');
   getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
   getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
-  arrayCreator();
+  getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var element = MAP_PIN.cloneNode(true);
     element.style.left = hotelArrays[i].location.x + 'px';
