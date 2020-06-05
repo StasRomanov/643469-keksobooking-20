@@ -20,7 +20,7 @@ var mapPin = template.querySelector('.map__pin');
 var mapPinPhoto = template.querySelector('img');
 var fragment = document.createDocumentFragment();
 var hotels = [];
-var hotelsCount = [];
+var hotelsSequence = [];
 var map = document.querySelector('.map');
 var xLocations = [];
 var yLocations = [];
@@ -36,9 +36,9 @@ var getLocations = function (minLocation, maxLocation) {
   return array;
 };
 
-var hotelOrder = function (count) {
+var getHotelOrder = function (count) {
   for (var i = 0; i < count; i++) {
-    hotelsCount.splice(0, 0, i + 1);
+    hotelsSequence.splice(0, 0, i + 1);
   }
 };
 
@@ -66,7 +66,7 @@ var getRandomArrayLength = function (array) {
   return shuffled.slice(0, getRandomInteger(1, array.length));
 };
 
-var randomArrayElement = function (array) {
+var getRandomArrayElement = function (array) {
   return array[getRandomInteger(0, array.length)];
 };
 
@@ -97,20 +97,20 @@ var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
 };
 
 var getAllHotelInfo = function () {
-  hotelOrder(HOTEL_COUNTER);
-  shuffle(hotelsCount);
+  getHotelOrder(HOTEL_COUNTER);
+  shuffle(hotelsSequence);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     xLocations[i] = getLocations(PIN_WIDTH, MAX_LOCATION_X);
     yLocations[i] = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
-    var hotelAvatar = 'img/avatars/user0' + hotelsCount[i] + '.png';
+    var hotelAvatar = 'img/avatars/user0' + hotelsSequence[i] + '.png';
     var hotelTitle = 'hotel' + i;
     var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
     var hotelPrice = getRandomInteger(1000, 80000) + '₽/ночь';
-    var hotelType = randomArrayElement(HOTEL_TYPES);
+    var hotelType = getRandomArrayElement(HOTEL_TYPES);
     var hotelRooms = getRandomInteger(1, 6);
-    var hotelCheckin = randomArrayElement(TIMES);
-    var hotelCheckout = randomArrayElement(TIMES);
+    var hotelCheckin = getRandomArrayElement(TIMES);
+    var hotelCheckout = getRandomArrayElement(TIMES);
     var hotelFeatures = getRandomArrayLength(FEATURES);
     var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
     hotels.splice(0, 0, getHotelInfo(
