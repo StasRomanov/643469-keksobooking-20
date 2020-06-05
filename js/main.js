@@ -2,6 +2,7 @@
 var HOTEL_COUNTER = 8;
 var template = document.querySelector('#pin').content;
 var mapPin = template.querySelector('.map__pin');
+var mapPinPhoto = template.querySelector('img');
 var HOTEL_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -120,16 +121,16 @@ var getAllHotelInfo = function () {
 };
 
 var renderMapPins = function () {
-  //getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
-  //getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
   xLocations = getLocations(PIN_WIDTH, MAX_LOCATION_X);
   yLocations = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
-    var element = mapPin.cloneNode(true);
+    var photoElement = mapPinPhoto.cloneNode(false);
+    var element = mapPin.cloneNode(false);
     element.style.left = hotels[i].location.x + 'px';
     element.style.top = hotels[i].location.y + 'px';
-    element.children[0].src = hotels[i].author.avatar;
+    photoElement.src = hotels[i].author.avatar;
+    element.appendChild(photoElement);
     fragment.appendChild(element);
   }
   mapPins.appendChild(fragment);
