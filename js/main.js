@@ -35,13 +35,15 @@ var getLocations = function (array, minLocation, maxLocation) {
 };
 
 var getRandomArrayLength = function (array) {
-  var newArray = [];
-  for (var i = 0; i < array.length || newArray.length === 0; i++) {
-    if (getRandomInteger(1, 2) === 2) {
-      newArray.push(array[i]);
-    }
+  var shuffled = array.slice(0);
+  var i = array.length;
+  while (i--) {
+    var index = Math.floor((i + 1) * Math.random());
+    var temp = shuffled[index];
+    shuffled[index] = shuffled[i];
+    shuffled[i] = temp;
   }
-  return newArray;
+  return shuffled.slice(0, getRandomInteger(1, array.length));
 };
 
 var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
@@ -91,7 +93,6 @@ var getAllHotelInfo = function () {
 };
 
 var renderMapPins = function () {
-  map.classList.remove('map--faded');
   getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
   getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
@@ -105,4 +106,5 @@ var renderMapPins = function () {
   mapPins.appendChild(fragment);
 };
 
+map.classList.remove('map--faded');
 renderMapPins();
