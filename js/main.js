@@ -29,10 +29,12 @@ var getRandomInteger = function (min, max) {
   return Math.floor(rand);
 };
 
-var getLocations = function (array, minLocation, maxLocation) {
+var getLocations = function (minLocation, maxLocation) {
+  var array = [];
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     array.push(getRandomInteger(minLocation, maxLocation));
   }
+  return array;
 };
 
 var hotelOrder = function (count) {
@@ -118,8 +120,10 @@ var getAllHotelInfo = function () {
 };
 
 var renderMapPins = function () {
-  getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
-  getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
+  //getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
+  //getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
+  xLocations = getLocations(PIN_WIDTH, MAX_LOCATION_X);
+  yLocations = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var element = mapPin.cloneNode(true);
