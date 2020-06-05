@@ -64,6 +64,10 @@ var getRandomArrayLength = function (array) {
   return shuffled.slice(0, getRandomInteger(1, array.length));
 };
 
+var randomArrayElement = function (array) {
+  return array[getRandomInteger(0, array.length)];
+};
+
 var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
     checkin, checkout, features, description, photos, x, y) {
   return {
@@ -98,11 +102,11 @@ var getAllHotelInfo = function () {
     var hotelAvatar = 'img/avatars/user0' + hotelscount[i] + '.png';
     var hotelTitle = 'hotel' + i;
     var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
-    var hotelPrice = getRandomInteger(1000, 80000) + '$';
-    var hotelType = HOTEL_TYPES[getRandomInteger(0, 3)];
+    var hotelPrice = getRandomInteger(1000, 80000) + '₽/ночь';
+    var hotelType = randomArrayElement(HOTEL_TYPES);
     var hotelRooms = getRandomInteger(1, 6);
-    var hotelCheckin = TIMES[getRandomInteger(0, TIMES.length - 1)];
-    var hotelCheckout = TIMES[getRandomInteger(0, TIMES.length - 1)];
+    var hotelCheckin = randomArrayElement(TIMES);
+    var hotelCheckout = randomArrayElement(TIMES);
     var hotelFeatures = getRandomArrayLength(FEATURES);
     var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
     hotels.splice(0, 0, getHotelInfo(
