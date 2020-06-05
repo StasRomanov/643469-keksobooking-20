@@ -32,9 +32,7 @@ var getRandomInteger = function (min, max) {
 
 var getLocations = function (minLocation, maxLocation) {
   var array = [];
-  for (var i = 0; i < HOTEL_COUNTER; i++) {
-    array.push(getRandomInteger(minLocation, maxLocation));
-  }
+  array.push(getRandomInteger(minLocation, maxLocation));
   return array;
 };
 
@@ -102,6 +100,8 @@ var getAllHotelInfo = function () {
   hotelOrder(HOTEL_COUNTER);
   shuffle(hotelsCount);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
+    xLocations[i] = getLocations(PIN_WIDTH, MAX_LOCATION_X);
+    yLocations[i] = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
     var hotelAvatar = 'img/avatars/user0' + hotelsCount[i] + '.png';
     var hotelTitle = 'hotel' + i;
@@ -121,8 +121,6 @@ var getAllHotelInfo = function () {
 };
 
 var renderMapPins = function () {
-  xLocations = getLocations(PIN_WIDTH, MAX_LOCATION_X);
-  yLocations = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
