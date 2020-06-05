@@ -196,3 +196,4 @@ var renderHotelInfo = function () {
 map.classList.remove('map--faded');
 renderMapPins();
 renderHotelInfo();
+
