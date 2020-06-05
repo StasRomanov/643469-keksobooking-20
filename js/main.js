@@ -1,8 +1,5 @@
 'use strict';
 var HOTEL_COUNTER = 8;
-var template = document.querySelector('#pin').content;
-var mapPin = template.querySelector('.map__pin');
-var mapPinPhoto = template.querySelector('img');
 var HOTEL_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -18,6 +15,9 @@ var MAP_X_SIZE = mapPins.offsetWidth;
 var MAX_LOCATION_X = MAP_X_SIZE - PIN_WIDTH;
 var MIN_LOCATION_Y = PIN_HEIGHT + SKY_HEIGHT;
 var MAX_LOCATION_Y = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
+var template = document.querySelector('#pin').content;
+var mapPin = template.querySelector('.map__pin');
+var mapPinPhoto = template.querySelector('img');
 var fragment = document.createDocumentFragment();
 var hotels = [];
 var hotelsCount = [];
