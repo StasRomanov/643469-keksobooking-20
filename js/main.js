@@ -1,7 +1,7 @@
 'use strict';
 var HOTEL_COUNTER = 8;
-var TEMPLATE = document.querySelector('#pin').content;
-var MAP_PIN = TEMPLATE.querySelector('.map__pin');
+var template = document.querySelector('#pin').content;
+var mapPin = template.querySelector('.map__pin');
 var HOTEL_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -19,7 +19,7 @@ var MIN_LOCATION_Y = PIN_HEIGHT + SKY_HEIGHT;
 var MAX_LOCATION_Y = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
 var fragment = document.createDocumentFragment();
 var hotels = [];
-var hotelscount = [];
+var hotelsCount = [];
 var map = document.querySelector('.map');
 var xLocations = [];
 var yLocations = [];
@@ -37,12 +37,13 @@ var getLocations = function (array, minLocation, maxLocation) {
 
 var hotelOrder = function (count) {
   for (var i = 0; i < count; i++) {
-    hotelscount.splice(0, 0, i + 1);
+    hotelsCount.splice(0, 0, i + 1);
   }
 };
 
 var shuffle = function (arr) {
-  var j; var temp;
+  var j;
+  var temp;
   for (var i = arr.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));
     temp = arr[j];
@@ -96,10 +97,10 @@ var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
 
 var getAllHotelInfo = function () {
   hotelOrder(HOTEL_COUNTER);
-  shuffle(hotelscount);
+  shuffle(hotelsCount);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
-    var hotelAvatar = 'img/avatars/user0' + hotelscount[i] + '.png';
+    var hotelAvatar = 'img/avatars/user0' + hotelsCount[i] + '.png';
     var hotelTitle = 'hotel' + i;
     var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
     var hotelPrice = getRandomInteger(1000, 80000) + '₽/ночь';
@@ -121,7 +122,7 @@ var renderMapPins = function () {
   getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
-    var element = MAP_PIN.cloneNode(true);
+    var element = mapPin.cloneNode(true);
     element.style.left = hotels[i].location.x + 'px';
     element.style.top = hotels[i].location.y + 'px';
     element.children[0].src = hotels[i].author.avatar;
