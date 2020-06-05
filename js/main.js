@@ -55,14 +55,8 @@ var shuffle = function (arr) {
 };
 
 var getRandomArrayLength = function (array) {
-  var shuffled = array.slice(0);
-  var i = array.length;
-  while (i--) {
-    var index = Math.floor((i + 1) * Math.random());
-    var temp = shuffled[index];
-    shuffled[index] = shuffled[i];
-    shuffled[i] = temp;
-  }
+  var shuffled = array.slice();
+  shuffle(shuffled);
   return shuffled.slice(0, getRandomInteger(1, array.length));
 };
 
