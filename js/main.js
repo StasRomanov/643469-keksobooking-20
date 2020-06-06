@@ -130,8 +130,6 @@ var getAllHotelInfo = function () {
 
 var renderMapPins = function () {
   fragment = document.createDocumentFragment();
-  getLocations(xLocations, PIN_WIDTH, MAX_LOCATION_X);
-  getLocations(yLocations, MIN_LOCATION_Y, MAX_LOCATION_Y);
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
