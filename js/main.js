@@ -25,7 +25,7 @@ var hotelTimeBlock = cardTemplate.querySelector('.popup__text--time');
 var hotelFeaturesBlock = cardTemplate.querySelector('.popup__features');
 var hotelDescriptionBlock = cardTemplate.querySelector('.popup__description');
 var hotelPhotosBlock = cardTemplate.querySelector('.popup__photos');
-var hotelPhoto = cardTemplate.querySelector('.popup__photo');
+var hotelPhotoBlock = cardTemplate.querySelector('.popup__photo');
 var hotelAvatarBlock = cardTemplate.querySelector('.popup__avatar');
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
@@ -176,7 +176,7 @@ var renderHotelPhoto = function () {
     while (hotelPhotosBlock.firstChild) {
       hotelPhotosBlock.removeChild(hotelPhotosBlock.firstChild);
     }
-    var img = hotelPhoto.cloneNode(false);
+    var img = hotelPhotoBlock.cloneNode(false);
     img.src = hotels[0].offer.photos[i];
     fragment.appendChild(img);
   }
