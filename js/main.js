@@ -74,7 +74,7 @@ var getRandomArrayLength = function (array) {
 };
 
 var getRandomArrayElement = function (array) {
-  return array[getRandomInteger(0, array.length)];
+  return array[getRandomInteger(0, array.length - 1)];
 };
 
 var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
@@ -198,6 +198,8 @@ var renderCard = function () {
 };
 
 var renderHotelInfo = function () {
+  var rooms = hotels[0].offer.rooms + ' комнаты для ' + hotels[0].offer.guests;
+  var time = 'Заезд после ' + hotels[0].offer.checkin + ', выезд до ' + hotels[0].offer.checkout;
   fragment = document.createDocumentFragment();
   cardBlock.classList.add('map__card');
   cardBlock.classList.add('popup');
@@ -205,8 +207,8 @@ var renderHotelInfo = function () {
   hotelAddressBlock.textContent = hotels[0].offer.address;
   hotelPriceBlock.textContent = hotels[0].offer.price;
   renderHotelType();
-  hotelRoomsBlock.textContent = hotels[0].offer.rooms + ' комнаты для ' + hotels[0].offer.guests;
-  hotelTimeBlock.textContent = 'Заезд после ' + hotels[0].offer.checkin + ', выезд до ' + hotels[0].offer.checkout;
+  hotelRoomsBlock.textContent = rooms;
+  hotelTimeBlock.textContent = time;
   hotelFeaturesBlock.innerHTML = '';
   renderHotelFeatures();
   hotelDescriptionBlock.textContent = hotels[0].offer.description;
