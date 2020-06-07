@@ -154,6 +154,25 @@ var renderHotelType = function (type, textBlock) {
   }[type];
 };
 
+var getRooms = function (hotelRooms) {
+  return {
+    1: ' комната для ',
+    2: ' комнаты для ',
+    3: ' комнаты для ',
+    4: ' комнаты для ',
+    5: ' комнат для ',
+    6: ' комнат для '
+  }[hotelRooms];
+};
+
+var getGuests = function (hotelGuests) {
+  if (hotelGuests === 1 || hotelGuests === 21) {
+    return ' гостя.';
+  } else {
+    return ' гостей.';
+  }
+};
+
 var renderHotelFeatures = function (features, featuresBlock) {
   fragment = document.createDocumentFragment();
   for (var i = 0; i < features.length; i++) {
@@ -180,7 +199,7 @@ var renderHotelPhoto = function () {
 };
 
 var renderHotelInfo = function () {
-  var rooms = hotels[0].offer.rooms + ' комнаты для ' + hotels[0].offer.guests + ' гостей.';
+  var rooms = hotels[0].offer.rooms + getRooms(hotels[0].offer.rooms) + hotels[0].offer.guests + getGuests(hotels[0].offer.guests);
   var time = 'Заезд после ' + hotels[0].offer.checkin + ', выезд до ' + hotels[0].offer.checkout;
   fragment = document.createDocumentFragment();
   hotelHeaderBlock.textContent = hotels[0].offer.title;
