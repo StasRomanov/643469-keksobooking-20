@@ -8,10 +8,12 @@ var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
+var MAP_GAP = 25;
 var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
 var mapPins = document.querySelector('.map__pins');
 var MAP_Y_SIZE = mapPins.offsetHeight;
 var MAP_X_SIZE = mapPins.offsetWidth;
+var minLocationX = PIN_WIDTH / 2 + MAP_GAP;
 var maxLocationX = MAP_X_SIZE - PIN_WIDTH;
 var minLocationY = PIN_HEIGHT + SKY_HEIGHT;
 var maxLocationY = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
@@ -107,7 +109,7 @@ var getAllHotelInfo = function () {
   getHotelOrder(HOTEL_COUNTER);
   shuffle(hotelsSequence);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
-    xLocations[i] = getLocations(PIN_WIDTH, maxLocationX);
+    xLocations[i] = getLocations(minLocationX, maxLocationX);
     yLocations[i] = getLocations(minLocationY, maxLocationY);
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
     var hotelAvatar = 'img/avatars/user0' + hotelsSequence[i] + '.png';
@@ -143,31 +145,25 @@ var renderMapPins = function () {
   mapPins.appendChild(fragment);
 };
 
-var renderHotelType = function (type) {
-  if (type === 'palace') {
-    hotelTypeBlock.textContent = 'Дворец';
-  }
-  if (type === 'house') {
-    hotelTypeBlock.textContent = 'Дом';
-  }
-  if (type === 'bungalo') {
-    hotelTypeBlock.textContent = 'Бунгало';
-  }
-  if (type === 'house') {
-    hotelTypeBlock.textContent = 'Дом';
-  }
+var renderHotelType = function (type, textBlock) {
+  textBlock.textContent = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом'
+  }[type];
 };
 
-var renderHotelFeatures = function (currentHotel) {
+var renderHotelFeatures = function (features, featuresBlock) {
   fragment = document.createDocumentFragment();
-  for (var i = 0; i < hotels[currentHotel].offer.features.length; i++) {
+  for (var i = 0; i < features.length; i++) {
     var listItem = document.createElement('li');
     listItem.classList.add('popup__feature');
-    listItem.classList.add('popup__feature--' + hotels[currentHotel].offer.features[i]);
-    listItem.textContent = hotels[currentHotel].offer.features[i];
+    listItem.classList.add('popup__feature--' + features[i]);
+    listItem.textContent = features[i];
     fragment.appendChild(listItem);
   }
-  hotelFeaturesBlock.appendChild(fragment);
+  featuresBlock.appendChild(fragment);
 };
 
 var renderHotelPhoto = function () {
@@ -190,11 +186,11 @@ var renderHotelInfo = function () {
   hotelHeaderBlock.textContent = hotels[0].offer.title;
   hotelAddressBlock.textContent = hotels[0].offer.address;
   hotelPriceBlock.textContent = hotels[0].offer.price;
-  renderHotelType(hotels[0].offer.type);
+  renderHotelType(hotels[0].offer.type, hotelTypeBlock);
   hotelRoomsBlock.textContent = rooms;
   hotelTimeBlock.textContent = time;
   hotelFeaturesBlock.innerHTML = '';
-  renderHotelFeatures(0);
+  renderHotelFeatures(hotels[0].offer.features, hotelFeaturesBlock);
   hotelDescriptionBlock.textContent = hotels[0].offer.description;
   renderHotelPhoto();
   hotelAvatarBlock.src = hotels[0].author.avatar;
