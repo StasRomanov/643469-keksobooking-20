@@ -156,7 +156,7 @@ var renderHotelType = function (type, textBlock) {
   }[type];
 };
 
-function getWordDeclension(n, textForms) {
+var getWordDeclension = function (n, textForms) {
   n = Math.abs(n) % 100;
   var n1 = n % 10;
   if (n > 10 && n < 20) {
@@ -169,7 +169,7 @@ function getWordDeclension(n, textForms) {
     return textForms[0];
   }
   return textForms[2];
-}
+};
 
 var getGuests = function (hotelGuests) {
   if (hotelGuests === 1 || hotelGuests === 21) {
@@ -204,25 +204,25 @@ var renderHotelPhoto = function () {
   hotelPhotosBlock.appendChild(fragment);
 };
 
-var renderHotelInfo = function () {
-  var rooms = hotels[0].offer.rooms + ' ' + getWordDeclension(hotels[0].offer.rooms, roomsDeclension) + ' для '
-    + hotels[0].offer.guests + ' ' + getGuests(hotels[0].offer.guests, guestDeclension);
-  var time = 'Заезд после ' + hotels[0].offer.checkin + ', выезд до ' + hotels[0].offer.checkout;
+var renderHotelInfo = function (hotel) {
+  var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, roomsDeclension) + ' для '
+    + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, guestDeclension);
+  var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
   fragment = document.createDocumentFragment();
-  hotelHeaderBlock.textContent = hotels[0].offer.title;
-  hotelAddressBlock.textContent = hotels[0].offer.address;
-  hotelPriceBlock.textContent = hotels[0].offer.price;
-  renderHotelType(hotels[0].offer.type, hotelTypeBlock);
+  hotelHeaderBlock.textContent = hotel.offer.title;
+  hotelAddressBlock.textContent = hotel.offer.address;
+  hotelPriceBlock.textContent = hotel.offer.price;
+  renderHotelType(hotel.offer.type, hotelTypeBlock);
   hotelRoomsBlock.textContent = rooms;
   hotelTimeBlock.textContent = time;
   hotelFeaturesBlock.innerHTML = '';
-  renderHotelFeatures(hotels[0].offer.features, hotelFeaturesBlock);
-  hotelDescriptionBlock.textContent = hotels[0].offer.description;
+  renderHotelFeatures(hotel.offer.features, hotelFeaturesBlock);
+  hotelDescriptionBlock.textContent = hotel.offer.description;
   renderHotelPhoto();
-  hotelAvatarBlock.src = hotels[0].author.avatar;
+  hotelAvatarBlock.src = hotel.author.avatar;
   map.insertBefore(cardTemplate, mapFiltersContainer);
 };
 
 map.classList.remove('map--faded');
 renderMapPins();
-renderHotelInfo();
+renderHotelInfo(hotels[0]);
