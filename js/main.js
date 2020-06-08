@@ -5,6 +5,8 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var roomsDeclension = ['комната', 'комнаты', 'комнат'];
+var guestDeclension = ['гостя', 'гостей', 'гостей'];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
@@ -154,16 +156,20 @@ var renderHotelType = function (type, textBlock) {
   }[type];
 };
 
-var getRooms = function (hotelRooms) {
-  return {
-    1: ' комната для ',
-    2: ' комнаты для ',
-    3: ' комнаты для ',
-    4: ' комнаты для ',
-    5: ' комнат для ',
-    6: ' комнат для '
-  }[hotelRooms];
-};
+function getWordDeclension(n, textForms) {
+  n = Math.abs(n) % 100;
+  var n1 = n % 10;
+  if (n > 10 && n < 20) {
+    return textForms[2];
+  }
+  if (n1 > 1 && n1 < 5) {
+    return textForms[1];
+  }
+  if (n1 === 1) {
+    return textForms[0];
+  }
+  return textForms[2];
+}
 
 var getGuests = function (hotelGuests) {
   if (hotelGuests === 1 || hotelGuests === 21) {
@@ -199,7 +205,8 @@ var renderHotelPhoto = function () {
 };
 
 var renderHotelInfo = function () {
-  var rooms = hotels[0].offer.rooms + getRooms(hotels[0].offer.rooms) + hotels[0].offer.guests + getGuests(hotels[0].offer.guests);
+  var rooms = hotels[0].offer.rooms + ' ' + getWordDeclension(hotels[0].offer.rooms, roomsDeclension) + ' для '
+    + hotels[0].offer.guests + ' ' + getGuests(hotels[0].offer.guests, guestDeclension);
   var time = 'Заезд после ' + hotels[0].offer.checkin + ', выезд до ' + hotels[0].offer.checkout;
   fragment = document.createDocumentFragment();
   hotelHeaderBlock.textContent = hotels[0].offer.title;
