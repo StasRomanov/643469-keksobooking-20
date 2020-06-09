@@ -5,16 +5,33 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var roomsDeclension = ['комната', 'комнаты', 'комнат'];
+var guestDeclension = ['гостя', 'гостей', 'гостей'];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
+var MAP_GAP = 25;
 var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
 var mapPins = document.querySelector('.map__pins');
 var MAP_Y_SIZE = mapPins.offsetHeight;
 var MAP_X_SIZE = mapPins.offsetWidth;
-var MAX_LOCATION_X = MAP_X_SIZE - PIN_WIDTH;
-var MIN_LOCATION_Y = PIN_HEIGHT + SKY_HEIGHT;
-var MAX_LOCATION_Y = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
+var minLocationX = PIN_WIDTH / 2 + MAP_GAP;
+var maxLocationX = MAP_X_SIZE - PIN_WIDTH;
+var minLocationY = PIN_HEIGHT + SKY_HEIGHT;
+var maxLocationY = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
+var cardTemplate = document.querySelector('#card').content.cloneNode(true);
+var hotelHeaderBlock = cardTemplate.querySelector('.popup__title');
+var hotelAddressBlock = cardTemplate.querySelector('.popup__text--address');
+var hotelPriceBlock = cardTemplate.querySelector('.popup__text--price');
+var hotelTypeBlock = cardTemplate.querySelector('.popup__type');
+var hotelRoomsBlock = cardTemplate.querySelector('.popup__text--capacity');
+var hotelTimeBlock = cardTemplate.querySelector('.popup__text--time');
+var hotelFeaturesBlock = cardTemplate.querySelector('.popup__features');
+var hotelDescriptionBlock = cardTemplate.querySelector('.popup__description');
+var hotelPhotosBlock = cardTemplate.querySelector('.popup__photos');
+var hotelPhotoBlock = cardTemplate.querySelector('.popup__photo');
+var hotelAvatarBlock = cardTemplate.querySelector('.popup__avatar');
+var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
 var mapPin = template.querySelector('.map__pin');
 var mapPinPhoto = template.querySelector('img');
@@ -61,7 +78,7 @@ var getRandomArrayLength = function (array) {
 };
 
 var getRandomArrayElement = function (array) {
-  return array[getRandomInteger(0, array.length)];
+  return array[getRandomInteger(0, array.length - 1)];
 };
 
 var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
@@ -94,8 +111,8 @@ var getAllHotelInfo = function () {
   getHotelOrder(HOTEL_COUNTER);
   shuffle(hotelsSequence);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
-    xLocations[i] = getLocations(PIN_WIDTH, MAX_LOCATION_X);
-    yLocations[i] = getLocations(MIN_LOCATION_Y, MAX_LOCATION_Y);
+    xLocations[i] = getLocations(minLocationX, maxLocationX);
+    yLocations[i] = getLocations(minLocationY, maxLocationY);
     var HOTEL_DESCRIPTION = 'any looooooooooong text';
     var hotelAvatar = 'img/avatars/user0' + hotelsSequence[i] + '.png';
     var hotelTitle = 'hotel' + i;
@@ -107,14 +124,16 @@ var getAllHotelInfo = function () {
     var hotelCheckout = getRandomArrayElement(TIMES);
     var hotelFeatures = getRandomArrayLength(FEATURES);
     var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
+    var hotelGuests = hotelRooms * getRandomInteger(1, 4);
     hotels.splice(0, 0, getHotelInfo(
-        hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelRooms * 3, hotelCheckin,
+        hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelGuests, hotelCheckin,
         hotelCheckout, hotelFeatures, HOTEL_DESCRIPTION, hotelPhoto, xLocations[i], yLocations[i]
     ));
   }
 };
 
 var renderMapPins = function () {
+  fragment = document.createDocumentFragment();
   getAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
@@ -128,6 +147,82 @@ var renderMapPins = function () {
   mapPins.appendChild(fragment);
 };
 
+var renderHotelType = function (type, textBlock) {
+  textBlock.textContent = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом'
+  }[type];
+};
+
+var getWordDeclension = function (n, textForms) {
+  n = Math.abs(n) % 100;
+  var n1 = n % 10;
+  if (n > 10 && n < 20) {
+    return textForms[2];
+  }
+  if (n1 > 1 && n1 < 5) {
+    return textForms[1];
+  }
+  if (n1 === 1) {
+    return textForms[0];
+  }
+  return textForms[2];
+};
+
+var getGuests = function (hotelGuests) {
+  if (hotelGuests === 1 || hotelGuests === 21) {
+    return ' гостя.';
+  } else {
+    return ' гостей.';
+  }
+};
+
+var renderHotelFeatures = function (features, featuresBlock) {
+  fragment = document.createDocumentFragment();
+  for (var i = 0; i < features.length; i++) {
+    var listItem = document.createElement('li');
+    listItem.classList.add('popup__feature');
+    listItem.classList.add('popup__feature--' + features[i]);
+    listItem.textContent = features[i];
+    fragment.appendChild(listItem);
+  }
+  featuresBlock.appendChild(fragment);
+};
+
+var renderHotelPhoto = function () {
+  fragment = document.createDocumentFragment();
+  for (var i = 0; i < hotels[0].offer.photos.length; i++) {
+    while (hotelPhotosBlock.firstChild) {
+      hotelPhotosBlock.removeChild(hotelPhotosBlock.firstChild);
+    }
+    var img = hotelPhotoBlock.cloneNode(false);
+    img.src = hotels[0].offer.photos[i];
+    fragment.appendChild(img);
+  }
+  hotelPhotosBlock.appendChild(fragment);
+};
+
+var renderHotelInfo = function (hotel) {
+  var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, roomsDeclension) + ' для '
+    + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, guestDeclension);
+  var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
+  fragment = document.createDocumentFragment();
+  hotelHeaderBlock.textContent = hotel.offer.title;
+  hotelAddressBlock.textContent = hotel.offer.address;
+  hotelPriceBlock.textContent = hotel.offer.price;
+  renderHotelType(hotel.offer.type, hotelTypeBlock);
+  hotelRoomsBlock.textContent = rooms;
+  hotelTimeBlock.textContent = time;
+  hotelFeaturesBlock.innerHTML = '';
+  renderHotelFeatures(hotel.offer.features, hotelFeaturesBlock);
+  hotelDescriptionBlock.textContent = hotel.offer.description;
+  renderHotelPhoto();
+  hotelAvatarBlock.src = hotel.author.avatar;
+  map.insertBefore(cardTemplate, mapFiltersContainer);
+};
+
 map.classList.remove('map--faded');
 renderMapPins();
-
+renderHotelInfo(hotels[0]);
