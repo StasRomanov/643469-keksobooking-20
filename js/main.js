@@ -5,8 +5,8 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var roomsDeclension = ['комната', 'комнаты', 'комнат'];
-var guestDeclension = ['гостя', 'гостей', 'гостей'];
+var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
+var GUEST_DECLENSION = ['гостя', 'гостей', 'гостей'];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
@@ -35,12 +35,29 @@ var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
 var mapPin = template.querySelector('.map__pin');
 var mapPinPhoto = template.querySelector('img');
+var map = document.querySelector('.map');
+var mapPinMain = document.querySelector('.map__pin--main');
+var form = document.querySelector('.ad-form');
+var addressInput = document.querySelector('#address');
+var titleInput = document.querySelector('#title');
+var priceInput = document.querySelector('#price');
+var typeInput = document.querySelector('#type');
+var timeInInput = document.querySelector('#timein');
+var timeOutInput = document.querySelector('#timeout');
+var roomNumberInput = document.querySelector('#room_number');
+var guestNumberInput = document.querySelector('#capacity');
+var mapPinMainWidth = mapPinMain.offsetWidth;
+var mapPinMainHeight = mapPinMain.offsetHeight;
+var mapPinMainLocationX = mapPinMainHeight / 2;
+var mapPinMainLocationY = mapPinMainWidth + 22;
+var mapPinDefaultLocationX = 570;
+var mapPinDefaultLocationY = 375;
 var fragment = document.createDocumentFragment();
 var hotels = [];
 var hotelsSequence = [];
-var map = document.querySelector('.map');
 var xLocations = [];
 var yLocations = [];
+var activeStatus = false;
 
 var getRandomInteger = function (min, max) {
   var rand = min + Math.random() * (max + 1 - min);
@@ -81,7 +98,7 @@ var getRandomArrayElement = function (array) {
   return array[getRandomInteger(0, array.length - 1)];
 };
 
-var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
+var createHotelInfo = function (avatar, title, address, price, type, rooms, guests,
     checkin, checkout, features, description, photos, x, y) {
   return {
     author: {
@@ -107,7 +124,7 @@ var getHotelInfo = function (avatar, title, address, price, type, rooms, guests,
   };
 };
 
-var getAllHotelInfo = function () {
+var createAllHotelInfo = function () {
   getHotelOrder(HOTEL_COUNTER);
   shuffle(hotelsSequence);
   for (var i = 0; i < HOTEL_COUNTER; i++) {
@@ -125,7 +142,7 @@ var getAllHotelInfo = function () {
     var hotelFeatures = getRandomArrayLength(FEATURES);
     var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
     var hotelGuests = hotelRooms * getRandomInteger(1, 4);
-    hotels.splice(0, 0, getHotelInfo(
+    hotels.splice(0, 0, createHotelInfo(
         hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelGuests, hotelCheckin,
         hotelCheckout, hotelFeatures, HOTEL_DESCRIPTION, hotelPhoto, xLocations[i], yLocations[i]
     ));
@@ -134,7 +151,7 @@ var getAllHotelInfo = function () {
 
 var renderMapPins = function () {
   fragment = document.createDocumentFragment();
-  getAllHotelInfo();
+  createAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
     var element = mapPin.cloneNode(false);
@@ -205,8 +222,8 @@ var renderHotelPhoto = function () {
 };
 
 var renderHotelInfo = function (hotel) {
-  var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, roomsDeclension) + ' для '
-    + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, guestDeclension);
+  var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, ROOMS_DECLENSION) + ' для '
+    + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, GUEST_DECLENSION);
   var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
   fragment = document.createDocumentFragment();
   hotelHeaderBlock.textContent = hotel.offer.title;
@@ -223,6 +240,81 @@ var renderHotelInfo = function (hotel) {
   map.insertBefore(cardTemplate, mapFiltersContainer);
 };
 
-map.classList.remove('map--faded');
-renderMapPins();
-renderHotelInfo(hotels[0]);
+var createMainPinLocation = function () {
+  var RealMapPinMainLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
+  var RealMapPinMainLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
+  if (activeStatus) {
+    RealMapPinMainLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + 22);
+  }
+  addressInput.value = RealMapPinMainLocationX + ', ' + RealMapPinMainLocationY;
+};
+
+var activeMode = function () {
+  activeStatus = true;
+  renderMapPins();
+  renderHotelInfo(hotels[0]);
+  map.classList.remove('map--faded');
+  form.classList.remove('ad-form--disabled');
+  createMainPinLocation();
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0 && activeStatus === false) {
+    activeMode();
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.code === 'Enter' && activeStatus === false) {
+    activeMode();
+  }
+});
+
+typeInput.addEventListener('change', function () {
+  createInputSettings();
+});
+
+timeInInput.addEventListener('change', function () {
+  syncTimeIn();
+});
+
+timeOutInput.addEventListener('change', function () {
+  syncTimeOut();
+});
+
+roomNumberInput.addEventListener('change', function () {
+  establishLimitsOnRooms();
+});
+
+var establishLimitsOnRooms = function () {
+  guestNumberInput.value = {
+    '1': '1',
+    '2': getRandomInteger(1, 2) + '',
+    '3': getRandomInteger(1, 3) + '',
+    '100': '0'
+  }[roomNumberInput.value];
+};
+
+var syncTimeIn = function () {
+  timeOutInput.value = timeInInput.value;
+};
+
+var syncTimeOut = function () {
+  timeInInput.value = timeOutInput.value;
+};
+
+var createInputSettings = function () {
+  var minValue = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  }[typeInput.value];
+  titleInput.setAttribute('minlength', '30');
+  titleInput.setAttribute('maxlength', '100');
+  priceInput.setAttribute('maxlength', '1000000');
+  priceInput.setAttribute('minlength', minValue);
+  priceInput.setAttribute('placeholder', minValue);
+};
+
+createMainPinLocation();
