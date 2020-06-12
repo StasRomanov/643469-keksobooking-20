@@ -46,6 +46,8 @@ var timeInInput = document.querySelector('#timein');
 var timeOutInput = document.querySelector('#timeout');
 var roomNumberInput = document.querySelector('#room_number');
 var guestNumberInput = document.querySelector('#capacity');
+var formHeader = document.querySelector('.ad-form-header');
+var formMain = document.querySelectorAll('.ad-form__element');
 var mapPinMainWidth = mapPinMain.offsetWidth;
 var mapPinMainHeight = mapPinMain.offsetHeight;
 var mapPinMainLocationX = mapPinMainHeight / 2;
@@ -249,8 +251,12 @@ var createMainPinLocation = function () {
   addressInput.value = RealMapPinMainLocationX + ', ' + RealMapPinMainLocationY;
 };
 
-var activeMode = function () {
+var startActiveMode = function () {
   activeStatus = true;
+  for (var i = 0; i < formMain.length; i++) {
+    formMain[i].removeAttribute('disabled');
+  }
+  formHeader.removeAttribute('disabled');
   renderMapPins();
   renderHotelInfo(hotels[0]);
   map.classList.remove('map--faded');
@@ -258,13 +264,37 @@ var activeMode = function () {
   createMainPinLocation();
 };
 
+var startPassiveMode = function () {
+  if (activeStatus === false) {
+    formHeader.setAttribute('disabled', 'disabled');
+    for (var i = 0; i < formMain.length; i++) {
+      formMain[i].setAttribute('disabled', 'disabled');
+    }
+  }
+};
+
 var establishLimitsOnRooms = function () {
+  for (var i = 0; i < guestNumberInput.length; i++) {
+    guestNumberInput.children[i].setAttribute('disabled', 'disabled');
+  }
   guestNumberInput.value = {
     '1': '1',
     '2': getRandomInteger(1, 2) + '',
     '3': getRandomInteger(1, 3) + '',
     '100': '0'
   }[roomNumberInput.value];
+  if (roomNumberInput.value === '1') {
+    guestNumberInput.children[2].removeAttribute('disabled');
+  }
+  if (roomNumberInput.value === '2') {
+    guestNumberInput.children[1].removeAttribute('disabled');
+    guestNumberInput.children[2].removeAttribute('disabled');
+  }
+  if (roomNumberInput.value === '3') {
+    guestNumberInput.children[0].removeAttribute('disabled');
+    guestNumberInput.children[1].removeAttribute('disabled');
+    guestNumberInput.children[2].removeAttribute('disabled');
+  }
 };
 
 var syncTimeIn = function () {
@@ -291,13 +321,13 @@ var createInputSettings = function () {
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0 && activeStatus === false) {
-    activeMode();
+    startActiveMode();
   }
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.code === 'Enter' && activeStatus === false) {
-    activeMode();
+    startActiveMode();
   }
 });
 
@@ -317,4 +347,5 @@ roomNumberInput.addEventListener('change', function () {
   establishLimitsOnRooms();
 });
 
+startPassiveMode();
 createMainPinLocation();
