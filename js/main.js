@@ -13,6 +13,7 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
 var MAP_GAP = 25;
+var MAP_PIN_TRIANGLE_HEIGHT = 22;
 var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
 var mapPins = document.querySelector('.map__pins');
 var MAP_Y_SIZE = mapPins.offsetHeight;
@@ -247,7 +248,7 @@ var createMainPinLocation = function () {
   var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
   var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
   if (activeStatus) {
-    mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + 22);
+    mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + MAP_PIN_TRIANGLE_HEIGHT);
   }
   addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
 };
