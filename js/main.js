@@ -258,6 +258,37 @@ var activeMode = function () {
   createMainPinLocation();
 };
 
+var establishLimitsOnRooms = function () {
+  guestNumberInput.value = {
+    '1': '1',
+    '2': getRandomInteger(1, 2) + '',
+    '3': getRandomInteger(1, 3) + '',
+    '100': '0'
+  }[roomNumberInput.value];
+};
+
+var syncTimeIn = function () {
+  timeOutInput.value = timeInInput.value;
+};
+
+var syncTimeOut = function () {
+  timeInInput.value = timeOutInput.value;
+};
+
+var createInputSettings = function () {
+  var minValue = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  }[typeInput.value];
+  titleInput.setAttribute('minlength', '30');
+  titleInput.setAttribute('maxlength', '100');
+  priceInput.setAttribute('max', '1000000');
+  priceInput.setAttribute('min', minValue);
+  priceInput.setAttribute('placeholder', minValue);
+};
+
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0 && activeStatus === false) {
     activeMode();
@@ -285,36 +316,5 @@ timeOutInput.addEventListener('change', function () {
 roomNumberInput.addEventListener('change', function () {
   establishLimitsOnRooms();
 });
-
-var establishLimitsOnRooms = function () {
-  guestNumberInput.value = {
-    '1': '1',
-    '2': getRandomInteger(1, 2) + '',
-    '3': getRandomInteger(1, 3) + '',
-    '100': '0'
-  }[roomNumberInput.value];
-};
-
-var syncTimeIn = function () {
-  timeOutInput.value = timeInInput.value;
-};
-
-var syncTimeOut = function () {
-  timeInInput.value = timeOutInput.value;
-};
-
-var createInputSettings = function () {
-  var minValue = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
-  }[typeInput.value];
-  titleInput.setAttribute('minlength', '30');
-  titleInput.setAttribute('maxlength', '100');
-  priceInput.setAttribute('maxlength', '1000000');
-  priceInput.setAttribute('minlength', minValue);
-  priceInput.setAttribute('placeholder', minValue);
-};
 
 createMainPinLocation();
