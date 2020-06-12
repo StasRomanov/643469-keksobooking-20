@@ -7,6 +7,8 @@ var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
 var GUEST_DECLENSION = ['гостя', 'гостей', 'гостей'];
+var ENTER = 'Enter';
+var LEFT_MOUSE_CODE = 0;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var SKY_HEIGHT = 170;
@@ -39,7 +41,6 @@ var map = document.querySelector('.map');
 var mapPinMain = document.querySelector('.map__pin--main');
 var form = document.querySelector('.ad-form');
 var addressInput = document.querySelector('#address');
-var titleInput = document.querySelector('#title');
 var priceInput = document.querySelector('#price');
 var typeInput = document.querySelector('#type');
 var timeInInput = document.querySelector('#timein');
@@ -243,17 +244,17 @@ var renderHotelInfo = function (hotel) {
 };
 
 var createMainPinLocation = function () {
-  var RealMapPinMainLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
-  var RealMapPinMainLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
+  var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
+  var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
   if (activeStatus) {
-    RealMapPinMainLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + 22);
+    mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + 22);
   }
-  addressInput.value = RealMapPinMainLocationX + ', ' + RealMapPinMainLocationY;
+  addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
 };
 
 var startActiveMode = function () {
   activeStatus = true;
-  for (var i = 0; i < formMain.length; i++) {
+  for (var i = 0; i < formMain.childNodes.length; i++) {
     formMain[i].removeAttribute('disabled');
   }
   formHeader.removeAttribute('disabled');
@@ -266,11 +267,15 @@ var startActiveMode = function () {
 
 var startPassiveMode = function () {
   if (activeStatus === false) {
-    formHeader.setAttribute('disabled', 'disabled');
+    formHeader.setAttribute('disabled', 'true');
     for (var i = 0; i < formMain.length; i++) {
-      formMain[i].setAttribute('disabled', 'disabled');
+      formMain[i].setAttribute('disabled', 'true');
     }
   }
+};
+
+var enableNumberInput = function (childrenNumber) {
+  guestNumberInput.children[childrenNumber].removeAttribute('disabled');
 };
 
 var establishLimitsOnRooms = function () {
@@ -279,21 +284,21 @@ var establishLimitsOnRooms = function () {
   }
   guestNumberInput.value = {
     '1': '1',
-    '2': getRandomInteger(1, 2) + '',
-    '3': getRandomInteger(1, 3) + '',
+    '2': '2',
+    '3': '3',
     '100': '0'
   }[roomNumberInput.value];
   if (roomNumberInput.value === '1') {
-    guestNumberInput.children[2].removeAttribute('disabled');
+    enableNumberInput(2);
   }
   if (roomNumberInput.value === '2') {
-    guestNumberInput.children[1].removeAttribute('disabled');
-    guestNumberInput.children[2].removeAttribute('disabled');
+    enableNumberInput(1);
+    enableNumberInput(2);
   }
   if (roomNumberInput.value === '3') {
-    guestNumberInput.children[0].removeAttribute('disabled');
-    guestNumberInput.children[1].removeAttribute('disabled');
-    guestNumberInput.children[2].removeAttribute('disabled');
+    enableNumberInput(1);
+    enableNumberInput(2);
+    enableNumberInput(3);
   }
 };
 
@@ -312,21 +317,18 @@ var createInputSettings = function () {
     house: '5000',
     palace: '10000'
   }[typeInput.value];
-  titleInput.setAttribute('minlength', '30');
-  titleInput.setAttribute('maxlength', '100');
-  priceInput.setAttribute('max', '1000000');
   priceInput.setAttribute('min', minValue);
   priceInput.setAttribute('placeholder', minValue);
 };
 
 mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.button === 0 && activeStatus === false) {
+  if (evt.button === LEFT_MOUSE_CODE && activeStatus === false) {
     startActiveMode();
   }
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.code === 'Enter' && activeStatus === false) {
+  if (evt.code === ENTER && activeStatus === false) {
     startActiveMode();
   }
 });
