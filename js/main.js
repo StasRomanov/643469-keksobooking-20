@@ -255,7 +255,7 @@ var createMainPinLocation = function () {
 
 var startActiveMode = function () {
   activeStatus = true;
-  for (var i = 0; i < formMain.childNodes.length; i++) {
+  for (var i = 0; i < formMain.length; i++) {
     formMain[i].removeAttribute('disabled');
   }
   formHeader.removeAttribute('disabled');
