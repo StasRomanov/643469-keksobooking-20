@@ -255,7 +255,7 @@ var createMainPinLocation = function () {
 
 var startActiveMode = function () {
   activeStatus = true;
-  for (var i = 0; i < formMain.childNodes.length; i++) {
+  for (var i = 0; i < formMain.length; i++) {
     formMain[i].removeAttribute('disabled');
   }
   formHeader.removeAttribute('disabled');
@@ -321,6 +321,29 @@ var createInputSettings = function () {
   priceInput.setAttribute('min', minValue);
   priceInput.setAttribute('placeholder', minValue);
 };
+
+mapPins.addEventListener('click', function (evt) {
+  if (activeStatus) {
+    var target = evt.target;
+    if ((target.classList.contains('map__overlay' || 'map__title' || 'map__pin--main'))) {
+      return;
+    }
+    if (target.tagName === 'IMG') {
+      target = target.parentNode;
+      if (target.classList.contains('map__pin--main')) {
+        return;
+      }
+    }
+    if (target.tagName === 'H2') {
+      return;
+    }
+    for (var i = 0; i < hotels.length; i++) {
+      if (hotels[i].author.avatar === target.children[0].getAttribute('src')) {
+        renderHotelInfo(hotels[i]);
+      }
+    }
+  }
+});
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === LEFT_MOUSE_CODE && activeStatus === false) {
