@@ -15,9 +15,9 @@ var SKY_HEIGHT = 170;
 var MAP_GAP = 25;
 var MAP_PIN_TRIANGLE_HEIGHT = 22;
 var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
-var mapPins = document.querySelector('.map__pins');
-var MAP_Y_SIZE = mapPins.offsetHeight;
-var MAP_X_SIZE = mapPins.offsetWidth;
+var mapPin = document.querySelector('.map__pins');
+var MAP_Y_SIZE = mapPin.offsetHeight;
+var MAP_X_SIZE = mapPin.offsetWidth;
 var minLocationX = PIN_WIDTH / 2 + MAP_GAP;
 var maxLocationX = MAP_X_SIZE - PIN_WIDTH;
 var minLocationY = PIN_HEIGHT + SKY_HEIGHT;
@@ -36,7 +36,7 @@ var hotelPhotoBlock = cardTemplate.querySelector('.popup__photo');
 var hotelAvatarBlock = cardTemplate.querySelector('.popup__avatar');
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
-var mapPin = template.querySelector('.map__pin');
+var templateMapPin = template.querySelector('.map__pin');
 var mapPinPhoto = template.querySelector('img');
 var map = document.querySelector('.map');
 var mapPinMain = document.querySelector('.map__pin--main');
@@ -50,6 +50,8 @@ var roomNumberInput = document.querySelector('#room_number');
 var guestNumberInput = document.querySelector('#capacity');
 var formHeader = document.querySelector('.ad-form-header');
 var formsMain = document.querySelectorAll('.ad-form__element');
+var popupClose = document.querySelector('.popup__close');
+var popup = document.querySelector('.popup');
 var mapPinMainWidth = mapPinMain.offsetWidth;
 var mapPinMainHeight = mapPinMain.offsetHeight;
 var mapPinMainLocationX = mapPinMainHeight / 2;
@@ -158,14 +160,14 @@ var renderMapPins = function () {
   createAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
-    var element = mapPin.cloneNode(false);
+    var element = templateMapPin.cloneNode(false);
     element.style.left = hotels[i].location.x + 'px';
     element.style.top = hotels[i].location.y + 'px';
     photoElement.src = hotels[i].author.avatar;
     element.appendChild(photoElement);
     fragment.appendChild(element);
   }
-  mapPins.appendChild(fragment);
+  mapPin.appendChild(fragment);
 };
 
 var renderHotelType = function (type, textBlock) {
@@ -212,14 +214,14 @@ var renderHotelFeatures = function (features, featuresBlock) {
   featuresBlock.appendChild(fragment);
 };
 
-var renderHotelPhoto = function () {
+var renderHotelPhoto = function (hotel) {
   fragment = document.createDocumentFragment();
-  for (var i = 0; i < hotels[0].offer.photos.length; i++) {
+  for (var i = 0; i < hotel.offer.photos.length; i++) {
     while (hotelPhotosBlock.firstChild) {
       hotelPhotosBlock.removeChild(hotelPhotosBlock.firstChild);
     }
     var img = hotelPhotoBlock.cloneNode(false);
-    img.src = hotels[0].offer.photos[i];
+    img.src = hotel.offer.photos[i];
     fragment.appendChild(img);
   }
   hotelPhotosBlock.appendChild(fragment);
@@ -239,7 +241,7 @@ var renderHotelInfo = function (hotel) {
   hotelFeaturesBlock.innerHTML = '';
   renderHotelFeatures(hotel.offer.features, hotelFeaturesBlock);
   hotelDescriptionBlock.textContent = hotel.offer.description;
-  renderHotelPhoto();
+  renderHotelPhoto(hotel);
   hotelAvatarBlock.src = hotel.author.avatar;
   map.insertBefore(cardTemplate, mapFiltersContainer);
 };
@@ -260,19 +262,9 @@ var startActiveMode = function () {
   }
   formHeader.removeAttribute('disabled');
   renderMapPins();
-  renderHotelInfo(hotels[0]);
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
   createMainPinLocation();
-};
-
-var startPassiveMode = function () {
-  if (activeStatus === false) {
-    formHeader.setAttribute('disabled', 'true');
-    for (var i = 0; i < formsMain.length; i++) {
-      formsMain[i].setAttribute('disabled', 'true');
-    }
-  }
 };
 
 var enableNumberInput = function (childrenNumber) {
@@ -304,12 +296,26 @@ var establishLimitsOnRooms = function () {
   }
 };
 
+var startPassiveMode = function () {
+  if (activeStatus === false) {
+    formHeader.setAttribute('disabled', 'true');
+    for (var i = 0; i < formsMain.length; i++) {
+      formsMain[i].setAttribute('disabled', 'true');
+    }
+    establishLimitsOnRooms();
+  }
+};
+
 var syncTimeIn = function () {
   timeOutInput.value = timeInInput.value;
 };
 
 var syncTimeOut = function () {
   timeInInput.value = timeOutInput.value;
+};
+
+var closePopup = function () {
+  popup.style.display = 'none';
 };
 
 var createInputSettings = function () {
@@ -323,7 +329,7 @@ var createInputSettings = function () {
   priceInput.setAttribute('placeholder', minValue);
 };
 
-mapPins.addEventListener('click', function (evt) {
+mapPin.addEventListener('click', function (evt) {
   if (activeStatus) {
     var target = evt.target;
     if ((target.classList.contains('map__overlay' || 'map__title' || 'map__pin--main'))) {
@@ -335,12 +341,14 @@ mapPins.addEventListener('click', function (evt) {
         return;
       }
     }
-    if (target.tagName === 'H2') {
+    if (target.tagName === 'H2' || target.tagName === 'ELLIPSE') {
       return;
     }
-    for (var i = 0; i < hotels.length; i++) {
-      if (hotels[i].author.avatar === target.children[0].getAttribute('src')) {
-        renderHotelInfo(hotels[i]);
+    if (target.tagName === 'BUTTON') {
+      for (var i = 0; i < hotels.length; i++) {
+        if (hotels[i].author.avatar === target.children[0].getAttribute('src')) {
+          renderHotelInfo(hotels[i]);
+        }
       }
     }
   }
