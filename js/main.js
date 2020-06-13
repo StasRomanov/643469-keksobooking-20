@@ -49,7 +49,7 @@ var timeOutInput = document.querySelector('#timeout');
 var roomNumberInput = document.querySelector('#room_number');
 var guestNumberInput = document.querySelector('#capacity');
 var formHeader = document.querySelector('.ad-form-header');
-var formMain = document.querySelectorAll('.ad-form__element');
+var formsMain = document.querySelectorAll('.ad-form__element');
 var mapPinMainWidth = mapPinMain.offsetWidth;
 var mapPinMainHeight = mapPinMain.offsetHeight;
 var mapPinMainLocationX = mapPinMainHeight / 2;
@@ -255,8 +255,8 @@ var createMainPinLocation = function () {
 
 var startActiveMode = function () {
   activeStatus = true;
-  for (var i = 0; i < formMain.length; i++) {
-    formMain[i].removeAttribute('disabled');
+  for (var i = 0; i < formsMain.length; i++) {
+    formsMain[i].removeAttribute('disabled');
   }
   formHeader.removeAttribute('disabled');
   renderMapPins();
@@ -269,8 +269,8 @@ var startActiveMode = function () {
 var startPassiveMode = function () {
   if (activeStatus === false) {
     formHeader.setAttribute('disabled', 'true');
-    for (var i = 0; i < formMain.length; i++) {
-      formMain[i].setAttribute('disabled', 'true');
+    for (var i = 0; i < formsMain.length; i++) {
+      formsMain[i].setAttribute('disabled', 'true');
     }
   }
 };
