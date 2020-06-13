@@ -281,25 +281,26 @@ var enableNumberInput = function (childrenNumber) {
 
 var establishLimitsOnRooms = function () {
   for (var i = 0; i < guestNumberInput.length; i++) {
-    guestNumberInput.children[i].setAttribute('disabled', 'disabled');
+    guestNumberInput.children[i].setAttribute('disabled', 'true');
   }
-  guestNumberInput.value = {
-    '1': '1',
-    '2': '2',
-    '3': '3',
-    '100': '0'
-  }[roomNumberInput.value];
-  if (roomNumberInput.value === '1') {
-    enableNumberInput(2);
+  if (guestNumberInput.value < 100) {
+    guestNumberInput.value = roomNumberInput.value;
+  } else {
+    guestNumberInput.value = '0';
   }
-  if (roomNumberInput.value === '2') {
-    enableNumberInput(1);
-    enableNumberInput(2);
-  }
-  if (roomNumberInput.value === '3') {
-    enableNumberInput(1);
-    enableNumberInput(2);
-    enableNumberInput(3);
+  for (var j = 0; j < guestNumberInput.length; j++) {
+    if (guestNumberInput.children[j].getAttribute('value') <= roomNumberInput.value) {
+      enableNumberInput(j);
+    }
+    if (roomNumberInput.value === '100') {
+      for (var l = 0; l < guestNumberInput.length; l++) {
+        guestNumberInput.children[l].setAttribute('disabled', 'true');
+        guestNumberInput.value = '0';
+      }
+    }
+    if (j === guestNumberInput.length - 1) {
+      guestNumberInput.children[j].setAttribute('disabled', 'true');
+    }
   }
 };
 
