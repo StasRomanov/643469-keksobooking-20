@@ -50,7 +50,6 @@ var roomNumberInput = document.querySelector('#room_number');
 var guestNumberInput = document.querySelector('#capacity');
 var formHeader = document.querySelector('.ad-form-header');
 var formsMain = document.querySelectorAll('.ad-form__element');
-var popupClose = document.querySelector('.popup__close');
 var popup = document.querySelector('.popup');
 var mapPinMainWidth = mapPinMain.offsetWidth;
 var mapPinMainHeight = mapPinMain.offsetHeight;
@@ -312,10 +311,6 @@ var syncTimeIn = function () {
 
 var syncTimeOut = function () {
   timeInInput.value = timeOutInput.value;
-};
-
-var closePopup = function () {
-  popup.style.display = 'none';
 };
 
 var createInputSettings = function () {
