@@ -50,7 +50,6 @@ var roomNumberInput = document.querySelector('#room_number');
 var guestNumberInput = document.querySelector('#capacity');
 var formHeader = document.querySelector('.ad-form-header');
 var formsMain = document.querySelectorAll('.ad-form__element');
-var popup = document.querySelector('.popup');
 var mapPinMainWidth = mapPinMain.offsetWidth;
 var mapPinMainHeight = mapPinMain.offsetHeight;
 var mapPinMainLocationX = mapPinMainHeight / 2;
