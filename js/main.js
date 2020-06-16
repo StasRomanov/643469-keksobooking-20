@@ -231,6 +231,10 @@ var renderHotelInfo = function (hotel) {
   var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, ROOMS_DECLENSION) + ' для '
     + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, GUEST_DECLENSION);
   var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
+  var popup = document.querySelector('.popup');
+  if (popup) {
+    popup.remove();
+  }
   fragment = document.createDocumentFragment();
   hotelHeaderBlock.textContent = hotel.offer.title;
   hotelAddressBlock.textContent = hotel.offer.address;
