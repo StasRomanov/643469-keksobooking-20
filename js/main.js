@@ -7,7 +7,8 @@ var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
 var GUEST_DECLENSION = ['гостя', 'гостей', 'гостей'];
-var ENTER = 'Enter';
+var ENTER_KEY_CODE = 'Enter';
+var ESC_KEY_CODE = 'Escape';
 var LEFT_MOUSE_CODE = 0;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
@@ -366,7 +367,7 @@ var onPopupCloseClick = function (evt) {
 var onPopupCloseKeydown = function (evt) {
   var popupCard = document.querySelector('.popup');
   var popupClose = document.querySelector('.popup__close');
-  if (evt.code === ENTER && activeStatus === true) {
+  if (evt.code === ENTER_KEY_CODE && activeStatus === true) {
     map.removeChild(popupCard);
   }
   popupClose.removeEventListener('click', onPopupCloseClick, false);
@@ -377,7 +378,7 @@ var onPopupCloseKeydown = function (evt) {
 var onDocumentKeydown = function (evt) {
   var popupCard = document.querySelector('.popup');
   var popupClose = document.querySelector('.popup__close');
-  if (evt.code === ENTER && activeStatus === true) {
+  if (evt.code === ESC_KEY_CODE && activeStatus === true) {
     map.removeChild(popupCard);
   }
   popupClose.removeEventListener('click', onPopupCloseClick, false);
@@ -394,7 +395,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.code === ENTER && activeStatus === false) {
+  if (evt.code === ENTER_KEY_CODE && activeStatus === false) {
     startActiveMode();
   }
 });
