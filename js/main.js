@@ -258,6 +258,7 @@ var renderHotelInfo = function (hotel) {
   var popupClose = document.querySelector('.popup__close');
   popupClose.addEventListener('click', onPopupCloseClick, false);
   popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
+  document.addEventListener('keydown', onDocumentKeydown, false);
 };
 
 var createMainPinLocation = function () {
@@ -371,7 +372,8 @@ var onPopupCloseClick = function (evt) {
     map.removeChild(popupCard);
   }
   popupClose.removeEventListener('click', onPopupCloseClick, false);
-  popupClose.removeEventListener('click', onPopupCloseKeydown, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
 };
 
 var onPopupCloseKeydown = function (evt) {
@@ -381,7 +383,19 @@ var onPopupCloseKeydown = function (evt) {
     map.removeChild(popupCard);
   }
   popupClose.removeEventListener('click', onPopupCloseClick, false);
-  popupClose.removeEventListener('click', onPopupCloseKeydown, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
+};
+
+var onDocumentKeydown = function (evt) {
+  var popupCard = document.querySelector('.popup');
+  var popupClose = document.querySelector('.popup__close');
+  if (evt.code === ENTER && activeStatus === true) {
+    map.removeChild(popupCard);
+  }
+  popupClose.removeEventListener('click', onPopupCloseClick, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
 };
 
 mapPin.addEventListener('click', onMapPinClick, false);
