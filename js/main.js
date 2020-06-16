@@ -7,7 +7,8 @@ var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
 var GUEST_DECLENSION = ['гостя', 'гостей', 'гостей'];
-var ENTER = 'Enter';
+var ENTER_KEY_CODE = 'Enter';
+var ESC_KEY_CODE = 'Escape';
 var LEFT_MOUSE_CODE = 0;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
@@ -15,28 +16,17 @@ var SKY_HEIGHT = 170;
 var MAP_GAP = 25;
 var MAP_PIN_TRIANGLE_HEIGHT = 22;
 var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
-var mapPins = document.querySelector('.map__pins');
-var MAP_Y_SIZE = mapPins.offsetHeight;
-var MAP_X_SIZE = mapPins.offsetWidth;
+var mapPin = document.querySelector('.map__pins');
+var MAP_Y_SIZE = mapPin.offsetHeight;
+var MAP_X_SIZE = mapPin.offsetWidth;
 var minLocationX = PIN_WIDTH / 2 + MAP_GAP;
 var maxLocationX = MAP_X_SIZE - PIN_WIDTH;
 var minLocationY = PIN_HEIGHT + SKY_HEIGHT;
 var maxLocationY = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
 var cardTemplate = document.querySelector('#card').content.cloneNode(true);
-var hotelHeaderBlock = cardTemplate.querySelector('.popup__title');
-var hotelAddressBlock = cardTemplate.querySelector('.popup__text--address');
-var hotelPriceBlock = cardTemplate.querySelector('.popup__text--price');
-var hotelTypeBlock = cardTemplate.querySelector('.popup__type');
-var hotelRoomsBlock = cardTemplate.querySelector('.popup__text--capacity');
-var hotelTimeBlock = cardTemplate.querySelector('.popup__text--time');
-var hotelFeaturesBlock = cardTemplate.querySelector('.popup__features');
-var hotelDescriptionBlock = cardTemplate.querySelector('.popup__description');
-var hotelPhotosBlock = cardTemplate.querySelector('.popup__photos');
-var hotelPhotoBlock = cardTemplate.querySelector('.popup__photo');
-var hotelAvatarBlock = cardTemplate.querySelector('.popup__avatar');
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
-var mapPin = template.querySelector('.map__pin');
+var templateMapPin = template.querySelector('.map__pin');
 var mapPinPhoto = template.querySelector('img');
 var map = document.querySelector('.map');
 var mapPinMain = document.querySelector('.map__pin--main');
@@ -158,14 +148,15 @@ var renderMapPins = function () {
   createAllHotelInfo();
   for (var i = 0; i < HOTEL_COUNTER; i++) {
     var photoElement = mapPinPhoto.cloneNode(false);
-    var element = mapPin.cloneNode(false);
+    var element = templateMapPin.cloneNode(false);
     element.style.left = hotels[i].location.x + 'px';
     element.style.top = hotels[i].location.y + 'px';
     photoElement.src = hotels[i].author.avatar;
+    element.setAttribute('data-id', i);
     element.appendChild(photoElement);
     fragment.appendChild(element);
   }
-  mapPins.appendChild(fragment);
+  mapPin.appendChild(fragment);
 };
 
 var renderHotelType = function (type, textBlock) {
@@ -212,23 +203,39 @@ var renderHotelFeatures = function (features, featuresBlock) {
   featuresBlock.appendChild(fragment);
 };
 
-var renderHotelPhoto = function () {
+var renderHotelPhoto = function (hotel, photosBlock, photo) {
   fragment = document.createDocumentFragment();
-  for (var i = 0; i < hotels[0].offer.photos.length; i++) {
-    while (hotelPhotosBlock.firstChild) {
-      hotelPhotosBlock.removeChild(hotelPhotosBlock.firstChild);
+  for (var i = 0; i < hotel.offer.photos.length; i++) {
+    while (photosBlock.firstChild) {
+      photosBlock.removeChild(photosBlock.firstChild);
     }
-    var img = hotelPhotoBlock.cloneNode(false);
-    img.src = hotels[0].offer.photos[i];
+    var img = photo.cloneNode(false);
+    img.src = hotel.offer.photos[i];
     fragment.appendChild(img);
   }
-  hotelPhotosBlock.appendChild(fragment);
+  photosBlock.appendChild(fragment);
 };
 
 var renderHotelInfo = function (hotel) {
+  var cloneCardTemplate = cardTemplate.cloneNode(true);
+  var hotelHeaderBlock = cloneCardTemplate.querySelector(('.popup__title'));
+  var hotelAddressBlock = cloneCardTemplate.querySelector('.popup__text--address');
+  var hotelPriceBlock = cloneCardTemplate.querySelector('.popup__text--price');
+  var hotelTypeBlock = cloneCardTemplate.querySelector('.popup__type');
+  var hotelRoomsBlock = cloneCardTemplate.querySelector('.popup__text--capacity');
+  var hotelTimeBlock = cloneCardTemplate.querySelector('.popup__text--time');
+  var hotelFeaturesBlock = cloneCardTemplate.querySelector('.popup__features');
+  var hotelDescriptionBlock = cloneCardTemplate.querySelector('.popup__description');
+  var hotelPhotosBlock = cloneCardTemplate.querySelector('.popup__photos');
+  var hotelPhotoBlock = cloneCardTemplate.querySelector('.popup__photo');
+  var hotelAvatarBlock = cloneCardTemplate.querySelector('.popup__avatar');
   var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, ROOMS_DECLENSION) + ' для '
     + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, GUEST_DECLENSION);
   var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
+  var popup = document.querySelector('.popup');
+  if (popup) {
+    popup.remove();
+  }
   fragment = document.createDocumentFragment();
   hotelHeaderBlock.textContent = hotel.offer.title;
   hotelAddressBlock.textContent = hotel.offer.address;
@@ -239,9 +246,13 @@ var renderHotelInfo = function (hotel) {
   hotelFeaturesBlock.innerHTML = '';
   renderHotelFeatures(hotel.offer.features, hotelFeaturesBlock);
   hotelDescriptionBlock.textContent = hotel.offer.description;
-  renderHotelPhoto();
+  renderHotelPhoto(hotel, hotelPhotosBlock, hotelPhotoBlock);
   hotelAvatarBlock.src = hotel.author.avatar;
-  map.insertBefore(cardTemplate, mapFiltersContainer);
+  map.insertBefore(cloneCardTemplate, mapFiltersContainer);
+  var popupClose = document.querySelector('.popup__close');
+  popupClose.addEventListener('click', onPopupCloseClick, false);
+  popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
+  document.addEventListener('keydown', onDocumentKeydown, false);
 };
 
 var createMainPinLocation = function () {
@@ -260,19 +271,9 @@ var startActiveMode = function () {
   }
   formHeader.removeAttribute('disabled');
   renderMapPins();
-  renderHotelInfo(hotels[0]);
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
   createMainPinLocation();
-};
-
-var startPassiveMode = function () {
-  if (activeStatus === false) {
-    formHeader.setAttribute('disabled', 'true');
-    for (var i = 0; i < formsMain.length; i++) {
-      formsMain[i].setAttribute('disabled', 'true');
-    }
-  }
 };
 
 var enableNumberInput = function (childrenNumber) {
@@ -304,6 +305,16 @@ var establishLimitsOnRooms = function () {
   }
 };
 
+var startPassiveMode = function () {
+  if (activeStatus === false) {
+    formHeader.setAttribute('disabled', 'true');
+    for (var i = 0; i < formsMain.length; i++) {
+      formsMain[i].setAttribute('disabled', 'true');
+    }
+    establishLimitsOnRooms();
+  }
+};
+
 var syncTimeIn = function () {
   timeOutInput.value = timeInInput.value;
 };
@@ -323,6 +334,60 @@ var createInputSettings = function () {
   priceInput.setAttribute('placeholder', minValue);
 };
 
+var onMapPinClick = function (evt) {
+  if (activeStatus) {
+    var target = evt.target;
+    if (target.tagName === 'IMG') {
+      target = target.closest('button');
+      if (target.classList.contains('map__pin--main')) {
+        return;
+      }
+    }
+    if (target.tagName === 'BUTTON') {
+      for (var i = 0; i < hotels.length; i++) {
+        if (String(i) === target.getAttribute('data-id')) {
+          renderHotelInfo(hotels[i]);
+        }
+      }
+    }
+  }
+};
+
+var onPopupCloseClick = function (evt) {
+  var popupCard = document.querySelector('.popup');
+  var popupClose = document.querySelector('.popup__close');
+  if (evt.button === LEFT_MOUSE_CODE && activeStatus === true) {
+    map.removeChild(popupCard);
+  }
+  popupClose.removeEventListener('click', onPopupCloseClick, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
+};
+
+var onPopupCloseKeydown = function (evt) {
+  var popupCard = document.querySelector('.popup');
+  var popupClose = document.querySelector('.popup__close');
+  if (evt.code === ENTER_KEY_CODE && activeStatus === true) {
+    map.removeChild(popupCard);
+  }
+  popupClose.removeEventListener('click', onPopupCloseClick, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
+};
+
+var onDocumentKeydown = function (evt) {
+  var popupCard = document.querySelector('.popup');
+  var popupClose = document.querySelector('.popup__close');
+  if (evt.code === ESC_KEY_CODE && activeStatus === true) {
+    map.removeChild(popupCard);
+  }
+  popupClose.removeEventListener('click', onPopupCloseClick, false);
+  popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+  document.removeEventListener('keydown', onDocumentKeydown, false);
+};
+
+mapPin.addEventListener('click', onMapPinClick, false);
+
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === LEFT_MOUSE_CODE && activeStatus === false) {
     startActiveMode();
@@ -330,7 +395,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 });
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.code === ENTER && activeStatus === false) {
+  if (evt.code === ENTER_KEY_CODE && activeStatus === false) {
     startActiveMode();
   }
 });
