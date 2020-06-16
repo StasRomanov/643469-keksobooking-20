@@ -23,18 +23,6 @@ var maxLocationX = MAP_X_SIZE - PIN_WIDTH;
 var minLocationY = PIN_HEIGHT + SKY_HEIGHT;
 var maxLocationY = MAP_Y_SIZE - MAP_MENU_HEIGHT - PIN_HEIGHT;
 var cardTemplate = document.querySelector('#card').content.cloneNode(true);
-/* var hotelHeaderBlock = cardTemplate.querySelector('.popup__title');
-var hotelAddressBlock = cardTemplate.querySelector('.popup__text--address');
-var hotelPriceBlock = cardTemplate.querySelector('.popup__text--price');
-var hotelTypeBlock = cardTemplate.querySelector('.popup__type');
-var hotelRoomsBlock = cardTemplate.querySelector('.popup__text--capacity');
-var hotelTimeBlock = cardTemplate.querySelector('.popup__text--time');
-var hotelFeaturesBlock = cardTemplate.querySelector('.popup__features');
-var hotelDescriptionBlock = cardTemplate.querySelector('.popup__description');
-var hotelPhotosBlock = cardTemplate.querySelector('.popup__photos');
-var hotelPhotoBlock = cardTemplate.querySelector('.popup__photo');
-var hotelAvatarBlock = cardTemplate.querySelector('.popup__avatar');
- */
 var mapFiltersContainer = document.querySelector('.map__filters-container');
 var template = document.querySelector('#pin').content;
 var templateMapPin = template.querySelector('.map__pin');
@@ -163,6 +151,7 @@ var renderMapPins = function () {
     element.style.left = hotels[i].location.x + 'px';
     element.style.top = hotels[i].location.y + 'px';
     photoElement.src = hotels[i].author.avatar;
+    element.setAttribute('data-id', i);
     element.appendChild(photoElement);
     fragment.appendChild(element);
   }
@@ -256,6 +245,7 @@ var renderHotelInfo = function (hotel) {
   hotelAvatarBlock.src = hotel.author.avatar;
   map.insertBefore(cloneCardTemplate, mapFiltersContainer);
   var popupClose = document.querySelector('.popup__close');
+  console.log(popupClose);
   popupClose.addEventListener('click', onPopupCloseClick, false);
   popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
   document.addEventListener('keydown', onDocumentKeydown, false);
@@ -343,21 +333,15 @@ var createInputSettings = function () {
 var onMapPinClick = function (evt) {
   if (activeStatus) {
     var target = evt.target;
-    if ((target.classList.contains('map__overlay' || 'map__title' || 'map__pin--main'))) {
-      return;
-    }
     if (target.tagName === 'IMG') {
       target = target.closest('button');
       if (target.classList.contains('map__pin--main')) {
         return;
       }
     }
-    if (target.tagName === 'H2' || target.tagName === 'ELLIPSE') {
-      return;
-    }
     if (target.tagName === 'BUTTON') {
       for (var i = 0; i < hotels.length; i++) {
-        if (hotels[i].author.avatar === target.children[0].getAttribute('src')) {
+        if (String(i) === target.getAttribute('data-id')) {
           renderHotelInfo(hotels[i]);
         }
       }
