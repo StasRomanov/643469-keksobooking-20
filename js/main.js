@@ -245,7 +245,6 @@ var renderHotelInfo = function (hotel) {
   hotelAvatarBlock.src = hotel.author.avatar;
   map.insertBefore(cloneCardTemplate, mapFiltersContainer);
   var popupClose = document.querySelector('.popup__close');
-  console.log(popupClose);
   popupClose.addEventListener('click', onPopupCloseClick, false);
   popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
   document.addEventListener('keydown', onDocumentKeydown, false);
