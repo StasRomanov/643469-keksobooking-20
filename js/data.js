@@ -14,9 +14,11 @@
   var LEFT_MOUSE_CODE = 0;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
-  var SKY_HEIGHT = 170;
+  var SKY_BLOCK = document.querySelector('.map__title');
+  var SKY_HEIGHT = parseInt(getComputedStyle(SKY_BLOCK).marginTop.replace(/\D+/g, ''), 10);
   var MAP_GAP = 25;
   var MAP_PIN_TRIANGLE_HEIGHT = 22;
+  var MAP_SAFE_BORDER_ZONE = 10;
   var MAP_MENU_HEIGHT = document.querySelector('.map__filters').offsetHeight;
   var mapPin = document.querySelector('.map__pins');
   var MAP_Y_SIZE = mapPin.offsetHeight;
@@ -42,6 +44,7 @@
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
   var formsMain = document.querySelectorAll('.ad-form__element');
+  var mapOverlay = document.querySelector('.map__overlay');
   var mapPinMainWidth = mapPinMain.offsetWidth;
   var mapPinMainHeight = mapPinMain.offsetHeight;
   var mapPinMainLocationX = mapPinMainHeight / 2;
@@ -71,6 +74,7 @@
     SKY_HEIGHT: SKY_HEIGHT,
     MAP_GAP: MAP_GAP,
     MAP_PIN_TRIANGLE_HEIGHT: MAP_PIN_TRIANGLE_HEIGHT,
+    MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE,
     MAP_MENU_HEIGHT: MAP_MENU_HEIGHT,
     mapPin: mapPin,
     MAP_Y_SIZE: MAP_Y_SIZE,
@@ -96,6 +100,7 @@
     guestNumberInput: guestNumberInput,
     formHeader: formHeader,
     formsMain: formsMain,
+    mapOverlay: mapOverlay,
     mapPinMainWidth: mapPinMainWidth,
     mapPinMainHeight: mapPinMainHeight,
     mapPinMainLocationX: mapPinMainLocationX,

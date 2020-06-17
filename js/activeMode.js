@@ -20,5 +20,6 @@
     window.data.map.classList.remove('map--faded');
     window.data.form.classList.remove('ad-form--disabled');
     createMainPinLocation();
+    window.data.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
   };
 })();
