@@ -1,52 +1,13 @@
 'use strict';
 
 (function () {
-  window.renderMapPins = function () {
-    window.data.fragment = document.createDocumentFragment();
-    window.createAllHotelInfo();
-    for (var i = 0; i < window.data.HOTEL_COUNTER; i++) {
-      var photoElement = window.data.mapPinPhoto.cloneNode(false);
-      var element = window.data.templateMapPin.cloneNode(false);
-      element.style.left = window.data.hotels[i].location.x + 'px';
-      element.style.top = window.data.hotels[i].location.y + 'px';
-      photoElement.src = window.data.hotels[i].author.avatar;
-      element.setAttribute('data-id', i);
-      element.appendChild(photoElement);
-      window.data.fragment.appendChild(element);
-    }
-    window.data.mapPin.appendChild(window.data.fragment);
-  };
-
-  var renderHotelType = function (type, textBlock) {
+  window.renderHotelType = function (type, textBlock) {
     textBlock.textContent = {
       palace: 'Дворец',
       flat: 'Квартира',
       bungalo: 'Бунгало',
       house: 'Дом'
     }[type];
-  };
-
-  var getWordDeclension = function (n, textForms) {
-    n = Math.abs(n) % 100;
-    var n1 = n % 10;
-    if (n > 10 && n < 20) {
-      return textForms[2];
-    }
-    if (n1 > 1 && n1 < 5) {
-      return textForms[1];
-    }
-    if (n1 === 1) {
-      return textForms[0];
-    }
-    return textForms[2];
-  };
-
-  var getGuests = function (hotelGuests) {
-    if (hotelGuests === 1 || hotelGuests === 21) {
-      return ' гостя.';
-    } else {
-      return ' гостей.';
-    }
   };
 
   var renderHotelFeatures = function (features, featuresBlock) {
@@ -87,8 +48,8 @@
     var hotelPhotosBlock = cloneCardTemplate.querySelector('.popup__photos');
     var hotelPhotoBlock = cloneCardTemplate.querySelector('.popup__photo');
     var hotelAvatarBlock = cloneCardTemplate.querySelector('.popup__avatar');
-    var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, window.data.ROOMS_DECLENSION) + ' для '
-    + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, window.data.GUEST_DECLENSION);
+    var rooms = hotel.offer.rooms + ' ' + window.getWordDeclension(hotel.offer.rooms, window.data.ROOMS_DECLENSION) + ' для '
+      + hotel.offer.guests + ' ' + window.getGuests(hotel.offer.guests, window.data.GUEST_DECLENSION);
     var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
     var popup = document.querySelector('.popup');
     if (popup) {
@@ -98,7 +59,7 @@
     hotelHeaderBlock.textContent = hotel.offer.title;
     hotelAddressBlock.textContent = hotel.offer.address;
     hotelPriceBlock.textContent = hotel.offer.price;
-    renderHotelType(hotel.offer.type, hotelTypeBlock);
+    window.renderHotelType(hotel.offer.type, hotelTypeBlock);
     hotelRoomsBlock.textContent = rooms;
     hotelTimeBlock.textContent = time;
     hotelFeaturesBlock.innerHTML = '';
@@ -111,5 +72,57 @@
     popupClose.addEventListener('click', window.onPopupCloseClick, false);
     popupClose.addEventListener('keydown', window.onPopupCloseKeydown, false);
     document.addEventListener('keydown', window.onDocumentKeydown, false);
+  };
+
+  window.onMapPinClick = function (evt) {
+    if (window.data.activeStatus) {
+      var target = evt.target;
+      if (target.tagName === 'IMG') {
+        target = target.closest('button');
+        if (target.classList.contains('map__pin--main')) {
+          return;
+        }
+      }
+      if (target.tagName === 'BUTTON') {
+        for (var i = 0; i < window.data.hotels.length; i++) {
+          if (String(i) === target.getAttribute('data-id')) {
+            window.renderHotelInfo(window.data.hotels[i]);
+          }
+        }
+      }
+    }
+  };
+
+  window.onPopupCloseClick = function (evt) {
+    var popupCard = document.querySelector('.popup');
+    var popupClose = document.querySelector('.popup__close');
+    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
+      window.data.map.removeChild(popupCard);
+    }
+    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
+    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
+    document.removeEventListener('keydown', window.onDocumentKeydown, false);
+  };
+
+  window.onPopupCloseKeydown = function (evt) {
+    var popupCard = document.querySelector('.popup');
+    var popupClose = document.querySelector('.popup__close');
+    if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === true) {
+      window.data.map.removeChild(popupCard);
+    }
+    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
+    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
+    document.removeEventListener('keydown', window.onDocumentKeydown, false);
+  };
+
+  window.onDocumentKeydown = function (evt) {
+    var popupCard = document.querySelector('.popup');
+    var popupClose = document.querySelector('.popup__close');
+    if (evt.code === window.data.ESC_KEY_CODE && window.data.activeStatus === true) {
+      window.data.map.removeChild(popupCard);
+    }
+    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
+    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
+    document.removeEventListener('keydown', window.onDocumentKeydown, false);
   };
 })();

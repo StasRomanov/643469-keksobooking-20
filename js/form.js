@@ -30,16 +30,6 @@
     }
   };
 
-  window.startPassiveMode = function () {
-    if (window.data.activeStatus === false) {
-      window.data.formHeader.setAttribute('disabled', 'true');
-      for (var i = 0; i < window.data.formsMain.length; i++) {
-        window.data.formsMain[i].setAttribute('disabled', 'true');
-      }
-      window.establishLimitsOnRooms();
-    }
-  };
-
   window.syncTimeIn = function () {
     window.data.timeOutInput.value = window.data.timeInInput.value;
   };
@@ -58,4 +48,20 @@
     window.data.priceInput.setAttribute('min', minValue);
     window.data.priceInput.setAttribute('placeholder', minValue);
   };
+
+  window.data.typeInput.addEventListener('change', function () {
+    window.createInputSettings();
+  });
+
+  window.data.timeInInput.addEventListener('change', function () {
+    window.syncTimeIn();
+  });
+
+  window.data.timeOutInput.addEventListener('change', function () {
+    window.syncTimeOut();
+  });
+
+  window.data.roomNumberInput.addEventListener('change', function () {
+    window.establishLimitsOnRooms();
+  });
 })();
