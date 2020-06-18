@@ -73,7 +73,9 @@
     popupClose.addEventListener('keydown', window.onPopupCloseKeydown, false);
     document.addEventListener('keydown', window.onDocumentKeydown, false);
   };
+})();
 
+(function () {
   window.onMapPinClick = function (evt) {
     if (window.data.activeStatus) {
       var target = evt.target;

@@ -25,7 +25,9 @@
     }
     window.data.mapPin.appendChild(window.data.fragment);
   };
+})();
 
+(function () {
   window.data.mapPin.addEventListener('click', window.onMapPinClick, false);
 
   window.data.mapPinMain.addEventListener('mousedown', function (evt) {

@@ -114,7 +114,9 @@
     yLocations: yLocations,
     activeStatus: activeStatus
   };
+})();
 
+(function () {
   var createHotelInfo = function (avatar, title, address, price, type, rooms, guests,
       checkin, checkout, features, description, photos, x, y) {
     return {
