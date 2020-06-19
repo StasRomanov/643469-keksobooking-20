@@ -24,7 +24,6 @@
     window.utilData.map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     window.createMainPinLocation();
-    window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
   };
 
   startPassiveMode();
