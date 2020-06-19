@@ -1,43 +1,53 @@
 'use strict';
 
 (function () {
+  var mapPinDefaultLocationX = 570;
+  var template = document.querySelector('#pin').content;
+  var templateMapPin = template.querySelector('.map__pin');
+  var mapPinPhoto = template.querySelector('img');
+  var mapPinMainWidth = window.utilData.mapPinMain.offsetWidth;
+  var mapPinMainHeight = window.utilData.mapPinMain.offsetHeight;
+  var mapPinMainLocationX = mapPinMainHeight / 2;
+  var mapPinMainLocationY = mapPinMainWidth + 22;
+  var mapPinDefaultLocationY = 375;
+
   window.createMainPinLocation = function () {
-    var mainPinLocationX = Math.round(window.data.mapPinMainLocationX + window.data.mapPinDefaultLocationX);
-    var mainPinLocationY = Math.round(window.data.mapPinMainLocationY + window.data.mapPinDefaultLocationY);
-    if (window.data.activeStatus) {
-      mainPinLocationY = Math.round(window.data.mapPinMainLocationY + window.data.mapPinDefaultLocationY + window.data.MAP_PIN_TRIANGLE_HEIGHT);
+    var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
+    var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
+    if (window.utilData.activeStatus) {
+      mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
     }
-    window.data.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
+    window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
   };
 
   window.renderMapPins = function () {
-    window.data.fragment = document.createDocumentFragment();
+    window.utilData.fragment = document.createDocumentFragment();
     window.createAllHotelInfo();
-    for (var i = 0; i < window.data.HOTEL_COUNTER; i++) {
-      var photoElement = window.data.mapPinPhoto.cloneNode(false);
-      var element = window.data.templateMapPin.cloneNode(false);
-      element.style.left = window.data.hotels[i].location.x + 'px';
-      element.style.top = window.data.hotels[i].location.y + 'px';
-      photoElement.src = window.data.hotels[i].author.avatar;
+    for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
+      var photoElement = mapPinPhoto.cloneNode(false);
+      var element = templateMapPin.cloneNode(false);
+      element.style.left = window.utilData.hotels[i].location.x + 'px';
+      element.style.top = window.utilData.hotels[i].location.y + 'px';
+      photoElement.src = window.utilData.hotels[i].author.avatar;
       element.setAttribute('data-id', i);
       element.appendChild(photoElement);
-      window.data.fragment.appendChild(element);
+      window.utilData.fragment.appendChild(element);
     }
-    window.data.mapPin.appendChild(window.data.fragment);
+    window.utilData.mapPin.appendChild(window.utilData.fragment);
   };
 })();
 
 (function () {
-  window.data.mapPin.addEventListener('click', window.onMapPinClick, false);
+  window.utilData.mapPin.addEventListener('click', window.onMapPinClick, false);
 
-  window.data.mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === false) {
+  window.utilData.mapPinMain.addEventListener('mousedown', function (evt) {
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {
       window.startActiveMode();
     }
   });
 
-  window.data.mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === false) {
+  window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
+    if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
       window.startActiveMode();
     }
   });

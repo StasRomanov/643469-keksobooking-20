@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var mapOverlay = document.querySelector('.map__overlay');
+
   window.card = {
     getWordDeclension: function (n, textForms) {
       n = Math.abs(n) % 100;
@@ -35,35 +37,33 @@
     },
 
     renderHotelFeatures: function (features, featuresBlock) {
-      window.data.fragment = document.createDocumentFragment();
+      window.utilData.fragment = document.createDocumentFragment();
       for (var i = 0; i < features.length; i++) {
         var listItem = document.createElement('li');
         listItem.classList.add('popup__feature');
         listItem.classList.add('popup__feature--' + features[i]);
         listItem.textContent = features[i];
-        window.data.fragment.appendChild(listItem);
+        window.utilData.fragment.appendChild(listItem);
       }
-      featuresBlock.appendChild(window.data.fragment);
+      featuresBlock.appendChild(window.utilData.fragment);
     },
 
     renderHotelPhoto: function (hotel, photosBlock, photo) {
-      window.data.fragment = document.createDocumentFragment();
+      window.utilData.fragment = document.createDocumentFragment();
       for (var i = 0; i < hotel.offer.photos.length; i++) {
         while (photosBlock.firstChild) {
           photosBlock.removeChild(photosBlock.firstChild);
         }
         var img = photo.cloneNode(false);
         img.src = hotel.offer.photos[i];
-        window.data.fragment.appendChild(img);
+        window.utilData.fragment.appendChild(img);
       }
-      photosBlock.appendChild(window.data.fragment);
+      photosBlock.appendChild(window.utilData.fragment);
     }
   };
-})();
 
-(function () {
   window.onMainPinMove = function (evt) {
-    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus) {
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus) {
       var startCoords = {
         x: evt.clientX,
         y: evt.clientY
@@ -78,29 +78,29 @@
           y: moveEvt.clientY
         };
 
-        window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft - shift.x) + 'px';
-        window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop - shift.y) + 'px';
-        window.data.addressInput.value = String(window.data.mapPinMain.offsetLeft - shift.x + window.data.mapPinMain.offsetWidth / 2) + ' '
-            + String(window.data.mapPinMain.offsetTop - shift.y + window.data.mapPinMain.offsetHeight + window.data.MAP_PIN_TRIANGLE_HEIGHT);
+        window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x) + 'px';
+        window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y) + 'px';
+        window.utilData.addressInput.value = String(window.utilData.mapPinMain.offsetLeft - shift.x + window.utilData.mapPinMain.offsetWidth / 2) + ' '
+            + String(window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
 
-        if (window.data.mapPinMain.offsetLeft - shift.x + window.data.mapPinMain.offsetWidth >
-            window.data.mapOverlay.offsetWidth) {
+        if (window.utilData.mapPinMain.offsetLeft - shift.x + window.utilData.mapPinMain.offsetWidth >
+            mapOverlay.offsetWidth) {
           onMouseUp();
-          window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft - shift.x - 10) + 'px';
+          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x - 10) + 'px';
         }
-        if (window.data.mapPinMain.offsetTop - shift.y + window.data.mapPinMain.offsetHeight + window.data.MAP_PIN_TRIANGLE_HEIGHT >
-            window.data.mapOverlay.offsetHeight) {
+        if (window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT >
+            mapOverlay.offsetHeight) {
           onMouseUp();
-          window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop - shift.y - 10) + 'px';
+          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y - 10) + 'px';
         }
-        if (window.data.mapPinMain.offsetLeft - shift.x < 0) {
+        if (window.utilData.mapPinMain.offsetLeft - shift.x < 0) {
           onMouseUp();
-          window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft - shift.x + 10) + 'px';
+          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x + 10) + 'px';
         }
-        if (window.data.mapPinMain.offsetTop - shift.y - window.data.SKY_HEIGHT + window.data.mapPinMain.offsetHeight +
-            window.data.MAP_PIN_TRIANGLE_HEIGHT < 0) {
+        if (window.utilData.mapPinMain.offsetTop - shift.y - window.utilData.SKY_HEIGHT + window.utilData.mapPinMain.offsetHeight +
+            window.utilData.MAP_PIN_TRIANGLE_HEIGHT < 0) {
           onMouseUp();
-          window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop - shift.y + 10) + 'px';
+          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y + 10) + 'px';
         }
       };
 

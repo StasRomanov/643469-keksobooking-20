@@ -1,8 +1,12 @@
 'use strict';
 
 (function () {
+  var cardTemplate = document.querySelector('#card').content.cloneNode(true);
+  var mapFiltersContainer = document.querySelector('.map__filters-container');
+
+
   window.renderHotelInfo = function (hotel) {
-    var cloneCardTemplate = window.data.cardTemplate.cloneNode(true);
+    var cloneCardTemplate = cardTemplate.cloneNode(true);
     var hotelHeaderBlock = cloneCardTemplate.querySelector(('.popup__title'));
     var hotelAddressBlock = cloneCardTemplate.querySelector('.popup__text--address');
     var hotelPriceBlock = cloneCardTemplate.querySelector('.popup__text--price');
@@ -21,7 +25,7 @@
     if (popup) {
       popup.remove();
     }
-    window.data.fragment = document.createDocumentFragment();
+    window.utilData.fragment = document.createDocumentFragment();
     hotelHeaderBlock.textContent = hotel.offer.title;
     hotelAddressBlock.textContent = hotel.offer.address;
     hotelPriceBlock.textContent = hotel.offer.price;
@@ -33,7 +37,7 @@
     hotelDescriptionBlock.textContent = hotel.offer.description;
     window.card.renderHotelPhoto(hotel, hotelPhotosBlock, hotelPhotoBlock);
     hotelAvatarBlock.src = hotel.author.avatar;
-    window.data.map.insertBefore(cloneCardTemplate, window.data.mapFiltersContainer);
+    window.utilData.map.insertBefore(cloneCardTemplate, mapFiltersContainer);
     window.popupClose = document.querySelector('.popup__close');
     window.popupCard = document.querySelector('.popup');
     window.popupClose.addEventListener('click', window.onPopupCloseClick, false);
@@ -44,7 +48,7 @@
 
 (function () {
   window.onMapPinClick = function (evt) {
-    if (window.data.activeStatus) {
+    if (window.utilData.activeStatus) {
       var target = evt.target;
       if (target.tagName === 'IMG') {
         target = target.closest('button');
@@ -53,9 +57,9 @@
         }
       }
       if (target.tagName === 'BUTTON') {
-        for (var i = 0; i < window.data.hotels.length; i++) {
+        for (var i = 0; i < window.utilData.hotels.length; i++) {
           if (String(i) === target.getAttribute('data-id')) {
-            window.renderHotelInfo(window.data.hotels[i]);
+            window.renderHotelInfo(window.utilData.hotels[i]);
           }
         }
       }
@@ -70,22 +74,22 @@
 
   window.onPopupCloseClick = function (evt) {
     removePopupListener();
-    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(window.popupCard);
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
+      window.utilData.map.removeChild(window.popupCard);
     }
   };
 
   window.onPopupCloseKeydown = function (evt) {
     removePopupListener();
-    if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(window.popupCard);
+    if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === true) {
+      window.utilData.map.removeChild(window.popupCard);
     }
   };
 
   window.onDocumentKeydown = function (evt) {
     removePopupListener();
-    if (evt.code === window.data.ESC_KEY_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(window.popupCard);
+    if (evt.code === window.utilData.ESC_KEY_CODE && window.utilData.activeStatus === true) {
+      window.utilData.map.removeChild(window.popupCard);
     }
   };
 })();
