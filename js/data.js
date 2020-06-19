@@ -37,10 +37,6 @@
   var form = document.querySelector('.ad-form');
   var addressInput = document.querySelector('#address');
   var priceInput = document.querySelector('#price');
-  var typeInput = document.querySelector('#type');
-  var timeInInput = document.querySelector('#timein');
-  var timeOutInput = document.querySelector('#timeout');
-  var roomNumberInput = document.querySelector('#room_number');
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
   var formsMain = document.querySelectorAll('.ad-form__element');
@@ -93,10 +89,6 @@
     form: form,
     addressInput: addressInput,
     priceInput: priceInput,
-    typeInput: typeInput,
-    timeInInput: timeInInput,
-    timeOutInput: timeOutInput,
-    roomNumberInput: roomNumberInput,
     guestNumberInput: guestNumberInput,
     formHeader: formHeader,
     formsMain: formsMain,
@@ -114,9 +106,7 @@
     yLocations: yLocations,
     activeStatus: activeStatus
   };
-})();
 
-(function () {
   var createHotelInfo = function (avatar, title, address, price, type, rooms, guests,
       checkin, checkout, features, description, photos, x, y) {
     return {
@@ -144,26 +134,26 @@
   };
 
   window.createAllHotelInfo = function () {
-    window.getHotelOrder(window.data.HOTEL_COUNTER);
-    window.shuffle(window.data.hotelsSequence);
-    for (var i = 0; i < window.data.HOTEL_COUNTER; i++) {
-      window.data.xLocations[i] = window.getLocations(window.data.minLocationX, window.data.maxLocationX);
-      window.data.yLocations[i] = window.getLocations(window.data.minLocationY, window.data.maxLocationY);
+    window.getHotelOrder(HOTEL_COUNTER);
+    window.shuffle(hotelsSequence);
+    for (var i = 0; i < HOTEL_COUNTER; i++) {
+      xLocations[i] = window.getLocations(minLocationX, maxLocationX);
+      yLocations[i] = window.getLocations(minLocationY, maxLocationY);
       var HOTEL_DESCRIPTION = 'any looooooooooong text';
-      var hotelAvatar = 'img/avatars/user0' + window.data.hotelsSequence[i] + '.png';
+      var hotelAvatar = 'img/avatars/user0' + hotelsSequence[i] + '.png';
       var hotelTitle = 'hotel' + i;
-      var hotelAddress = 'x:' + window.data.xLocations[i] + ' y:' + window.data.yLocations[i];
+      var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
       var hotelPrice = window.getRandomInteger(1000, 80000) + '₽/ночь';
-      var hotelType = window.getRandomArrayElement(window.data.HOTEL_TYPES);
+      var hotelType = window.getRandomArrayElement(HOTEL_TYPES);
       var hotelRooms = window.getRandomInteger(1, 6);
-      var hotelCheckin = window.getRandomArrayElement(window.data.TIMES);
-      var hotelCheckout = window.getRandomArrayElement(window.data.TIMES);
-      var hotelFeatures = window.getRandomArrayLength(window.data.FEATURES);
-      var hotelPhoto = window.getRandomArrayLength(window.data.HOTEL_PHOTOS);
+      var hotelCheckin = window.getRandomArrayElement(TIMES);
+      var hotelCheckout = window.getRandomArrayElement(TIMES);
+      var hotelFeatures = window.getRandomArrayLength(FEATURES);
+      var hotelPhoto = window.getRandomArrayLength(HOTEL_PHOTOS);
       var hotelGuests = hotelRooms * window.getRandomInteger(1, 4);
-      window.data.hotels.splice(0, 0, createHotelInfo(
+      hotels.splice(0, 0, createHotelInfo(
           hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelGuests, hotelCheckin,
-          hotelCheckout, hotelFeatures, HOTEL_DESCRIPTION, hotelPhoto, window.data.xLocations[i], window.data.yLocations[i]
+          hotelCheckout, hotelFeatures, HOTEL_DESCRIPTION, hotelPhoto, xLocations[i], yLocations[i]
       ));
     }
   };
