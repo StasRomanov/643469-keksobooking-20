@@ -68,9 +68,10 @@
     renderHotelPhoto(hotel, hotelPhotosBlock, hotelPhotoBlock);
     hotelAvatarBlock.src = hotel.author.avatar;
     window.data.map.insertBefore(cloneCardTemplate, window.data.mapFiltersContainer);
-    var popupClose = document.querySelector('.popup__close');
-    popupClose.addEventListener('click', window.onPopupCloseClick, false);
-    popupClose.addEventListener('keydown', window.onPopupCloseKeydown, false);
+    window.popupClose = document.querySelector('.popup__close');
+    window.popupCard = document.querySelector('.popup');
+    window.popupClose.addEventListener('click', window.onPopupCloseClick, false);
+    window.popupClose.addEventListener('keydown', window.onPopupCloseKeydown, false);
     document.addEventListener('keydown', window.onDocumentKeydown, false);
   };
 })();
@@ -96,8 +97,6 @@
   };
 
   var removePopupListener = function () {
-    window.popupCard = document.querySelector('.popup');
-    window.popupClose = document.querySelector('.popup__close');
     window.popupClose.removeEventListener('click', window.onPopupCloseClick, false);
     window.popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
     document.removeEventListener('keydown', window.onDocumentKeydown, false);
