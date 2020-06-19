@@ -95,36 +95,32 @@
     }
   };
 
-  window.onPopupCloseClick = function (evt) {
-    var popupCard = document.querySelector('.popup');
-    var popupClose = document.querySelector('.popup__close');
-    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(popupCard);
-    }
-    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
-    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
+  var removePopupListener = function () {
+    window.popupCard = document.querySelector('.popup');
+    window.popupClose = document.querySelector('.popup__close');
+    window.popupClose.removeEventListener('click', window.onPopupCloseClick, false);
+    window.popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
     document.removeEventListener('keydown', window.onDocumentKeydown, false);
+  };
+
+  window.onPopupCloseClick = function (evt) {
+    removePopupListener();
+    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
+      window.data.map.removeChild(window.popupCard);
+    }
   };
 
   window.onPopupCloseKeydown = function (evt) {
-    var popupCard = document.querySelector('.popup');
-    var popupClose = document.querySelector('.popup__close');
+    removePopupListener();
     if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(popupCard);
+      window.data.map.removeChild(window.popupCard);
     }
-    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
-    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
-    document.removeEventListener('keydown', window.onDocumentKeydown, false);
   };
 
   window.onDocumentKeydown = function (evt) {
-    var popupCard = document.querySelector('.popup');
-    var popupClose = document.querySelector('.popup__close');
+    removePopupListener();
     if (evt.code === window.data.ESC_KEY_CODE && window.data.activeStatus === true) {
-      window.data.map.removeChild(popupCard);
+      window.data.map.removeChild(window.popupCard);
     }
-    popupClose.removeEventListener('click', window.onPopupCloseClick, false);
-    popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
-    document.removeEventListener('keydown', window.onDocumentKeydown, false);
   };
 })();
