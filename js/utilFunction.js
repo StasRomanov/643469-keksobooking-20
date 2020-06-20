@@ -78,7 +78,6 @@
   var getRandomArrayElement = function (array) {
     return array[getRandomInteger(0, array.length - 1)];
   };
-
   window.createAllHotelInfo = function () {
     getHotelOrder(window.utilData.HOTEL_COUNTER);
     shuffle(window.utilData.hotelsSequence);

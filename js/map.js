@@ -17,8 +17,8 @@
     var hotelPhotosBlock = cloneCardTemplate.querySelector('.popup__photos');
     var hotelPhotoBlock = cloneCardTemplate.querySelector('.popup__photo');
     var hotelAvatarBlock = cloneCardTemplate.querySelector('.popup__avatar');
-    var rooms = hotel.offer.rooms + ' ' + window.card.getWordDeclension(hotel.offer.rooms, window.data.ROOMS_DECLENSION) + ' для '
-      + hotel.offer.guests + ' ' + window.card.getGuests(hotel.offer.guests, window.data.GUEST_DECLENSION);
+    var rooms = hotel.offer.rooms + ' ' + window.card.getWordDeclension(hotel.offer.rooms, window.utilData.ROOMS_DECLENSION) + ' для '
+      + hotel.offer.guests + ' ' + window.card.getGuests(hotel.offer.guests, window.utilData.GUEST_DECLENSION);
     var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
     var popup = document.querySelector('.popup');
     if (popup) {
