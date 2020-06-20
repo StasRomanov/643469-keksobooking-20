@@ -4,8 +4,7 @@
   var cardTemplate = document.querySelector('#card').content.cloneNode(true);
   var mapFiltersContainer = document.querySelector('.map__filters-container');
 
-
-  window.renderHotelInfo = function (hotel) {
+  var renderHotelInfo = function (hotel) {
     var cloneCardTemplate = cardTemplate.cloneNode(true);
     var hotelHeaderBlock = cloneCardTemplate.querySelector(('.popup__title'));
     var hotelAddressBlock = cloneCardTemplate.querySelector('.popup__text--address');
@@ -40,13 +39,11 @@
     window.utilData.map.insertBefore(cloneCardTemplate, mapFiltersContainer);
     window.popupClose = document.querySelector('.popup__close');
     window.popupCard = document.querySelector('.popup');
-    window.popupClose.addEventListener('click', window.onPopupCloseClick, false);
-    window.popupClose.addEventListener('keydown', window.onPopupCloseKeydown, false);
-    document.addEventListener('keydown', window.onDocumentKeydown, false);
+    window.popupClose.addEventListener('click', onPopupCloseClick, false);
+    window.popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
+    document.addEventListener('keydown', onDocumentKeydown, false);
   };
-})();
 
-(function () {
   window.onMapPinClick = function (evt) {
     if (window.utilData.activeStatus) {
       var target = evt.target;
@@ -59,37 +56,37 @@
       if (target.tagName === 'BUTTON') {
         for (var i = 0; i < window.utilData.hotels.length; i++) {
           if (String(i) === target.getAttribute('data-id')) {
-            window.renderHotelInfo(window.utilData.hotels[i]);
+            renderHotelInfo(window.utilData.hotels[i]);
           }
         }
       }
     }
   };
 
-  var removePopupListener = function () {
-    window.popupClose.removeEventListener('click', window.onPopupCloseClick, false);
-    window.popupClose.removeEventListener('keydown', window.onPopupCloseKeydown, false);
-    document.removeEventListener('keydown', window.onDocumentKeydown, false);
-  };
-
-  window.onPopupCloseClick = function (evt) {
+  var onPopupCloseClick = function (evt) {
     removePopupListener();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
       window.utilData.map.removeChild(window.popupCard);
     }
   };
 
-  window.onPopupCloseKeydown = function (evt) {
+  var onPopupCloseKeydown = function (evt) {
     removePopupListener();
     if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === true) {
       window.utilData.map.removeChild(window.popupCard);
     }
   };
 
-  window.onDocumentKeydown = function (evt) {
+  var onDocumentKeydown = function (evt) {
     removePopupListener();
     if (evt.code === window.utilData.ESC_KEY_CODE && window.utilData.activeStatus === true) {
       window.utilData.map.removeChild(window.popupCard);
     }
+  };
+
+  var removePopupListener = function () {
+    window.popupClose.removeEventListener('click', onPopupCloseClick, false);
+    window.popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+    document.removeEventListener('keydown', onDocumentKeydown, false);
   };
 })();
