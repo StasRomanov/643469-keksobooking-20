@@ -39,15 +39,15 @@
     }
   };
 
-  window.syncTimeIn = function () {
+  var syncTimeIn = function () {
     timeOutInput.value = timeInInput.value;
   };
 
-  window.syncTimeOut = function () {
+  var syncTimeOut = function () {
     timeInInput.value = timeOutInput.value;
   };
 
-  window.createInputSettings = function () {
+  var createInputSettings = function () {
     var minValue = {
       bungalo: '0',
       flat: '1000',
@@ -59,15 +59,15 @@
   };
 
   typeInput.addEventListener('change', function () {
-    window.createInputSettings();
+    createInputSettings();
   });
 
   timeInInput.addEventListener('change', function () {
-    window.syncTimeIn();
+    syncTimeIn();
   });
 
   timeOutInput.addEventListener('change', function () {
-    window.syncTimeOut();
+    syncTimeOut();
   });
 
   roomNumberInput.addEventListener('change', function () {
