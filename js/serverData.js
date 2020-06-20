@@ -3,17 +3,20 @@
 (function () {
   var DATA_LINK = 'https://javascript.pages.academy/keksobooking/data';
 
-  window.load = function (url) {
+  window.load = function (url, callBack) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', url);
     xhr.send();
     xhr.addEventListener('load', function () {
       window.utilData.hotels = xhr.response;
-      console.log(window.utilData.hotels[0].author);
-      return window.utilData.hotels;
+      callBack();
     });
   };
 
-  window.load(DATA_LINK);
+  var callBack = function () {
+    window.main.startPassiveMode();
+  };
+
+  window.load(DATA_LINK, callBack);
 })();

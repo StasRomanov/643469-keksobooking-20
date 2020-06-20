@@ -22,7 +22,6 @@
 
   window.renderMapPins = function () {
     window.utilData.fragment = document.createDocumentFragment();
-    window.createAllHotelInfo();
     for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
       var photoElement = mapPinPhoto.cloneNode(false);
       var element = templateMapPin.cloneNode(false);
@@ -42,13 +41,13 @@
 
   window.utilData.mapPinMain.addEventListener('mousedown', function (evt) {
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {
-      window.startActiveMode();
+      window.main.startActiveMode();
     }
   });
 
   window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
     if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
-      window.startActiveMode();
+      window.main.startActiveMode();
     }
   });
 })();

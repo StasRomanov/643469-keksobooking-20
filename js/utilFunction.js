@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 (function () {
   var MAP_GAP = 25;
   var PIN_HEIGHT = 70;
@@ -103,3 +103,4 @@
     }
   };
 })();
+ */
