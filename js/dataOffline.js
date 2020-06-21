@@ -1,6 +1,12 @@
 'use strict';
-/*
+
 (function () {
+  var DESCRIPTION = 'there should be a description but you do not have internet so rate by photo';
+  var HOTEL_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  var TIMES = ['12:00', '13:00', '14:00'];
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var HOTEL_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var MAP_GAP = 25;
   var PIN_HEIGHT = 70;
   var PIN_WIDTH = 50;
@@ -84,17 +90,17 @@
     for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
       xLocations[i] = getLocations(minLocationX, maxLocationX);
       yLocations[i] = getLocations(minLocationY, maxLocationY);
-      var HOTEL_DESCRIPTION = 'any looooooooooong text';
+      var HOTEL_DESCRIPTION = DESCRIPTION;
       var hotelAvatar = 'img/avatars/user0' + window.utilData.hotelsSequence[i] + '.png';
       var hotelTitle = 'hotel' + i;
       var hotelAddress = 'x:' + xLocations[i] + ' y:' + yLocations[i];
       var hotelPrice = getRandomInteger(1000, 80000) + '₽/ночь';
-      var hotelType = getRandomArrayElement(window.data.HOTEL_TYPES);
+      var hotelType = getRandomArrayElement(HOTEL_TYPES);
       var hotelRooms = getRandomInteger(1, 6);
-      var hotelCheckin = getRandomArrayElement(window.data.TIMES);
-      var hotelCheckout = getRandomArrayElement(window.data.TIMES);
-      var hotelFeatures = getRandomArrayLength(window.data.FEATURES);
-      var hotelPhoto = getRandomArrayLength(window.data.HOTEL_PHOTOS);
+      var hotelCheckin = getRandomArrayElement(TIMES);
+      var hotelCheckout = getRandomArrayElement(TIMES);
+      var hotelFeatures = getRandomArrayLength(FEATURES);
+      var hotelPhoto = getRandomArrayLength(HOTEL_PHOTOS);
       var hotelGuests = hotelRooms * getRandomInteger(1, 4);
       window.utilData.hotels.splice(0, 0, createHotelInfo(
           hotelAvatar, hotelTitle, hotelAddress, hotelPrice, hotelType, hotelRooms, hotelGuests, hotelCheckin,
@@ -103,4 +109,3 @@
     }
   };
 })();
- */

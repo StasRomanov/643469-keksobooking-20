@@ -15,7 +15,7 @@
   var addressInput = document.querySelector('#address');
   var fragment = document.createDocumentFragment();
   var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
-  var GUEST_DECLENSION = ['гостя', 'гостей', 'гостей'];
+  var GUESTS_DECLENSION = ['гостя', 'гостей', 'гостей'];
   var hotels = [];
   var hotelsSequence = [];
   var activeStatus = false;
@@ -37,6 +37,6 @@
     activeStatus: activeStatus,
     formsMain: formsMain,
     ROOMS_DECLENSION: ROOMS_DECLENSION,
-    GUEST_DECLENSION: GUEST_DECLENSION
+    GUESTS_DECLENSION: GUESTS_DECLENSION,
   };
 })();

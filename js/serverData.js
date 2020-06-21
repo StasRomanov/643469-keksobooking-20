@@ -2,21 +2,45 @@
 
 (function () {
   var DATA_LINK = 'https://javascript.pages.academy/keksobooking/data';
+  var TIMEOUT_IN_MS = 10000;
+  var StatusCode = {
+    ok: 200
+  };
+  var JSON_TYPE = 'json';
 
-  window.load = function (url, callBack) {
+  window.loadData = function (url, dataType, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
+    xhr.responseType = dataType;
     xhr.open('GET', url);
     xhr.send();
     xhr.addEventListener('load', function () {
-      window.utilData.hotels = xhr.response;
-      callBack();
+      if (xhr.status === StatusCode.ok) {
+        window.utilData.hotels = xhr.response;
+        onSuccess();
+      } else {
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
     });
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
+
+    xhr.timeout = TIMEOUT_IN_MS;
   };
 
-  var callBack = function () {
+  var onSuccess = function () {
     window.main.startPassiveMode();
   };
 
-  window.load(DATA_LINK, callBack);
+  var onError = function (message) {
+    window.createAllHotelInfo();
+    window.main.startPassiveMode();
+    throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
+      'Please reload page or check your internet connection.' + '\n' + 'Local data will be used');
+  };
+
+  window.loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
 })();

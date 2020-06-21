@@ -35,19 +35,3 @@
     window.utilData.mapPin.appendChild(window.utilData.fragment);
   };
 })();
-
-(function () {
-  window.utilData.mapPin.addEventListener('click', window.onMapPinClick, false);
-
-  window.utilData.mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {
-      window.main.startActiveMode();
-    }
-  });
-
-  window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
-      window.main.startActiveMode();
-    }
-  });
-})();
