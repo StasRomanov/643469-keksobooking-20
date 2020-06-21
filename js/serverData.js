@@ -36,8 +36,6 @@
   };
 
   var onError = function (message) {
-    window.createAllHotelInfo();
-    window.main.startPassiveMode();
     throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
       'Please reload page or check your internet connection.' + '\n' + 'Local data will be used');
   };
