@@ -3,7 +3,6 @@
 (function () {
   var HOTEL_COUNTER = 8;
   var MAP_PIN_TRIANGLE_HEIGHT = 22;
-  var MAP_SAFE_BORDER_ZONE = 10;
   var LEFT_MOUSE_CODE = 0;
   var ENTER_KEY_CODE = 'Enter';
   var ESC_KEY_CODE = 'Escape';
@@ -15,6 +14,8 @@
   var formsMain = document.querySelectorAll('.ad-form__element');
   var addressInput = document.querySelector('#address');
   var fragment = document.createDocumentFragment();
+  var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
+  var GUESTS_DECLENSION = ['гостя', 'гостей', 'гостей'];
   var hotels = [];
   var hotelsSequence = [];
   var activeStatus = false;
@@ -26,7 +27,6 @@
     LEFT_MOUSE_CODE: LEFT_MOUSE_CODE,
     SKY_HEIGHT: SKY_HEIGHT,
     MAP_PIN_TRIANGLE_HEIGHT: MAP_PIN_TRIANGLE_HEIGHT,
-    MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE,
     mapPin: mapPin,
     map: map,
     mapPinMain: mapPinMain,
@@ -35,6 +35,8 @@
     hotels: hotels,
     hotelsSequence: hotelsSequence,
     activeStatus: activeStatus,
-    formsMain: formsMain
+    formsMain: formsMain,
+    ROOMS_DECLENSION: ROOMS_DECLENSION,
+    GUESTS_DECLENSION: GUESTS_DECLENSION,
   };
 })();

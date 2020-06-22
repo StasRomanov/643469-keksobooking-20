@@ -3,6 +3,8 @@
 (function () {
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
+  var form = document.querySelector('.ad-form');
+  var formHeader = document.querySelector('.ad-form-header');
 
 
   var timeInInput = document.querySelector('#timein');
@@ -72,5 +74,23 @@
 
   roomNumberInput.addEventListener('change', function () {
     window.establishLimitsOnRooms();
-  });
+  }, false);
+
+  window.form = {
+    formEnable: function () {
+      for (var i = 0; i < window.utilData.formsMain.length; i++) {
+        window.utilData.formsMain[i].removeAttribute('disabled');
+      }
+      formHeader.removeAttribute('disabled');
+      form.classList.remove('ad-form--disabled');
+    },
+
+    formDisable: function () {
+      formHeader.setAttribute('disabled', 'true');
+      for (var i = 0; i < window.utilData.formsMain.length; i++) {
+        window.utilData.formsMain[i].setAttribute('disabled', 'true');
+      }
+      window.establishLimitsOnRooms();
+    }
+  };
 })();
