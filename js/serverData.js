@@ -37,7 +37,7 @@
 
   var onError = function (message) {
     throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
-      'Please reload page or check your internet connection.' + '\n' + 'Local data will be used');
+      'Please reload page or check your internet connection.');
   };
 
   window.loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
