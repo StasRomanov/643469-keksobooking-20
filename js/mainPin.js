@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  var mapOverlay = document.querySelector('.map__overlay');
-  var MAP_SAFE_BORDER_ZONE = 10;
-
   window.onMainPinMove = function (evt) {
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus) {
       var startCoords = {
@@ -26,19 +23,19 @@
         + String(window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
 
         if (window.utilData.mapPinMain.offsetLeft - shift.x + window.utilData.mapPinMain.offsetWidth >
-        mapOverlay.offsetWidth) {
-          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x - MAP_SAFE_BORDER_ZONE) + 'px';
+        window.utilData.mapOverlay.offsetWidth) {
+          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
         if (window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT >
-        mapOverlay.offsetHeight) {
-          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y - MAP_SAFE_BORDER_ZONE) + 'px';
+        window.utilData.mapOverlay.offsetHeight) {
+          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
         if (window.utilData.mapPinMain.offsetLeft - shift.x < 0) {
-          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x + MAP_SAFE_BORDER_ZONE) + 'px';
+          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
         if (window.utilData.mapPinMain.offsetTop - shift.y - window.utilData.SKY_HEIGHT + window.utilData.mapPinMain.offsetHeight +
         window.utilData.MAP_PIN_TRIANGLE_HEIGHT < 0) {
-          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y + MAP_SAFE_BORDER_ZONE) + 'px';
+          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
       };
 

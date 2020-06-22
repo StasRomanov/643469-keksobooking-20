@@ -5,12 +5,13 @@
   var guestNumberInput = document.querySelector('#capacity');
   var form = document.querySelector('.ad-form');
   var formHeader = document.querySelector('.ad-form-header');
-
-
   var timeInInput = document.querySelector('#timein');
   var typeInput = document.querySelector('#type');
   var timeOutInput = document.querySelector('#timeout');
   var roomNumberInput = document.querySelector('#room_number');
+  var headlineInput = document.querySelector('#title');
+  var descriptionInput = document.querySelector('#description');
+  var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
@@ -76,6 +77,8 @@
     window.establishLimitsOnRooms();
   }, false);
 
+  form.addEventListener('submit', window.sendFormData, false);
+
   window.form = {
     formEnable: function () {
       for (var i = 0; i < window.utilData.formsMain.length; i++) {
@@ -86,6 +89,13 @@
     },
 
     formDisable: function () {
+      headlineInput.value = '';
+      priceInput.value = '';
+      descriptionInput.value = '';
+      form.classList.add('ad-form--disabled');
+      for (var j = 0; j < featuresCheckbox.length; j++) {
+        featuresCheckbox[j].checked = false;
+      }
       formHeader.setAttribute('disabled', 'true');
       for (var i = 0; i < window.utilData.formsMain.length; i++) {
         window.utilData.formsMain[i].setAttribute('disabled', 'true');

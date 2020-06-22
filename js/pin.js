@@ -11,27 +11,56 @@
   var mapPinMainLocationY = mapPinMainWidth + 22;
   var mapPinDefaultLocationY = 375;
 
-  window.createMainPinLocation = function () {
-    var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
-    var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
-    if (window.utilData.activeStatus) {
-      mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
-    }
-    window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
-  };
+  window.pin = {
+    createMainPinLocation: function () {
+      var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
+      var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
+      if (window.utilData.activeStatus) {
+        mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
+      }
+      window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
+    },
 
-  window.renderMapPins = function () {
-    window.utilData.fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
-      var photoElement = mapPinPhoto.cloneNode(false);
-      var element = templateMapPin.cloneNode(false);
-      element.style.left = window.utilData.hotels[i].location.x + 'px';
-      element.style.top = window.utilData.hotels[i].location.y + 'px';
-      photoElement.src = window.utilData.hotels[i].author.avatar;
-      element.setAttribute('data-id', i);
-      element.appendChild(photoElement);
-      window.utilData.fragment.appendChild(element);
+    renderMapPins: function () {
+      window.utilData.fragment = document.createDocumentFragment();
+      for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
+        var photoElement = mapPinPhoto.cloneNode(false);
+        var element = templateMapPin.cloneNode(false);
+        element.style.left = window.utilData.hotels[i].location.x + 'px';
+        element.style.top = window.utilData.hotels[i].location.y + 'px';
+        if (window.utilData.hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
+          window.utilData.mapOverlay.offsetWidth / 100 * 5) {
+          element.style.left = window.utilData.mapOverlay.offsetWidth - window.utilData.mapOverlay.offsetWidth / 100 * 5 + 'px';
+        }
+        if (window.utilData.hotels[i].location.x < 0) {
+          element.style.left = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
+        }
+        if (window.utilData.hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
+          window.utilData.mapOverlay.offsetHeight / 100 * 5) {
+          element.style.top = window.utilData.mapOverlay.offsetHeight - window.utilData.mapOverlay.offsetHeight / 100 * 5 + 'px';
+        }
+        if (window.utilData.hotels[i].location.y < 0) {
+          element.style.top = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
+        }
+        photoElement.src = window.utilData.hotels[i].author.avatar;
+        element.setAttribute('data-id', i);
+        element.appendChild(photoElement);
+        window.utilData.fragment.appendChild(element);
+      }
+      window.utilData.mapPin.appendChild(window.utilData.fragment);
+    },
+
+    deleteMapPins: function () {
+      window.utilData.mapPin = document.querySelector('.map__pins');
+      for (var j = 0; j < window.utilData.mapPin.children.length; j++) {
+        if (window.utilData.mapPin.children[2]) {
+          if (!window.utilData.mapPin.children[2].classList.contains('map__pin--main') &&
+            window.utilData.mapPin.children[j].classList.contains('map__pin')) {
+            window.utilData.mapPin.children[2].remove();
+            j--;
+          }
+        }
+      }
     }
-    window.utilData.mapPin.appendChild(window.utilData.fragment);
   };
 })();

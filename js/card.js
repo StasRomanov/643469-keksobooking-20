@@ -3,6 +3,7 @@
 (function () {
   var cardTemplate = document.querySelector('#card').content.cloneNode(true);
   var mapFiltersContainer = document.querySelector('.map__filters-container');
+  var card = document.querySelector('.popup');
   var onPopupCloseClick = function (evt) {
     removePopupListener();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
@@ -104,9 +105,8 @@
       var rooms = hotel.offer.rooms + ' ' + window.card.getWordDeclension(hotel.offer.rooms, window.utilData.ROOMS_DECLENSION) + ' для '
         + hotel.offer.guests + ' ' + window.card.getGuests(hotel.offer.guests, window.utilData.GUESTS_DECLENSION);
       var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
-      var popup = document.querySelector('.popup');
-      if (popup) {
-        popup.remove();
+      if (card) {
+        card.remove();
       }
       window.utilData.fragment = document.createDocumentFragment();
       hotelHeaderBlock.textContent = hotel.offer.title;
@@ -126,6 +126,15 @@
       window.popupClose.addEventListener('click', onPopupCloseClick, false);
       window.popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
       document.addEventListener('keydown', onDocumentKeydown, false);
+    },
+    deleteHotelCard: function () {
+      if (window.popupClose) {
+        window.utilData.map = document.querySelector('.map');
+        window.utilData.map.removeChild(window.popupCard);
+        window.popupClose.removeEventListener('click', onPopupCloseClick, false);
+        window.popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
+        document.removeEventListener('keydown', onDocumentKeydown, false);
+      }
     }
   };
 })();
