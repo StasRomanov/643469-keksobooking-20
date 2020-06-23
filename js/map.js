@@ -4,14 +4,13 @@
   window.map = {
     mapEnable: function () {
       window.utilData.map.classList.remove('map--faded');
-      window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
     },
     mapDisable: function () {
       window.utilData.map.classList.add('map--faded');
-      window.utilData.mapPinMain.removeEventListener('mousedown', window.onMainPinMove, false);
+      window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
       window.card.deleteHotelCard();
       window.utilData.mapPin.addEventListener('click', window.map.onMapPinClick, false);
-      window.utilData.mapPinMain.addEventListener('mousedown', function (evt) {
+      window.utilData.mapPinMain.addEventListener('mouseup', function (evt) {
         if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {
           window.main.startActiveMode();
         }

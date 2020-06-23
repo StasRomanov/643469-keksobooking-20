@@ -2,7 +2,7 @@
 
 (function () {
   window.onMainPinMove = function (evt) {
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus) {
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
       var startCoords = {
         x: evt.clientX,
         y: evt.clientY
