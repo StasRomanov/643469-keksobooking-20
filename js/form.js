@@ -11,7 +11,6 @@
   var headlineInput = document.querySelector('#title');
   var descriptionInput = document.querySelector('#description');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
-  window.formBlock = document.querySelector('.ad-form');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
@@ -52,7 +51,7 @@
     window.form.establishLimitsOnRooms();
   }, false);
 
-  window.formBlock.addEventListener('submit', window.submitHandler, false);
+  window.utilData.formBlock.addEventListener('submit', window.submitHandler, false);
 
   window.form = {
     establishLimitsOnRooms: function () {
@@ -85,14 +84,14 @@
         window.utilData.formsMain[i].removeAttribute('disabled');
       }
       formHeader.removeAttribute('disabled');
-      window.formBlock.classList.remove('ad-form--disabled');
+      window.utilData.formBlock.classList.remove('ad-form--disabled');
     },
 
     formDisable: function () {
       headlineInput.value = '';
       priceInput.value = '';
       descriptionInput.value = '';
-      window.formBlock.classList.add('ad-form--disabled');
+      window.utilData.formBlock.classList.add('ad-form--disabled');
       for (var j = 0; j < featuresCheckbox.length; j++) {
         featuresCheckbox[j].checked = false;
       }

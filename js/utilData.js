@@ -15,6 +15,7 @@
   var mapOverlay = document.querySelector('.map__overlay');
   var formsMain = document.querySelectorAll('.ad-form__element');
   var addressInput = document.querySelector('#address');
+  var formBlock = document.querySelector('.ad-form');
   var fragment = document.createDocumentFragment();
   var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
   var GUESTS_DECLENSION = ['гостя', 'гостей', 'гостей'];
@@ -41,6 +42,7 @@
     ROOMS_DECLENSION: ROOMS_DECLENSION,
     GUESTS_DECLENSION: GUESTS_DECLENSION,
     mapOverlay: mapOverlay,
-    MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE
+    MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE,
+    formBlock: formBlock
   };
 })();
