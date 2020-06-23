@@ -88,7 +88,7 @@
       'Please reload page or check your internet connection.');
   };
 
-  window.submitHandler = function (evt) {
+  window.onFormBlockSubmit = function (evt) {
     evt.preventDefault();
     sendFormData(DATA_LINK, onSuccess, onError);
   };

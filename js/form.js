@@ -11,6 +11,7 @@
   var headlineInput = document.querySelector('#title');
   var descriptionInput = document.querySelector('#description');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
+  var resetButton = document.querySelector('.ad-form__reset');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
@@ -51,7 +52,29 @@
     window.form.establishLimitsOnRooms();
   }, false);
 
-  window.utilData.formBlock.addEventListener('submit', window.submitHandler, false);
+  var onResetButtonClick = function (evt) {
+    evt.preventDefault();
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
+      headlineInput.value = '';
+      priceInput.value = '';
+      descriptionInput.value = '';
+      roomNumberInput.value = '1';
+      guestNumberInput.value = '1';
+      timeInInput.value = '12:00';
+      timeOutInput.value = '12:00';
+      window.utilData.mapPinMain.style.left = '570px';
+      window.utilData.mapPinMain.style.top = '375px';
+      priceInput.setAttribute('placeholder', '1000');
+      for (var j = 0; j < featuresCheckbox.length; j++) {
+        featuresCheckbox[j].checked = false;
+      }
+      window.utilData.addressInput.value = '603 483';
+    }
+  };
+
+  resetButton.addEventListener('click', onResetButtonClick, false);
+
+  window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
   window.form = {
     establishLimitsOnRooms: function () {
@@ -99,6 +122,9 @@
       for (var i = 0; i < window.utilData.formsMain.length; i++) {
         window.utilData.formsMain[i].setAttribute('disabled', 'true');
       }
+      window.utilData.addressInput.value = '603, 483';
+      window.utilData.mapPinMain.style.left = '570px';
+      window.utilData.mapPinMain.style.top = '375px';
       window.form.establishLimitsOnRooms();
     }
   };
