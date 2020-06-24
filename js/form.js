@@ -55,16 +55,10 @@
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
-      headlineInput.value = '';
-      priceInput.value = '';
-      descriptionInput.value = '';
-      roomNumberInput.value = '1';
-      guestNumberInput.value = '1';
-      timeInInput.value = '12:00';
-      timeOutInput.value = '12:00';
+      window.utilData.formBlock.reset();
+      priceInput.setAttribute('placeholder', '1000');
       window.utilData.mapPinMain.style.left = '570px';
       window.utilData.mapPinMain.style.top = '375px';
-      priceInput.setAttribute('placeholder', '1000');
       for (var j = 0; j < featuresCheckbox.length; j++) {
         featuresCheckbox[j].checked = false;
       }
