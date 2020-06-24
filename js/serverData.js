@@ -36,6 +36,7 @@
   };
 
   var onError = function (message) {
+    window.renderErrorBlock();
     throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
       'Please reload page or check your internet connection.');
   };

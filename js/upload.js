@@ -35,13 +35,6 @@
     xhr.timeout = TIMEOUT_IN_MS;
   };
 
-  var renderErrorBlock = function () {
-    window.utilData.fragment = document.createDocumentFragment();
-    var errorBlock = errorTemplate.content.cloneNode(true);
-    window.utilData.fragment.appendChild(errorBlock);
-    mainBlock.insertBefore(window.utilData.fragment, header);
-  };
-
   var renderSuccessBlock = function () {
     window.utilData.fragment = document.createDocumentFragment();
     var successBlock = successTemplate.content.cloneNode(true);
@@ -53,7 +46,7 @@
     if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
-      } else {
+      } else if (mainBlock.querySelector('.error')) {
         mainBlock.querySelector('.error').remove();
       }
       document.removeEventListener('click', onDocumentClick, false);
@@ -71,6 +64,17 @@
     }
   };
 
+  var onReloadButtonClick = function (evt) {
+    if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
+      if (mainBlock.querySelector('.success')) {
+        mainBlock.querySelector('.success').remove();
+      } else {
+        mainBlock.querySelector('.error').remove();
+      }
+      document.removeEventListener('click', onDocumentClick, false);
+    }
+  };
+
   var onSuccess = function () {
     window.utilData.addressInput.setAttribute('disabled', 'true');
     renderSuccessBlock();
@@ -81,9 +85,7 @@
 
   var onError = function (message) {
     window.utilData.addressInput.setAttribute('disabled', 'true');
-    renderErrorBlock();
-    document.addEventListener('click', onDocumentClick, false);
-    document.addEventListener('keydown', onDocumentKeydown, false);
+    window.renderErrorBlock();
     throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
       'Please reload page or check your internet connection.');
   };
@@ -91,6 +93,17 @@
   window.onFormBlockSubmit = function (evt) {
     evt.preventDefault();
     sendFormData(DATA_LINK, onSuccess, onError);
+  };
+
+  window.renderErrorBlock = function () {
+    window.utilData.fragment = document.createDocumentFragment();
+    var errorBlock = errorTemplate.content.cloneNode(true);
+    window.utilData.fragment.appendChild(errorBlock);
+    mainBlock.insertBefore(window.utilData.fragment, header);
+    var reloadButton = document.querySelector('.error__button');
+    reloadButton.addEventListener('click', onReloadButtonClick, false);
+    document.addEventListener('click', onDocumentClick, false);
+    document.addEventListener('keydown', onDocumentKeydown, false);
   };
 
 })();
