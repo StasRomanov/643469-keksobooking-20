@@ -8,8 +8,6 @@
   var typeInput = document.querySelector('#type');
   var timeOutInput = document.querySelector('#timeout');
   var roomNumberInput = document.querySelector('#room_number');
-  var headlineInput = document.querySelector('#title');
-  var descriptionInput = document.querySelector('#description');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
   var resetButton = document.querySelector('.ad-form__reset');
 
@@ -49,20 +47,26 @@
   });
 
   roomNumberInput.addEventListener('change', function () {
-    window.form.establishLimitsOnRooms();
+    window.form.setLimitsOnRooms();
   }, false);
+
+  var setDefaultValue = function () {
+    priceInput.setAttribute('placeholder', '1000');
+    window.utilData.mapPinMain.style.left = '570px';
+    window.utilData.mapPinMain.style.top = '375px';
+    window.utilData.addressInput.value = '603 483';
+  };
 
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
       window.utilData.formBlock.reset();
-      priceInput.setAttribute('placeholder', '1000');
-      window.utilData.mapPinMain.style.left = '570px';
-      window.utilData.mapPinMain.style.top = '375px';
+
       for (var j = 0; j < featuresCheckbox.length; j++) {
         featuresCheckbox[j].checked = false;
       }
-      window.utilData.addressInput.value = '603 483';
+      setDefaultValue();
+      window.form.setLimitsOnRooms();
     }
   };
 
@@ -71,7 +75,7 @@
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
   window.form = {
-    establishLimitsOnRooms: function () {
+    setLimitsOnRooms: function () {
       for (var i = 0; i < guestNumberInput.length; i++) {
         guestNumberInput.children[i].setAttribute('disabled', 'true');
       }
@@ -105,9 +109,6 @@
     },
 
     formDisable: function () {
-      headlineInput.value = '';
-      priceInput.value = '';
-      descriptionInput.value = '';
       window.utilData.formBlock.classList.add('ad-form--disabled');
       for (var j = 0; j < featuresCheckbox.length; j++) {
         featuresCheckbox[j].checked = false;
@@ -116,10 +117,9 @@
       for (var i = 0; i < window.utilData.formsMain.length; i++) {
         window.utilData.formsMain[i].setAttribute('disabled', 'true');
       }
-      window.utilData.addressInput.value = '603, 483';
-      window.utilData.mapPinMain.style.left = '570px';
-      window.utilData.mapPinMain.style.top = '375px';
-      window.form.establishLimitsOnRooms();
+      window.utilData.formBlock.reset();
+      setDefaultValue();
+      window.form.setLimitsOnRooms();
     }
   };
 })();
