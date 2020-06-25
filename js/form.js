@@ -81,23 +81,21 @@
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
   var filter = function () {
-    window.utilData.filterStatus = true;
     var filterHotels = window.utilData.hotels.slice();
     window.filterHotels = filterHotels;
     filterHotels.splice(window.utilData.HOTEL_COUNTER, filterHotels.length);
     window.card.removePopup();
     for (var i = 0; i < filterHotels.length; i++) {
-      if (filterHotels[i].offer.type !== houseTypeFilter.value) {
+      if (houseTypeFilter.value === 'any') {
+        window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
+      } else if (filterHotels[i].offer.type !== houseTypeFilter.value) {
+        window.utilData.filterStatus = true;
         filterHotels.splice(i, 1);
         i--;
       }
     }
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
-    if (houseTypeFilter.value === 'any') {
-      window.utilData.filterStatus = false;
-      window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
-    }
   };
 
   window.form = {
