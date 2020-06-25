@@ -10,6 +10,7 @@
   var roomNumberInput = document.querySelector('#room_number');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
   var resetButton = document.querySelector('.ad-form__reset');
+  var houseTypeFilter = document.querySelector('#housing-type');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
@@ -36,7 +37,6 @@
 
   typeInput.addEventListener('change', function () {
     createInputSettings();
-    filter();
   });
 
   timeInInput.addEventListener('change', function () {
@@ -73,6 +73,11 @@
 
   resetButton.addEventListener('click', onResetButtonClick, false);
 
+  houseTypeFilter.addEventListener('change', function () {
+    createInputSettings();
+    filter();
+  });
+
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
   var filter = function () {
@@ -82,13 +87,17 @@
     filterHotels.splice(window.utilData.HOTEL_COUNTER, filterHotels.length);
     window.card.removePopup();
     for (var i = 0; i < filterHotels.length; i++) {
-      if (filterHotels[i].offer.type !== typeInput.value) {
+      if (filterHotels[i].offer.type !== houseTypeFilter.value) {
         filterHotels.splice(i, 1);
         i--;
       }
     }
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
+    if (houseTypeFilter.value === 'any') {
+      window.utilData.filterStatus = false;
+      window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
+    }
   };
 
   window.form = {
