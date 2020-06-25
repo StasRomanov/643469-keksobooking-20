@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var defaultPinPosition = '603 483';
+  var pinDefaultLeftPosition = '570px';
+  var pinDefaultTopPosition = '375px';
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
@@ -25,10 +28,10 @@
 
   var createInputSettings = function () {
     var minValue = {
-      bungalo: '0',
-      flat: '1000',
-      house: '5000',
-      palace: '10000'
+      'bungalo': '0',
+      'flat': '1000',
+      'house': '5000',
+      'palace': '10000'
     }[typeInput.value];
     priceInput.setAttribute('min', minValue);
     priceInput.setAttribute('placeholder', minValue);
@@ -52,9 +55,9 @@
 
   var setDefaultValue = function () {
     priceInput.setAttribute('placeholder', '1000');
-    window.utilData.mapPinMain.style.left = '570px';
-    window.utilData.mapPinMain.style.top = '375px';
-    window.utilData.addressInput.value = '603 483';
+    window.utilData.mapPinMain.style.left = pinDefaultLeftPosition;
+    window.utilData.mapPinMain.style.top = pinDefaultTopPosition;
+    window.utilData.addressInput.value = defaultPinPosition;
   };
 
   var onResetButtonClick = function (evt) {
