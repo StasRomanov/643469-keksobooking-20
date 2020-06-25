@@ -18,14 +18,14 @@
         window.utilData.hotels = xhr.response;
         onSuccess();
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError();
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError();
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError();
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -35,9 +35,8 @@
     window.main.startPassiveMode();
   };
 
-  var onError = function (message) {
-    throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
-      'Please reload page or check your internet connection.' + '\n' + 'Local data will be used');
+  var onError = function () {
+    window.renderErrorBlock();
   };
 
   window.loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
