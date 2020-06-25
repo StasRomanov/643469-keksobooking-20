@@ -22,14 +22,14 @@
       if (xhr.status === StatusCode.ok) {
         onSuccess();
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError();
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError();
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError();
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -70,6 +70,7 @@
         mainBlock.querySelector('.success').remove();
       } else {
         mainBlock.querySelector('.error').remove();
+        location.reload();
       }
       document.removeEventListener('click', onDocumentClick, false);
     }
@@ -83,11 +84,9 @@
     document.addEventListener('keydown', onDocumentKeydown, false);
   };
 
-  var onError = function (message) {
+  var onError = function () {
     window.utilData.addressInput.setAttribute('disabled', 'true');
     window.renderErrorBlock();
-    throw new Error('\n' + 'something wrong.' + '\n' + message + '\n' +
-      'Please reload page or check your internet connection.');
   };
 
   window.onFormBlockSubmit = function (evt) {
