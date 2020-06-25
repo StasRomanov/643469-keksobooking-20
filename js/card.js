@@ -88,6 +88,13 @@
       photosBlock.appendChild(window.utilData.fragment);
     },
 
+    removePopup: function () {
+      var card = document.querySelector('.popup');
+      if (card) {
+        card.remove();
+      }
+    },
+
     renderHotelInfo: function (hotel) {
       var cloneCardTemplate = cardTemplate.cloneNode(true);
       var hotelHeaderBlock = cloneCardTemplate.querySelector(('.popup__title'));
@@ -101,13 +108,10 @@
       var hotelPhotosBlock = cloneCardTemplate.querySelector('.popup__photos');
       var hotelPhotoBlock = cloneCardTemplate.querySelector('.popup__photo');
       var hotelAvatarBlock = cloneCardTemplate.querySelector('.popup__avatar');
-      var card = document.querySelector('.popup');
       var rooms = hotel.offer.rooms + ' ' + window.card.getWordDeclension(hotel.offer.rooms, window.utilData.ROOMS_DECLENSION) + ' для '
         + hotel.offer.guests + ' ' + window.card.getGuests(hotel.offer.guests, window.utilData.GUESTS_DECLENSION);
       var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
-      if (card) {
-        card.remove();
-      }
+      window.card.removePopup();
       window.utilData.fragment = document.createDocumentFragment();
       hotelHeaderBlock.textContent = hotel.offer.title;
       hotelAddressBlock.textContent = hotel.offer.address;

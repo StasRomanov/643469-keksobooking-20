@@ -21,28 +21,28 @@
       window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
     },
 
-    renderMapPins: function () {
+    renderMapPins: function (hotels, count) {
       window.utilData.fragment = document.createDocumentFragment();
-      for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
+      for (var i = 0; i < count; i++) {
         var photoElement = mapPinPhoto.cloneNode(false);
         var element = templateMapPin.cloneNode(false);
-        element.style.left = window.utilData.hotels[i].location.x + 'px';
-        element.style.top = window.utilData.hotels[i].location.y + 'px';
-        if (window.utilData.hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
+        element.style.left = hotels[i].location.x + 'px';
+        element.style.top = hotels[i].location.y + 'px';
+        if (hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
           window.utilData.mapOverlay.offsetWidth / 100 * 5) {
           element.style.left = window.utilData.mapOverlay.offsetWidth - window.utilData.mapOverlay.offsetWidth / 100 * 5 + 'px';
         }
-        if (window.utilData.hotels[i].location.x < 0) {
+        if (hotels[i].location.x < 0) {
           element.style.left = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
         }
-        if (window.utilData.hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
+        if (hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
           window.utilData.mapOverlay.offsetHeight / 100 * 5) {
           element.style.top = window.utilData.mapOverlay.offsetHeight - window.utilData.mapOverlay.offsetHeight / 100 * 5 + 'px';
         }
-        if (window.utilData.hotels[i].location.y < 0) {
+        if (hotels[i].location.y < 0) {
           element.style.top = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
         }
-        photoElement.src = window.utilData.hotels[i].author.avatar;
+        photoElement.src = hotels[i].author.avatar;
         element.setAttribute('data-id', i);
         element.appendChild(photoElement);
         window.utilData.fragment.appendChild(element);

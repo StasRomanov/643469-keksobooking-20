@@ -36,6 +36,7 @@
 
   typeInput.addEventListener('change', function () {
     createInputSettings();
+    filter();
   });
 
   timeInInput.addEventListener('change', function () {
@@ -73,6 +74,22 @@
   resetButton.addEventListener('click', onResetButtonClick, false);
 
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
+
+  var filter = function () {
+    window.utilData.filterStatus = true;
+    var filterHotels = window.utilData.hotels.slice();
+    window.filterHotels = filterHotels;
+    filterHotels.splice(window.utilData.HOTEL_COUNTER, filterHotels.length);
+    window.card.removePopup();
+    for (var i = 0; i < filterHotels.length; i++) {
+      if (filterHotels[i].offer.type !== typeInput.value) {
+        filterHotels.splice(i, 1);
+        i--;
+      }
+    }
+    window.pin.deleteMapPins();
+    window.pin.renderMapPins(filterHotels, filterHotels.length);
+  };
 
   window.form = {
     setLimitsOnRooms: function () {

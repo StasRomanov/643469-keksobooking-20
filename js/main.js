@@ -5,7 +5,7 @@
     startActiveMode: function () {
       window.utilData.activeStatus = true;
       window.form.formEnable();
-      window.pin.renderMapPins();
+      window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
       window.map.mapEnable();
       window.pin.createMainPinLocation();
     },
