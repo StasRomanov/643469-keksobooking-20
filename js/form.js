@@ -80,59 +80,29 @@
 
   houseTypeFilter.addEventListener('change', function () {
     createInputSettings();
+    filter();
   });
 
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
   var filter = function () {
+    window.utilData.filterStatus = true;
     var filterHotels = [];
-    var elementCount = 0;
     window.filterHotels = filterHotels;
+    filterHotels.splice(window.utilData.HOTEL_COUNTER, filterHotels.length);
     window.card.removePopup();
-    for (var i = 0; i < window.utilData.hotels.length; i++) {
+    for (var i = 0; i < filterHotels.length; i++) {
       if (houseTypeFilter.value === 'any') {
-        console.log('type-any')
-        for (elementCount; elementCount < window.utilData.HOTEL_COUNTER; elementCount++) {
-          filterHotels.push(window.utilData.hotels[elementCount]);
-        }
-        break;
-      } else if (window.utilData.hotels[i].offer.type === houseTypeFilter.value) {
-        console.log('type')
+        window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
+      } else if (filterHotels[i].offer.type !== houseTypeFilter.value) {
         window.utilData.filterStatus = true;
-        filterHotels.push(window.utilData.hotels[i]);
+        filterHotels.splice(i, 1);
+        i--;
       }
     }
-
-    for (i = 0; i < window.utilData.hotels.length; i++) {
-      if (housePriceFilter.value === 'any') {
-        console.log('color-any');
-        for (elementCount; elementCount < window.utilData.HOTEL_COUNTER; elementCount++) {
-          filterHotels.push(window.utilData.hotels[elementCount]);
-        }
-        break;
-      } else if (housePriceFilter.value === 'low' && window.utilData.hotels[i].offer.price < 10000) {
-        window.utilData.filterStatus = true;
-        filterHotels.push(window.utilData.hotels[i]);
-        console.log('low');
-      }
-      if (housePriceFilter.value === 'middle' && window.utilData.hotels[i].offer.price > 10000 &&
-        window.utilData.hotels[i].offer.price < 50000) {
-        window.utilData.filterStatus = true;
-        filterHotels.push(window.utilData.hotels[i]);
-        console.log('middle');
-      }
-      if (housePriceFilter.value === 'high' && window.utilData.hotels[i].offer.price >= 50000) {
-        window.utilData.filterStatus = true;
-        filterHotels.push(window.utilData.hotels[i]);
-        console.log('high');
-      }
-    }
-    console.log(filterHotels);
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
   };
-
-  filterBlock.addEventListener('change', filter, false);
 
   window.form = {
     setLimitsOnRooms: function () {
