@@ -16,6 +16,7 @@
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
   var houseRoomsFilter = document.querySelector('#housing-rooms');
+  var houseGuestFilter = document.querySelector('#housing-guests');
   var filterBlock = document.querySelector('.map__filters');
 
   var enableNumberInput = function (childrenNumber) {
@@ -113,6 +114,11 @@
       }
       if (houseRoomsFilter.value !== 'any') {
         if (String(houseRoomsFilter.value) !== String(window.utilData.hotels[i].offer.rooms)) {
+          coincidence = false;
+        }
+      }
+      if (houseGuestFilter.value !== 'any') {
+        if (String(houseGuestFilter.value) !== String(window.utilData.hotels[i].offer.guests)) {
           coincidence = false;
         }
       }
