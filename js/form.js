@@ -13,18 +13,6 @@
   var roomNumberInput = document.querySelector('#room_number');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
   var resetButton = document.querySelector('.ad-form__reset');
-  var houseTypeFilter = document.querySelector('#housing-type');
-  var housePriceFilter = document.querySelector('#housing-price');
-  var houseRoomsFilter = document.querySelector('#housing-rooms');
-  var houseGuestFilter = document.querySelector('#housing-guests');
-  var checkboxFilter = document.querySelector('#housing-features');
-  var wifiFilter = checkboxFilter.querySelector('#filter-wifi');
-  var dishwasherFilter = checkboxFilter.querySelector('#filter-dishwasher');
-  var parkingFilter = checkboxFilter.querySelector('#filter-parking');
-  var washerFilter = checkboxFilter.querySelector('#filter-washer');
-  var elevatorFilter = checkboxFilter.querySelector('#filter-elevator');
-  var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
-  var filterBlock = document.querySelector('.map__filters');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
@@ -87,143 +75,11 @@
 
   resetButton.addEventListener('click', onResetButtonClick, false);
 
-  houseTypeFilter.addEventListener('change', function () {
-    createInputSettings();
-  });
+  // houseTypeFilter.addEventListener('change', function () {
+  //   createInputSettings();
+  // });
 
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
-
-  var onFilterBlockChange = function () {
-    window.utilData.filterStatus = true;
-    var coincidence = true;
-    var filterHotels = [];
-    for (var i = 0; i < window.utilData.hotels.length; i++) {
-      coincidence = true;
-      if (houseTypeFilter.value !== 'any') {
-        coincidence = window.utilData.hotels[i].offer.type === houseTypeFilter.value;
-      }
-      if (housePriceFilter.value !== 'any') {
-        if (housePriceFilter.value === 'low') {
-          if (window.utilData.hotels[i].offer.price > 10000) {
-            coincidence = false;
-          }
-        }
-        if (housePriceFilter.value === 'middle') {
-          if (window.utilData.hotels[i].offer.price <= 10000 || window.utilData.hotels[i].offer.price > 50000) {
-            coincidence = false;
-          }
-        }
-        if (housePriceFilter.value === 'high') {
-          if (window.utilData.hotels[i].offer.price <= 50000) {
-            coincidence = false;
-          }
-        }
-      }
-      if (houseRoomsFilter.value !== 'any') {
-        if (String(houseRoomsFilter.value) !== String(window.utilData.hotels[i].offer.rooms)) {
-          coincidence = false;
-        }
-      }
-      if (houseGuestFilter.value !== 'any') {
-        if (String(houseGuestFilter.value) !== String(window.utilData.hotels[i].offer.guests)) {
-          coincidence = false;
-        }
-      }
-      if (wifiFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (var j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'wifi') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (dishwasherFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'dishwasher') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (parkingFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'parking') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (washerFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'washer') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (elevatorFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'elevator') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (conditionerFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === 'conditioner') {
-              console.log(window.utilData.hotels[i].offer.features[j]);
-              break;
-            } else {
-              coincidence = false;
-            }
-          }
-        }
-      }
-      if (coincidence) {
-        filterHotels.push(window.utilData.hotels[i]);
-      }
-    }
-    window.filterHotels = filterHotels;
-    window.card.removePopup();
-    window.pin.deleteMapPins();
-    window.pin.renderMapPins(filterHotels, filterHotels.length);
-  };
-
-  filterBlock.addEventListener('change', onFilterBlockChange, false);
 
   window.form = {
     setLimitsOnRooms: function () {
