@@ -17,6 +17,13 @@
   var housePriceFilter = document.querySelector('#housing-price');
   var houseRoomsFilter = document.querySelector('#housing-rooms');
   var houseGuestFilter = document.querySelector('#housing-guests');
+  var checkboxFilter = document.querySelector('#housing-features');
+  var wifiFilter = checkboxFilter.querySelector('#filter-wifi');
+  var dishwasherFilter = checkboxFilter.querySelector('#filter-dishwasher');
+  var parkingFilter = checkboxFilter.querySelector('#filter-parking');
+  var washerFilter = checkboxFilter.querySelector('#filter-washer');
+  var elevatorFilter = checkboxFilter.querySelector('#filter-elevator');
+  var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
 
   var enableNumberInput = function (childrenNumber) {
@@ -120,6 +127,90 @@
       if (houseGuestFilter.value !== 'any') {
         if (String(houseGuestFilter.value) !== String(window.utilData.hotels[i].offer.guests)) {
           coincidence = false;
+        }
+      }
+      if (wifiFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (var j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'wifi') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
+        }
+      }
+      if (dishwasherFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'dishwasher') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
+        }
+      }
+      if (parkingFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'parking') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
+        }
+      }
+      if (washerFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'washer') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
+        }
+      }
+      if (elevatorFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'elevator') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
+        }
+      }
+      if (conditionerFilter.checked) {
+        if (window.utilData.hotels[i].offer.features.length === 0) {
+          coincidence = false;
+        } else {
+          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
+            if (window.utilData.hotels[i].offer.features[j] === 'conditioner') {
+              console.log(window.utilData.hotels[i].offer.features[j]);
+              break;
+            } else {
+              coincidence = false;
+            }
+          }
         }
       }
       if (coincidence) {
