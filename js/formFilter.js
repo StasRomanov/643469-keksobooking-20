@@ -30,10 +30,20 @@
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
 
-  var defaultValue = function () {
-    window.utilData.filterStatus = true;
+  var defaultValue = function (inCycle) {
+    if (inCycle) {
+      featuresCoincidence = true;
+    } else {
+      window.utilData.filterStatus = true;
+      featuresCoincidence = false;
+    }
     coincidence = true;
-    featuresCoincidence = false;
+  };
+
+  var filterType = function (iteration, filter) {
+    if (filter.value !== filterData.filterValueAny) {
+      coincidence = window.utilData.hotels[iteration].offer.type === houseTypeFilter.value;
+    }
   };
 
   var filterMoney = function (iteration, filter, mode) {
@@ -48,14 +58,14 @@
       if (mode === 'middle') {
         if (filter.value === filterData.filterMoneyValueMiddle) {
           if (window.utilData.hotels[iteration].offer.price <= filterData.filterMoneyLow ||
-            window.utilData.hotels[iteration].offer.price > filterData.filterMoneyLow) {
+            window.utilData.hotels[iteration].offer.price > filterData.filterMoneyHigh) {
             coincidence = false;
           }
         }
       }
       if (mode === 'high') {
         if (filter.value === filterData.filterMoneyValueHigh) {
-          if (window.utilData.hotels[iteration].offer.price <= filterData.filterMoneyLow) {
+          if (window.utilData.hotels[iteration].offer.price <= filterData.filterMoneyHigh) {
             coincidence = false;
           }
         }
@@ -96,20 +106,22 @@
     }
   };
 
+  var pushHotel = function (iteration, hotels) {
+    if (coincidence) {
+      hotels.push(window.utilData.hotels[iteration]);
+    }
+  };
+
   var onFilterBlockChange = function () {
-    defaultValue();
+    defaultValue(false);
     var filterHotels = [];
     for (var i = 0; i < window.utilData.hotels.length; i++) {
-      coincidence = true;
-      featuresCoincidence = true;
-      if (houseTypeFilter.value !== filterData.filterValueAny) {
-        coincidence = window.utilData.hotels[i].offer.type === houseTypeFilter.value;
-      }
-      if (housePriceFilter.value !== filterData.filterValueAny) {
-        filterMoney(i, housePriceFilter, 'low');
-        filterMoney(i, housePriceFilter, 'middle');
-        filterMoney(i, housePriceFilter, 'high');
-      }
+      defaultValue(true);
+      filterType(i, houseTypeFilter);
+      filterMoney(i, housePriceFilter, 'low');
+      filterMoney(i, housePriceFilter, 'middle');
+      console.log(coincidence);
+      filterMoney(i, housePriceFilter, 'high');
       filterRoomsGuests(i, houseRoomsFilter, 'room');
       filterRoomsGuests(i, houseGuestFilter, 'guest');
       filterFeature(i, filterData.filterFeatureWifi, wifiFilter);
@@ -118,10 +130,10 @@
       filterFeature(i, filterData.filterFeatureWasher, washerFilter);
       filterFeature(i, filterData.filterFeatureElevator, elevatorFilter);
       filterFeature(i, filterData.filterFeatureConditioner, conditionerFilter);
-
-      if (coincidence) {
-        filterHotels.push(window.utilData.hotels[i]);
-      }
+      // if (coincidence) {
+      //   filterHotels.push(window.utilData.hotels[i]);
+      // }
+      pushHotel(i, filterHotels);
     }
     window.filterHotels = filterHotels;
     window.card.removePopup();
