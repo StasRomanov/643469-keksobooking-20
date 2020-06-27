@@ -120,7 +120,6 @@
       filterType(i, houseTypeFilter);
       filterMoney(i, housePriceFilter, 'low');
       filterMoney(i, housePriceFilter, 'middle');
-      console.log(coincidence);
       filterMoney(i, housePriceFilter, 'high');
       filterRoomsGuests(i, houseRoomsFilter, 'room');
       filterRoomsGuests(i, houseGuestFilter, 'guest');
@@ -130,9 +129,6 @@
       filterFeature(i, filterData.filterFeatureWasher, washerFilter);
       filterFeature(i, filterData.filterFeatureElevator, elevatorFilter);
       filterFeature(i, filterData.filterFeatureConditioner, conditionerFilter);
-      // if (coincidence) {
-      //   filterHotels.push(window.utilData.hotels[i]);
-      // }
       pushHotel(i, filterHotels);
     }
     window.filterHotels = filterHotels;
