@@ -15,6 +15,8 @@
     filterFeatureElevator: 'elevator',
     filterFeatureConditioner: 'conditioner'
   };
+  var coincidence = true;
+  var featuresCoincidence = false;
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
   var houseRoomsFilter = document.querySelector('#housing-rooms');
@@ -28,10 +30,29 @@
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
 
+  var filterFeature = function (iteration, data, filter) {
+    if (filter.checked) {
+      var j = 0;
+      if (window.utilData.hotels[iteration].offer.features.length === 0) {
+        coincidence = false;
+      } else {
+        featuresCoincidence = false;
+        for (j = 0; j < window.utilData.hotels[iteration].offer.features.length; j++) {
+          if (window.utilData.hotels[iteration].offer.features[j] === data) {
+            featuresCoincidence = true;
+          }
+        }
+        if (!featuresCoincidence) {
+          coincidence = false;
+        }
+      }
+    }
+  };
+
   var onFilterBlockChange = function () {
     window.utilData.filterStatus = true;
-    var coincidence = true;
-    var featuresCoincidence = false;
+    coincidence = true;
+    featuresCoincidence = false;
     var filterHotels = [];
     for (var i = 0; i < window.utilData.hotels.length; i++) {
       coincidence = true;
@@ -66,101 +87,13 @@
           coincidence = false;
         }
       }
-      if (wifiFilter.checked) {
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (var j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureWifi) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
-      if (dishwasherFilter.checked) {
-        j = 0;
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureDishwasher) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
-      if (parkingFilter.checked) {
-        j = 0;
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureParking) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
-      if (washerFilter.checked) {
-        j = 0;
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureWasher) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
-      if (elevatorFilter.checked) {
-        j = 0;
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureElevator) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
-      if (conditionerFilter.checked) {
-        j = 0;
-        if (window.utilData.hotels[i].offer.features.length === 0) {
-          coincidence = false;
-        } else {
-          featuresCoincidence = false;
-          for (j = 0; j < window.utilData.hotels[i].offer.features.length; j++) {
-            if (window.utilData.hotels[i].offer.features[j] === filterData.filterFeatureConditioner) {
-              featuresCoincidence = true;
-            }
-          }
-          if (!featuresCoincidence) {
-            coincidence = false;
-          }
-        }
-      }
+      filterFeature(i, filterData.filterFeatureWifi, wifiFilter);
+      filterFeature(i, filterData.filterFeatureDishwasher, dishwasherFilter);
+      filterFeature(i, filterData.filterFeatureParking, parkingFilter);
+      filterFeature(i, filterData.filterFeatureWasher, washerFilter);
+      filterFeature(i, filterData.filterFeatureElevator, elevatorFilter);
+      filterFeature(i, filterData.filterFeatureConditioner, conditionerFilter);
+
       if (coincidence) {
         filterHotels.push(window.utilData.hotels[i]);
       }
