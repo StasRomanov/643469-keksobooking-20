@@ -80,29 +80,47 @@
 
   houseTypeFilter.addEventListener('change', function () {
     createInputSettings();
-    filter();
   });
 
   window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
 
-  var filter = function () {
+  var onFilterBlockChange = function () {
     window.utilData.filterStatus = true;
+    var coincidence = true;
     var filterHotels = [];
-    window.filterHotels = filterHotels;
-    filterHotels.splice(window.utilData.HOTEL_COUNTER, filterHotels.length);
-    window.card.removePopup();
-    for (var i = 0; i < filterHotels.length; i++) {
-      if (houseTypeFilter.value === 'any') {
-        window.pin.renderMapPins(window.utilData.hotels, window.utilData.HOTEL_COUNTER);
-      } else if (filterHotels[i].offer.type !== houseTypeFilter.value) {
-        window.utilData.filterStatus = true;
-        filterHotels.splice(i, 1);
-        i--;
+    for (var i = 0; i < window.utilData.hotels.length; i++) {
+      coincidence = true;
+      if (houseTypeFilter.value !== 'any') {
+        coincidence = window.utilData.hotels[i].offer.type === houseTypeFilter.value;
+      }
+      if (housePriceFilter.value !== 'any') {
+        if (housePriceFilter.value === 'low') {
+          if (window.utilData.hotels[i].offer.price > 10000) {
+            coincidence = false;
+          }
+        }
+        if (housePriceFilter.value === 'middle') {
+          if (window.utilData.hotels[i].offer.price <= 10000 || window.utilData.hotels[i].offer.price > 50000) {
+            coincidence = false;
+          }
+        }
+        if (housePriceFilter.value === 'high') {
+          if (window.utilData.hotels[i].offer.price <= 50000) {
+            coincidence = false;
+          }
+        }
+      }
+      if (coincidence) {
+        filterHotels.push(window.utilData.hotels[i]);
       }
     }
+    window.filterHotels = filterHotels;
+    window.card.removePopup();
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
   };
+
+  filterBlock.addEventListener('change', onFilterBlockChange, false);
 
   window.form = {
     setLimitsOnRooms: function () {

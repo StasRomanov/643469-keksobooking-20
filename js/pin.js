@@ -23,6 +23,9 @@
 
     renderMapPins: function (hotels, count) {
       window.utilData.fragment = document.createDocumentFragment();
+      if (count > window.utilData.HOTEL_COUNTER) {
+        count = window.utilData.HOTEL_COUNTER;
+      }
       for (var i = 0; i < count; i++) {
         var photoElement = mapPinPhoto.cloneNode(false);
         var element = templateMapPin.cloneNode(false);
