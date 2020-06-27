@@ -15,6 +15,7 @@
   var resetButton = document.querySelector('.ad-form__reset');
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
+  var houseRoomsFilter = document.querySelector('#housing-rooms');
   var filterBlock = document.querySelector('.map__filters');
 
   var enableNumberInput = function (childrenNumber) {
@@ -108,6 +109,11 @@
           if (window.utilData.hotels[i].offer.price <= 50000) {
             coincidence = false;
           }
+        }
+      }
+      if (houseRoomsFilter.value !== 'any') {
+        if (String(houseRoomsFilter.value) !== String(window.utilData.hotels[i].offer.rooms)) {
+          coincidence = false;
         }
       }
       if (coincidence) {
