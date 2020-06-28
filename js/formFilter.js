@@ -90,21 +90,23 @@
   };
 
   var onFilterBlockChange = function () {
-    window.utilData.filterStatus = true;
-    var filterHotels;
-    result = window.utilData.hotels;
-    filterType();
-    filterMoney();
-    filterRooms();
-    filterGuests();
-    for (var i = 0; i < features.length; i++) {
-      filterFeature(featuresBlocks[i], features[i]);
-    }
-    filterHotels = result;
-    window.filterHotels = filterHotels;
-    window.card.removePopup();
-    window.pin.deleteMapPins();
-    window.pin.renderMapPins(filterHotels, filterHotels.length);
+    window.debounce(function () {
+      window.utilData.filterStatus = true;
+      var filterHotels;
+      result = window.utilData.hotels;
+      filterType();
+      filterMoney();
+      filterRooms();
+      filterGuests();
+      for (var i = 0; i < features.length; i++) {
+        filterFeature(featuresBlocks[i], features[i]);
+      }
+      filterHotels = result;
+      window.filterHotels = filterHotels;
+      window.card.removePopup();
+      window.pin.deleteMapPins();
+      window.pin.renderMapPins(filterHotels, filterHotels.length);
+    }, 1500, !window.utilData.filterStatus);
   };
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
