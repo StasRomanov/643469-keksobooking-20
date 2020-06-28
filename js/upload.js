@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var fragment = document.createDocumentFragment();
   var mainBlock = document.body.querySelector('main');
   var header = mainBlock.querySelector('.promo');
   var errorTemplate = document.querySelector('#error');
@@ -36,10 +37,10 @@
   };
 
   var renderSuccessBlock = function () {
-    window.utilData.fragment = document.createDocumentFragment();
     var successBlock = successTemplate.content.cloneNode(true);
-    window.utilData.fragment.appendChild(successBlock);
-    mainBlock.insertBefore(window.utilData.fragment, header);
+    fragment = document.createDocumentFragment();
+    fragment.appendChild(successBlock);
+    mainBlock.insertBefore(fragment, header);
   };
 
   var onDocumentClick = function (evt) {
@@ -95,11 +96,11 @@
   };
 
   window.renderErrorBlock = function () {
-    window.utilData.fragment = document.createDocumentFragment();
     var errorBlock = errorTemplate.content.cloneNode(true);
-    window.utilData.fragment.appendChild(errorBlock);
-    mainBlock.insertBefore(window.utilData.fragment, header);
     var reloadButton = document.querySelector('.error__button');
+    fragment = document.createDocumentFragment();
+    fragment.appendChild(errorBlock);
+    mainBlock.insertBefore(fragment, header);
     reloadButton.addEventListener('click', onReloadButtonClick, false);
     document.addEventListener('click', onDocumentClick, false);
     document.addEventListener('keydown', onDocumentKeydown, false);

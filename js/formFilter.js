@@ -2,18 +2,18 @@
 
 (function () {
   var filterData = {
-    filterMoneyLow: 10000,
-    filterMoneyHigh: 50000,
-    filterValueAny: 'any',
-    filterMoneyValueLow: 'low',
-    filterMoneyValueMiddle: 'middle',
-    filterMoneyValueHigh: 'high',
-    filterFeatureWifi: 'wifi',
-    filterFeatureDishwasher: 'dishwasher',
-    filterFeatureParking: 'parking',
-    filterFeatureWasher: 'washer',
-    filterFeatureElevator: 'elevator',
-    filterFeatureConditioner: 'conditioner'
+    moneyLow: 10000,
+    moneyHigh: 50000,
+    valueAny: 'any',
+    moneyValueLow: 'low',
+    moneyValueMiddle: 'middle',
+    moneyValueHigh: 'high',
+    featureWifi: 'wifi',
+    featureDishwasher: 'dishwasher',
+    featureParking: 'parking',
+    featureWasher: 'washer',
+    featureElevator: 'elevator',
+    featureConditioner: 'conditioner'
   };
   var coincidence = true;
   var featuresCoincidence = false;
@@ -30,7 +30,7 @@
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
 
-  var defaultValue = function (inCycle) {
+  var setDefaultValue = function (inCycle) {
     if (inCycle) {
       featuresCoincidence = true;
     } else {
@@ -41,31 +41,31 @@
   };
 
   var filterType = function (iteration, filter) {
-    if (filter.value !== filterData.filterValueAny) {
+    if (filter.value !== filterData.valueAny) {
       coincidence = window.utilData.hotels[iteration].offer.type === houseTypeFilter.value;
     }
   };
 
   var filterMoney = function (iteration, filter, mode) {
-    if (filter.value !== filterData.filterValueAny) {
+    if (filter.value !== filterData.valueAny) {
       if (mode === 'low') {
-        if (filter.value === filterData.filterMoneyValueLow) {
-          if (window.utilData.hotels[iteration].offer.price > filterData.filterMoneyLow) {
+        if (filter.value === filterData.moneyValueLow) {
+          if (window.utilData.hotels[iteration].offer.price > filterData.moneyLow) {
             coincidence = false;
           }
         }
       }
       if (mode === 'middle') {
-        if (filter.value === filterData.filterMoneyValueMiddle) {
-          if (window.utilData.hotels[iteration].offer.price <= filterData.filterMoneyLow ||
-            window.utilData.hotels[iteration].offer.price > filterData.filterMoneyHigh) {
+        if (filter.value === filterData.moneyValueMiddle) {
+          if (window.utilData.hotels[iteration].offer.price <= filterData.moneyLow ||
+            window.utilData.hotels[iteration].offer.price > filterData.moneyHigh) {
             coincidence = false;
           }
         }
       }
       if (mode === 'high') {
-        if (filter.value === filterData.filterMoneyValueHigh) {
-          if (window.utilData.hotels[iteration].offer.price <= filterData.filterMoneyHigh) {
+        if (filter.value === filterData.moneyValueHigh) {
+          if (window.utilData.hotels[iteration].offer.price <= filterData.moneyHigh) {
             coincidence = false;
           }
         }
@@ -74,7 +74,7 @@
   };
 
   var filterRoomsGuests = function (iteration, filter, mode) {
-    if (filter.value !== filterData.filterValueAny) {
+    if (filter.value !== filterData.valueAny) {
       if (mode === 'room') {
         if (String(filter.value) !== String(window.utilData.hotels[iteration].offer.rooms)) {
           coincidence = false;
@@ -113,22 +113,22 @@
   };
 
   var onFilterBlockChange = function () {
-    defaultValue(false);
+    setDefaultValue(false);
     var filterHotels = [];
     for (var i = 0; i < window.utilData.hotels.length; i++) {
-      defaultValue(true);
+      setDefaultValue(true);
       filterType(i, houseTypeFilter);
       filterMoney(i, housePriceFilter, 'low');
       filterMoney(i, housePriceFilter, 'middle');
       filterMoney(i, housePriceFilter, 'high');
       filterRoomsGuests(i, houseRoomsFilter, 'room');
       filterRoomsGuests(i, houseGuestFilter, 'guest');
-      filterFeature(i, filterData.filterFeatureWifi, wifiFilter);
-      filterFeature(i, filterData.filterFeatureDishwasher, dishwasherFilter);
-      filterFeature(i, filterData.filterFeatureParking, parkingFilter);
-      filterFeature(i, filterData.filterFeatureWasher, washerFilter);
-      filterFeature(i, filterData.filterFeatureElevator, elevatorFilter);
-      filterFeature(i, filterData.filterFeatureConditioner, conditionerFilter);
+      filterFeature(i, filterData.featureWifi, wifiFilter);
+      filterFeature(i, filterData.featureDishwasher, dishwasherFilter);
+      filterFeature(i, filterData.featureParking, parkingFilter);
+      filterFeature(i, filterData.featureWasher, washerFilter);
+      filterFeature(i, filterData.featureElevator, elevatorFilter);
+      filterFeature(i, filterData.featureConditioner, conditionerFilter);
       pushHotel(i, filterHotels);
     }
     window.filterHotels = filterHotels;

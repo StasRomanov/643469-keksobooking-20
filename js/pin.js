@@ -1,7 +1,9 @@
 'use strict';
 
 (function () {
+  var fragment = document.createDocumentFragment();
   var mapPinDefaultLocationX = 570;
+  var mapPinDefaultLocationY = 375;
   var template = document.querySelector('#pin').content;
   var templateMapPin = template.querySelector('.map__pin');
   var mapPinPhoto = template.querySelector('img');
@@ -9,7 +11,6 @@
   var mapPinMainHeight = window.utilData.mapPinMain.offsetHeight;
   var mapPinMainLocationX = mapPinMainHeight / 2;
   var mapPinMainLocationY = mapPinMainWidth + 22;
-  var mapPinDefaultLocationY = 375;
 
   window.pin = {
     createMainPinLocation: function () {
@@ -22,7 +23,7 @@
     },
 
     renderMapPins: function (hotels, count) {
-      window.utilData.fragment = document.createDocumentFragment();
+      fragment = document.createDocumentFragment();
       if (count > window.utilData.HOTEL_COUNTER) {
         count = window.utilData.HOTEL_COUNTER;
       }
@@ -48,9 +49,9 @@
         photoElement.src = hotels[i].author.avatar;
         element.setAttribute('data-id', i);
         element.appendChild(photoElement);
-        window.utilData.fragment.appendChild(element);
+        fragment.appendChild(element);
       }
-      window.utilData.mapPin.appendChild(window.utilData.fragment);
+      window.utilData.mapPin.appendChild(fragment);
     },
 
     deleteMapPins: function () {
