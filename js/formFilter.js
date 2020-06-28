@@ -138,4 +138,20 @@
   };
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
+
+  window.formFilter = {
+    filterDisable: function () {
+      filterBlock.reset();
+      filterBlock.classList.add('ad-form--disabled');
+      for (var k = 0; k < filterBlock.length; k++) {
+        filterBlock[k].setAttribute('disabled', 'true');
+      }
+    },
+    filterEnable: function () {
+      for (var k = 0; k < filterBlock.length; k++) {
+        filterBlock[k].removeAttribute('disabled');
+      }
+      filterBlock.classList.remove('ad-form--disabled');
+    }
+  };
 })();

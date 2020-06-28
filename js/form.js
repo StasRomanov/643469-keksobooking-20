@@ -108,6 +108,7 @@
       }
       formHeader.removeAttribute('disabled');
       window.utilData.formBlock.classList.remove('ad-form--disabled');
+      window.formFilter.filterEnable();
     },
 
     formDisable: function () {
@@ -122,6 +123,7 @@
       window.utilData.formBlock.reset();
       setDefaultValue();
       window.form.setLimitsOnRooms();
+      window.formFilter.filterDisable();
     }
   };
 })();
