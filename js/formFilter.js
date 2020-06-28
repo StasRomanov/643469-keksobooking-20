@@ -111,7 +111,8 @@
       window.card.removePopup();
       window.pin.deleteMapPins();
       window.pin.renderMapPins(filterHotels, filterHotels.length);
-    }, 1500, !window.utilData.filterStatus);
+      window.currentTime = Date.parse(new Date().toISOString());
+    }, 1500, !window.utilData.filterStatus, true);
   };
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
