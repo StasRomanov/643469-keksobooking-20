@@ -14,6 +14,7 @@
         window.form.formDisable();
         window.map.mapDisable();
         window.pin.deleteMapPins();
+        window.utilData.filterStatus = false;
       }
     }
   };
