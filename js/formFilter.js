@@ -29,6 +29,7 @@
   var elevatorFilter = checkboxFilter.querySelector('#filter-elevator');
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
+  var result = [];
 
   var setDefaultValue = function (inCycle) {
     if (inCycle) {
@@ -115,6 +116,51 @@
   var onFilterBlockChange = function () {
     setDefaultValue(false);
     var filterHotels = [];
+    result = window.utilData.hotels;
+    if (houseTypeFilter.value !== filterData.valueAny) {
+      result = result.filter(function (word) {
+        return word.offer.type === houseTypeFilter.value;
+      });
+    }
+    if (housePriceFilter.value !== filterData.valueAny) {
+      result = result.filter(function (word) {
+        if (housePriceFilter.value === filterData.moneyValueLow) {
+          return word.offer.price < filterData.moneyLow;
+        } else if (housePriceFilter.value === filterData.moneyValueMiddle) {
+          return word.offer.price >= filterData.moneyLow && word.offer.price < filterData.moneyHigh;
+        } else if (housePriceFilter.value === filterData.moneyValueHigh) {
+          return word.offer.price >= filterData.moneyHigh;
+        }
+        return null;
+      });
+    }
+    if (houseRoomsFilter.value !== filterData.valueAny) {
+      result = result.filter(function (word) {
+        if (String(houseRoomsFilter.value) === String(word.offer.rooms)) {
+          return word;
+        }
+        return null;
+      });
+    }
+    if (houseGuestFilter.value !== filterData.valueAny) {
+      result = result.filter(function (word) {
+        if (String(houseGuestFilter.value) === String(word.offer.guests)) {
+          return word;
+        }
+        return null;
+      });
+    }
+    if (wifiFilter.checked) {
+      result = result.filter(function (word) {
+        for (var i = 0; i < word.offer.features.length; i++) {
+          if (word.offer.features[i] === filterData.featureWifi) {
+            return word;
+          }
+        }
+        return null;
+      });
+    }
+    console.log(result);
     for (var i = 0; i < window.utilData.hotels.length; i++) {
       setDefaultValue(true);
       filterType(i, houseTypeFilter);
