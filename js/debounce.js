@@ -10,7 +10,7 @@
       if (lastTimeout) {
         window.clearTimeout(lastTimeout);
       }
-      lastTimeout = window.setTimeout(function () {
+      lastTimeout = setTimeout(function () {
         callback.apply(null, parameters);
       }, interval);
     };

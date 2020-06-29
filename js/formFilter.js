@@ -105,7 +105,7 @@
     window.card.removePopup();
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
-  }, 1);
+  }, 1500);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
 
