@@ -7,13 +7,7 @@
     valueAny: 'any',
     moneyValueLow: 'low',
     moneyValueMiddle: 'middle',
-    moneyValueHigh: 'high',
-    featureWifi: 'wifi',
-    featureDishwasher: 'dishwasher',
-    featureParking: 'parking',
-    featureWasher: 'washer',
-    featureElevator: 'elevator',
-    featureConditioner: 'conditioner'
+    moneyValueHigh: 'high'
   };
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
@@ -27,7 +21,7 @@
   var elevatorFilter = checkboxFilter.querySelector('#filter-elevator');
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
-  var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var features = [wifiFilter.value, dishwasherFilter.value, parkingFilter.value, washerFilter.value, elevatorFilter.value, conditionerFilter.value];
   var featuresBlocks = [wifiFilter, dishwasherFilter, parkingFilter, washerFilter, elevatorFilter, conditionerFilter];
   var result = [];
 
@@ -94,38 +88,35 @@
     return currentHotel;
   };
 
-  var onFilterBlockChange = function () {
-    window.debounce(function () {
-      window.utilData.filterStatus = true;
-      var filterHotels;
-      result = window.utilData.hotels;
-      result = filterType(result);
-      result = filterMoney(result);
-      result = filterRooms(result);
-      result = filterGuests(result);
-      for (var i = 0; i < features.length; i++) {
-        result = filterFeature(result, featuresBlocks[i], features[i]);
-      }
-      filterHotels = result;
-      window.filterHotels = filterHotels;
-      window.card.removePopup();
-      window.pin.deleteMapPins();
-      window.pin.renderMapPins(filterHotels, filterHotels.length);
-      window.currentTime = Date.parse(new Date().toISOString());
-    }, 1500, !window.utilData.filterStatus, true);
-  };
+  var onFilterBlockChange = window.debounce(function () {
+    window.utilData.filterStatus = true;
+    var filterHotels;
+    result = window.utilData.hotels;
+    result = filterType(result);
+    result = filterMoney(result);
+    result = filterRooms(result);
+    result = filterGuests(result);
+    for (var i = 0; i < features.length; i++) {
+      result = filterFeature(result, featuresBlocks[i], features[i]);
+    }
+    filterHotels = result;
+    window.filterHotels = filterHotels;
+    window.card.removePopup();
+    window.pin.deleteMapPins();
+    window.pin.renderMapPins(filterHotels, filterHotels.length);
+  }, 1500);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
 
   window.formFilter = {
-    filterDisable: function () {
+    disable: function () {
       filterBlock.reset();
       filterBlock.classList.add('ad-form--disabled');
       for (var k = 0; k < filterBlock.length; k++) {
         filterBlock[k].setAttribute('disabled', 'true');
       }
     },
-    filterEnable: function () {
+    enable: function () {
       for (var k = 0; k < filterBlock.length; k++) {
         filterBlock[k].removeAttribute('disabled');
       }

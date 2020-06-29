@@ -49,7 +49,7 @@
   };
 
   var getGuests = function (hotelGuests) {
-    if (hotelGuests % 10 === 1 && hotelGuests !== 11) {
+    if (hotelGuests % 10 === 1 && hotelGuests % 100 !== 11) {
       return ' гостя.';
     } else {
       return ' гостей.';
