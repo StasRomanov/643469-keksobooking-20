@@ -75,17 +75,20 @@
   };
 
   var filterFeature = function (currentHotel, filter, data) {
-    if (filter.checked) {
-      return currentHotel.filter(function (hotelInfo) {
-        for (var i = 0; i < hotelInfo.offer.features.length; i++) {
-          if (hotelInfo.offer.features[i] === data) {
-            return hotelInfo;
+    var currentResult = currentHotel;
+    for (var j = 0; j < features.length; j++) {
+      if (filter[j].checked) {
+        currentResult = currentResult.filter(function (hotelInfo) {
+          for (var i = 0; i < hotelInfo.offer.features.length; i++) {
+            if (hotelInfo.offer.features[i] === data[j]) {
+              return hotelInfo;
+            }
           }
-        }
-        return false;
-      });
+          return false;
+        });
+      }
     }
-    return currentHotel;
+    return currentResult;
   };
 
   var onFilterBlockChange = window.debounce(function () {
@@ -96,15 +99,13 @@
     result = filterMoney(result);
     result = filterRooms(result);
     result = filterGuests(result);
-    for (var i = 0; i < features.length; i++) {
-      result = filterFeature(result, featuresBlocks[i], features[i]);
-    }
+    result = filterFeature(result, featuresBlocks, features);
     filterHotels = result;
     window.filterHotels = filterHotels;
     window.card.removePopup();
     window.pin.deleteMapPins();
     window.pin.renderMapPins(filterHotels, filterHotels.length);
-  }, 1500);
+  }, 1);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
 
