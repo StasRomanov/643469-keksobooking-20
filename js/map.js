@@ -10,10 +10,18 @@
           return;
         }
       }
-      if (target.tagName === 'BUTTON') {
-        for (var i = 0; i < window.utilData.hotels.length; i++) {
-          if (String(i) === target.getAttribute('data-id')) {
-            window.card.renderHotelInfo(window.utilData.hotels[i]);
+      if (window.utilData.filterStatus) {
+        if (target.tagName === 'BUTTON') {
+          for (var i = 0; i < window.filterHotels.length; i++) {
+            if (String(i) === target.getAttribute('data-id')) {
+              window.card.renderHotelInfo(window.filterHotels[i]);
+            }
+          }
+        }
+      } else {
+        for (var j = 0; j < window.utilData.hotels.length; j++) {
+          if (String(j) === target.getAttribute('data-id')) {
+            window.card.renderHotelInfo(window.utilData.hotels[j]);
           }
         }
       }
@@ -40,6 +48,6 @@
           window.main.startActiveMode();
         }
       });
-    }
+    },
   };
 })();

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var HOTEL_COUNTER = 8;
+  var HOTEL_COUNTER = 5;
   var MAP_PIN_TRIANGLE_HEIGHT = 22;
   var LEFT_MOUSE_CODE = 0;
   var MAP_SAFE_BORDER_ZONE = 10;
@@ -22,6 +22,7 @@
   var hotels = [];
   var hotelsSequence = [];
   var activeStatus = false;
+  var filterStatus = false;
 
   window.utilData = {
     HOTEL_COUNTER: HOTEL_COUNTER,
@@ -43,6 +44,7 @@
     GUESTS_DECLENSION: GUESTS_DECLENSION,
     mapOverlay: mapOverlay,
     MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE,
-    formBlock: formBlock
+    formBlock: formBlock,
+    filterStatus: filterStatus
   };
 })();

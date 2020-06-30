@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-  var defaultPinPosition = '603 483';
-  var pinDefaultLeftPosition = '570px';
-  var pinDefaultTopPosition = '375px';
+  var pinDefaultLeftPosition = 570;
+  var pinDefaultTopPosition = 375;
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
@@ -55,9 +54,9 @@
 
   var setDefaultValue = function () {
     priceInput.setAttribute('placeholder', '1000');
-    window.utilData.mapPinMain.style.left = pinDefaultLeftPosition;
-    window.utilData.mapPinMain.style.top = pinDefaultTopPosition;
-    window.utilData.addressInput.value = defaultPinPosition;
+    window.utilData.mapPinMain.style.left = pinDefaultLeftPosition + 'px';
+    window.utilData.mapPinMain.style.top = pinDefaultTopPosition + 'px';
+    window.pin.createMainPinLocation();
   };
 
   var onResetButtonClick = function (evt) {
@@ -109,6 +108,7 @@
       }
       formHeader.removeAttribute('disabled');
       window.utilData.formBlock.classList.remove('ad-form--disabled');
+      window.formFilter.enable();
     },
 
     formDisable: function () {
@@ -123,6 +123,7 @@
       window.utilData.formBlock.reset();
       setDefaultValue();
       window.form.setLimitsOnRooms();
+      window.formFilter.disable();
     }
   };
 })();

@@ -1,7 +1,9 @@
 'use strict';
 
 (function () {
+  var fragment = document.createDocumentFragment();
   var mapPinDefaultLocationX = 570;
+  var mapPinDefaultLocationY = 375;
   var template = document.querySelector('#pin').content;
   var templateMapPin = template.querySelector('.map__pin');
   var mapPinPhoto = template.querySelector('img');
@@ -9,7 +11,6 @@
   var mapPinMainHeight = window.utilData.mapPinMain.offsetHeight;
   var mapPinMainLocationX = mapPinMainHeight / 2;
   var mapPinMainLocationY = mapPinMainWidth + 22;
-  var mapPinDefaultLocationY = 375;
 
   window.pin = {
     createMainPinLocation: function () {
@@ -21,33 +22,36 @@
       window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
     },
 
-    renderMapPins: function () {
-      window.utilData.fragment = document.createDocumentFragment();
-      for (var i = 0; i < window.utilData.HOTEL_COUNTER; i++) {
+    renderMapPins: function (hotels, count) {
+      fragment = document.createDocumentFragment();
+      if (count > window.utilData.HOTEL_COUNTER) {
+        count = window.utilData.HOTEL_COUNTER;
+      }
+      for (var i = 0; i < count; i++) {
         var photoElement = mapPinPhoto.cloneNode(false);
         var element = templateMapPin.cloneNode(false);
-        element.style.left = window.utilData.hotels[i].location.x + 'px';
-        element.style.top = window.utilData.hotels[i].location.y + 'px';
-        if (window.utilData.hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
+        element.style.left = hotels[i].location.x + 'px';
+        element.style.top = hotels[i].location.y + 'px';
+        if (hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
           window.utilData.mapOverlay.offsetWidth / 100 * 5) {
           element.style.left = window.utilData.mapOverlay.offsetWidth - window.utilData.mapOverlay.offsetWidth / 100 * 5 + 'px';
         }
-        if (window.utilData.hotels[i].location.x < 0) {
+        if (hotels[i].location.x < 0) {
           element.style.left = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
         }
-        if (window.utilData.hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
+        if (hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
           window.utilData.mapOverlay.offsetHeight / 100 * 5) {
           element.style.top = window.utilData.mapOverlay.offsetHeight - window.utilData.mapOverlay.offsetHeight / 100 * 5 + 'px';
         }
-        if (window.utilData.hotels[i].location.y < 0) {
+        if (hotels[i].location.y < 0) {
           element.style.top = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
         }
-        photoElement.src = window.utilData.hotels[i].author.avatar;
+        photoElement.src = hotels[i].author.avatar;
         element.setAttribute('data-id', i);
         element.appendChild(photoElement);
-        window.utilData.fragment.appendChild(element);
+        fragment.appendChild(element);
       }
-      window.utilData.mapPin.appendChild(window.utilData.fragment);
+      window.utilData.mapPin.appendChild(fragment);
     },
 
     deleteMapPins: function () {
