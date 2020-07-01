@@ -25,21 +25,25 @@
   var featuresBlocks = [wifiFilter, dishwasherFilter, parkingFilter, washerFilter, elevatorFilter, conditionerFilter];
   var result = [];
 
-  var filterFeature = function (currentHotel, filter, data) {
+  var filterFeature = function (currentHotel, filter) {
     var currentResult = currentHotel;
     for (var j = 0; j < features.length; j++) {
       if (filter[j].checked) {
-        currentResult = currentResult.filter(function (hotelInfo) {
-          for (var i = 0; i < hotelInfo.offer.features.length; i++) {
-            if (hotelInfo.offer.features[i] === data[j]) {
-              return hotelInfo;
-            }
-          }
-          return false;
-        });
+        currentResult = filterFeatureResult(currentResult, features, j);
       }
     }
     return currentResult;
+  };
+
+  var filterFeatureResult = function (currentHotel, data, iteration) {
+    return currentHotel.filter(function (hotelInfo) {
+      for (var i = 0; i < hotelInfo.offer.features.length; i++) {
+        if (hotelInfo.offer.features[i] === data[iteration]) {
+          return hotelInfo;
+        }
+      }
+      return false;
+    });
   };
 
   var onFilterBlockChange = window.debounce(function () {

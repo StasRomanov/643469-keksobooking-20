@@ -81,11 +81,6 @@
       for (var i = 0; i < guestNumberInput.length; i++) {
         guestNumberInput.children[i].setAttribute('disabled', 'true');
       }
-      // if (guestNumberInput.value < 100) {
-      //   guestNumberInput.value = roomNumberInput.value;
-      // } else {
-      //   guestNumberInput.value = '0';
-      // }
       guestNumberInput.value = guestNumberInput.value < 100 ? roomNumberInput.value : '0';
       for (var j = 0; j < guestNumberInput.length; j++) {
         if (guestNumberInput.children[j].getAttribute('value') <= roomNumberInput.value) {
