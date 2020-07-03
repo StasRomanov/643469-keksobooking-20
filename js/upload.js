@@ -12,7 +12,7 @@
     ok: 200
   };
 
-  var sendFormData = function (url, onSuccess, onError) {
+  window.sendFormData = function (url, onSuccess, onError) {
     window.utilData.addressInput.removeAttribute('disabled');
     window.utilData.activeStatus = false;
     var xhr = new XMLHttpRequest();
@@ -90,10 +90,7 @@
     window.renderErrorBlock();
   };
 
-  window.onFormBlockSubmit = function (evt) {
-    evt.preventDefault();
-    sendFormData(DATA_LINK, onSuccess, onError);
-  };
+  window.sendFormData(DATA_LINK, onSuccess, onError);
 
   window.renderErrorBlock = function () {
     var errorBlock = errorTemplate.content.cloneNode(true);
