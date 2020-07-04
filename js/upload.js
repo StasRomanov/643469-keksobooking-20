@@ -90,7 +90,8 @@
     window.renderErrorBlock();
   };
 
-  window.onFormBlockSubmit = function () {
+  window.onFormBlockSubmit = function (evt) {
+    evt.preventDefault();
     sendFormData(DATA_LINK, onSuccess, onError);
   };
 
