@@ -77,7 +77,7 @@
 
   window.utilData.formBlock.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.sendFormData();
+    window.onFormBlockSubmit();
   }, false);
 
   window.form = {
