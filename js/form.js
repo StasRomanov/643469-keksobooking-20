@@ -12,7 +12,6 @@
   var roomNumberInput = document.querySelector('#room_number');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
   var resetButton = document.querySelector('.ad-form__reset');
-  var formSend = document.querySelector('.ad-form__submit');
 
   var enableNumberInput = function (childrenNumber) {
     guestNumberInput.children[childrenNumber].removeAttribute('disabled');
