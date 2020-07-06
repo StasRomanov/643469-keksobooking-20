@@ -27,11 +27,11 @@
 
   var filterFeature = function (currentHotel, filter) {
     var currentResult = currentHotel;
-    for (var j = 0; j < features.length; j++) {
-      if (filter[j].checked) {
-        currentResult = filterFeatureResult(currentResult, features, j);
+    features.forEach(function (item, i) {
+      if (filter[i].checked) {
+        currentResult = filterFeatureResult(currentResult, features, i);
       }
-    }
+    });
     return currentResult;
   };
 
@@ -82,7 +82,7 @@
       }
       return true;
     });
-    result = filterFeature(result, featuresBlocks, features);
+    result = filterFeature(result, featuresBlocks);
     window.filterHotels = result;
     window.card.removePopup();
     window.pin.deleteMapPins();

@@ -67,25 +67,28 @@
 
   var renderHotelFeatures = function (features, featuresBlock) {
     fragment = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (item) {
       var listItem = document.createElement('li');
       listItem.classList.add('popup__feature');
-      listItem.classList.add('popup__feature--' + features[i]);
-      listItem.textContent = features[i];
+      listItem.classList.add('popup__feature--' + item);
+      listItem.textContent = item;
       fragment.appendChild(listItem);
-    }
+    });
     featuresBlock.appendChild(fragment);
   };
 
   var renderHotelPhoto = function (hotel, photosBlock, photo) {
     fragment = document.createDocumentFragment();
-    for (var i = 0; i < hotel.offer.photos.length; i++) {
+    hotel.offer.photos.forEach(function (item) {
       while (photosBlock.firstChild) {
         photosBlock.removeChild(photosBlock.firstChild);
       }
       var img = photo.cloneNode(false);
-      img.src = hotel.offer.photos[i];
+      img.src = item;
       fragment.appendChild(img);
+    });
+    if (hotel.offer.photos.length === 0) {
+      photosBlock.innerHTML = '';
     }
     photosBlock.appendChild(fragment);
   };

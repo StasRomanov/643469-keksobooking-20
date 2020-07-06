@@ -12,18 +12,18 @@
       }
       if (window.utilData.filterStatus) {
         if (target.tagName === 'BUTTON') {
-          for (var i = 0; i < window.filterHotels.length; i++) {
-            if (String(i) === target.getAttribute('data-id')) {
-              window.card.renderHotelInfo(window.filterHotels[i]);
+          window.filterHotels.forEach(function (item, index) {
+            if (String(index) === target.getAttribute('data-id')) {
+              window.card.renderHotelInfo(item);
             }
-          }
+          });
         }
       } else {
-        for (var j = 0; j < window.utilData.hotels.length; j++) {
-          if (String(j) === target.getAttribute('data-id')) {
-            window.card.renderHotelInfo(window.utilData.hotels[j]);
+        window.utilData.hotels.forEach(function (item, index) {
+          if (String(index) === target.getAttribute('data-id')) {
+            window.card.renderHotelInfo(item);
           }
-        }
+        });
       }
     }
   };
