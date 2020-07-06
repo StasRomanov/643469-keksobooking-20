@@ -23,7 +23,7 @@
   var filterBlock = document.querySelector('.map__filters');
   var features = [wifiFilter.value, dishwasherFilter.value, parkingFilter.value, washerFilter.value, elevatorFilter.value, conditionerFilter.value];
   var featuresBlocks = [wifiFilter, dishwasherFilter, parkingFilter, washerFilter, elevatorFilter, conditionerFilter];
-  var result = [];
+  var results = [];
 
   var filterFeature = function (currentHotel, filter) {
     var currentResult = currentHotel;
@@ -48,8 +48,8 @@
 
   var onFilterBlockChange = window.debounce(function () {
     window.utilData.filterStatus = true;
-    result = window.utilData.hotels;
-    result = result.filter(function (hotelInfo) {
+    results = window.utilData.hotels;
+    results = results.filter(function (hotelInfo) {
       if (houseTypeFilter.value !== filterData.valueAny) {
         if (hotelInfo.offer.type !== houseTypeFilter.value) {
           return false;
@@ -82,11 +82,11 @@
       }
       return true;
     });
-    result = filterFeature(result, featuresBlocks);
-    window.filterHotels = result;
+    results = filterFeature(results, featuresBlocks);
+    window.filterHotels = results;
     window.card.removePopup();
     window.pin.deleteMapPins();
-    window.pin.renderMapPins(result, result.length);
+    window.pin.renderMapPins(results, results.length);
   }, 500);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
