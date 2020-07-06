@@ -8,9 +8,7 @@
   var successTemplate = document.querySelector('#success');
   var DATA_LINK = 'https://javascript.pages.academy/keksobooking';
   var TIMEOUT_IN_MS = 30000;
-  var StatusCode = {
-    ok: 200
-  };
+  var statusCodeOk = 200;
 
   var sendFormData = function (url, onSuccess, onError) {
     window.utilData.addressInput.removeAttribute('disabled');
@@ -20,7 +18,7 @@
     xhr.open('POST', url);
     xhr.send(new FormData(window.utilData.formBlock));
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.ok) {
+      if (xhr.status === statusCodeOk) {
         onSuccess();
       } else {
         onError();

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var filterData = {
+  var FilterData = {
     moneyLow: 10000,
     moneyHigh: 50000,
     valueAny: 'any',
@@ -50,32 +50,32 @@
     window.utilData.filterStatus = true;
     results = window.utilData.hotels;
     results = results.filter(function (hotelInfo) {
-      if (houseTypeFilter.value !== filterData.valueAny) {
+      if (houseTypeFilter.value !== FilterData.valueAny) {
         if (hotelInfo.offer.type !== houseTypeFilter.value) {
           return false;
         }
       }
-      if (housePriceFilter.value !== filterData.valueAny) {
-        if (housePriceFilter.value === filterData.moneyValueLow) {
-          if (hotelInfo.offer.price >= filterData.moneyLow) {
+      if (housePriceFilter.value !== FilterData.valueAny) {
+        if (housePriceFilter.value === FilterData.moneyValueLow) {
+          if (hotelInfo.offer.price >= FilterData.moneyLow) {
             return false;
           }
-        } else if (housePriceFilter.value === filterData.moneyValueMiddle) {
-          if (hotelInfo.offer.price < filterData.moneyLow || hotelInfo.offer.price >= filterData.moneyHigh) {
+        } else if (housePriceFilter.value === FilterData.moneyValueMiddle) {
+          if (hotelInfo.offer.price < FilterData.moneyLow || hotelInfo.offer.price >= FilterData.moneyHigh) {
             return false;
           }
-        } else if (housePriceFilter.value === filterData.moneyValueHigh) {
-          if (hotelInfo.offer.price < filterData.moneyHigh) {
+        } else if (housePriceFilter.value === FilterData.moneyValueHigh) {
+          if (hotelInfo.offer.price < FilterData.moneyHigh) {
             return false;
           }
         }
       }
-      if (houseRoomsFilter.value !== filterData.valueAny) {
+      if (houseRoomsFilter.value !== FilterData.valueAny) {
         if (String(houseRoomsFilter.value) !== String(hotelInfo.offer.rooms)) {
           return false;
         }
       }
-      if (houseGuestFilter.value !== filterData.valueAny) {
+      if (houseGuestFilter.value !== FilterData.valueAny) {
         if (String(houseGuestFilter.value) !== String(hotelInfo.offer.guests)) {
           return false;
         }
