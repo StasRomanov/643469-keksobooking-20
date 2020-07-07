@@ -6,24 +6,31 @@
   var mapFiltersContainer = document.querySelector('.map__filters-container');
   var popupClose = null;
   var popupCard = null;
+
+  var removePopup = function () {
+    popupCard = document.querySelector('.popup');
+    if (popupCard !== null) {
+      window.utilData.map.removeChild(popupCard);
+    }
+  };
   var onPopupCloseClick = function (evt) {
     removePopupListener();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
-      window.utilData.map.removeChild(popupCard);
+      removePopup();
     }
   };
 
   var onPopupCloseKeydown = function (evt) {
     removePopupListener();
     if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === true) {
-      window.utilData.map.removeChild(popupCard);
+      removePopup();
     }
   };
 
   var onDocumentKeydown = function (evt) {
     removePopupListener();
     if (evt.code === window.utilData.ESC_KEY_CODE && window.utilData.activeStatus === true) {
-      window.utilData.map.removeChild(popupCard);
+      removePopup();
     }
   };
 
@@ -140,7 +147,7 @@
     delete: function () {
       if (popupClose !== null) {
         window.utilData.map = document.querySelector('.map');
-        window.utilData.map.removeChild(popupCard);
+        removePopup();
         popupClose.removeEventListener('click', onPopupCloseClick, false);
         popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);
         document.removeEventListener('keydown', onDocumentKeydown, false);
