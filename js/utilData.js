@@ -4,7 +4,7 @@
   var HOTEL_COUNTER = 5;
   var MAP_PIN_TRIANGLE_HEIGHT = 22;
   var LEFT_MOUSE_CODE = 0;
-  var MAP_SAFE_BORDER_ZONE = 10;
+  var MAP_SAFE_BORDER_ZONE = 70;
   var ENTER_KEY_CODE = 'Enter';
   var ESC_KEY_CODE = 'Escape';
   var SKY_BLOCK = document.querySelector('.map__title');
