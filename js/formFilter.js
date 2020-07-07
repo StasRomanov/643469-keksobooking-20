@@ -3,11 +3,7 @@
 (function () {
   var FilterData = {
     moneyLow: 10000,
-    moneyHigh: 50000,
-    valueAny: 'any',
-    moneyValueLow: 'low',
-    moneyValueMiddle: 'middle',
-    moneyValueHigh: 'high'
+    moneyHigh: 50000
   };
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
@@ -50,32 +46,32 @@
     window.utilData.filterStatus = true;
     results = window.utilData.hotels;
     results = results.filter(function (hotelInfo) {
-      if (houseTypeFilter.value !== FilterData.valueAny) {
+      if (houseTypeFilter.value !== 'any') {
         if (hotelInfo.offer.type !== houseTypeFilter.value) {
           return false;
         }
       }
-      if (housePriceFilter.value !== FilterData.valueAny) {
-        if (housePriceFilter.value === FilterData.moneyValueLow) {
+      if (housePriceFilter.value !== 'any') {
+        if (housePriceFilter.value === 'low') {
           if (hotelInfo.offer.price >= FilterData.moneyLow) {
             return false;
           }
-        } else if (housePriceFilter.value === FilterData.moneyValueMiddle) {
+        } else if (housePriceFilter.value === 'middle') {
           if (hotelInfo.offer.price < FilterData.moneyLow || hotelInfo.offer.price >= FilterData.moneyHigh) {
             return false;
           }
-        } else if (housePriceFilter.value === FilterData.moneyValueHigh) {
+        } else if (housePriceFilter.value === 'high') {
           if (hotelInfo.offer.price < FilterData.moneyHigh) {
             return false;
           }
         }
       }
-      if (houseRoomsFilter.value !== FilterData.valueAny) {
+      if (houseRoomsFilter.value !== 'any') {
         if (String(houseRoomsFilter.value) !== String(hotelInfo.offer.rooms)) {
           return false;
         }
       }
-      if (houseGuestFilter.value !== FilterData.valueAny) {
+      if (houseGuestFilter.value !== 'any') {
         if (String(houseGuestFilter.value) !== String(hotelInfo.offer.guests)) {
           return false;
         }
