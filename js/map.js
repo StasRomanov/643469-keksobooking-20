@@ -14,14 +14,14 @@
         if (target.tagName === 'BUTTON') {
           window.filterHotels.forEach(function (item, index) {
             if (String(index) === target.getAttribute('data-id')) {
-              window.card.renderHotelInfo(item);
+              window.card.render(item);
             }
           });
         }
       } else {
         window.utilData.hotels.forEach(function (item, index) {
           if (String(index) === target.getAttribute('data-id')) {
-            window.card.renderHotelInfo(item);
+            window.card.render(item);
           }
         });
       }
@@ -29,13 +29,13 @@
   };
 
   window.map = {
-    mapEnable: function () {
+    enable: function () {
       window.utilData.map.classList.remove('map--faded');
     },
-    mapDisable: function () {
+    disable: function () {
       window.utilData.map.classList.add('map--faded');
       window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
-      window.card.deleteHotelCard();
+      window.card.delete();
       window.utilData.mapPin.addEventListener('click', onMapPinClick, false);
       window.utilData.mapPinMain.addEventListener('mouseup', function (evt) {
         if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {

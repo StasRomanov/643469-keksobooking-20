@@ -56,7 +56,7 @@
     priceInput.setAttribute('placeholder', '1000');
     window.utilData.mapPinMain.style.left = pinDefaultLeftPosition + 'px';
     window.utilData.mapPinMain.style.top = pinDefaultTopPosition + 'px';
-    window.pin.createMainPinLocation();
+    window.pin.createLocation();
   };
 
   var onResetButtonClick = function (evt) {
@@ -74,7 +74,7 @@
 
   resetButton.addEventListener('click', onResetButtonClick, false);
 
-  window.utilData.formBlock.addEventListener('submit', window.onFormBlockSubmit, false);
+  window.utilData.formBlock.addEventListener('submit', window.upload.onFormBlockSubmit, false);
 
   window.form = {
     setLimitsOnRooms: function () {
@@ -98,7 +98,7 @@
       }
     },
 
-    formEnable: function () {
+    enable: function () {
       for (var i = 0; i < window.utilData.formsMain.length; i++) {
         window.utilData.formsMain[i].removeAttribute('disabled');
       }
@@ -107,7 +107,7 @@
       window.formFilter.enable();
     },
 
-    formDisable: function () {
+    disable: function () {
       window.utilData.formBlock.classList.add('ad-form--disabled');
       for (var j = 0; j < featuresCheckbox.length; j++) {
         featuresCheckbox[j].checked = false;

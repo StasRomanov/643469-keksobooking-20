@@ -8,7 +8,7 @@
   };
   var JSON_TYPE = 'json';
 
-  window.loadData = function (url, dataType, onSuccess, onError) {
+  var loadData = function (url, dataType, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = dataType;
     xhr.open('GET', url);
@@ -36,8 +36,8 @@
   };
 
   var onError = function () {
-    window.renderErrorBlock();
+    window.upload.renderErrorBlock();
   };
 
-  window.loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
+  loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
 })();

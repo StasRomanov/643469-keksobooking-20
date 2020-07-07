@@ -101,7 +101,7 @@
       }
     },
 
-    renderHotelInfo: function (hotel) {
+    render: function (hotel) {
       var cloneCardTemplate = cardTemplate.cloneNode(true);
       var hotelHeaderBlock = cloneCardTemplate.querySelector(('.popup__title'));
       var hotelAddressBlock = cloneCardTemplate.querySelector('.popup__text--address');
@@ -137,7 +137,7 @@
       popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
       document.addEventListener('keydown', onDocumentKeydown, false);
     },
-    deleteHotelCard: function () {
+    delete: function () {
       if (popupClose !== null) {
         window.utilData.map = document.querySelector('.map');
         window.utilData.map.removeChild(popupCard);

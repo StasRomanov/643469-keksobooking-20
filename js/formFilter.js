@@ -81,8 +81,8 @@
     results = filterFeature(results, featuresBlocks);
     window.filterHotels = results;
     window.card.removePopup();
-    window.pin.deleteMapPins();
-    window.pin.renderMapPins(results, results.length);
+    window.pin.delete();
+    window.pin.render(results, results.length);
   }, 500);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
@@ -95,6 +95,7 @@
         filterBlock[k].setAttribute('disabled', 'true');
       }
     },
+
     enable: function () {
       for (var k = 0; k < filterBlock.length; k++) {
         filterBlock[k].removeAttribute('disabled');

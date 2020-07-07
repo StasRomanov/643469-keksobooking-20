@@ -85,23 +85,24 @@
 
   var onError = function () {
     window.utilData.addressInput.setAttribute('disabled', 'true');
-    window.renderErrorBlock();
+    window.upload.renderErrorBlock();
   };
 
-  window.onFormBlockSubmit = function (evt) {
-    evt.preventDefault();
-    sendFormData(DATA_LINK, onSuccess, onError);
-  };
+  window.upload = {
+    onFormBlockSubmit: function (evt) {
+      evt.preventDefault();
+      sendFormData(DATA_LINK, onSuccess, onError);
+    },
 
-  window.renderErrorBlock = function () {
-    var errorBlock = errorTemplate.content.cloneNode(true);
-    var reloadButton = document.querySelector('.error__button');
-    fragment = document.createDocumentFragment();
-    fragment.appendChild(errorBlock);
-    mainBlock.insertBefore(fragment, header);
-    reloadButton.addEventListener('click', onReloadButtonClick, false);
-    document.addEventListener('click', onDocumentClick, false);
-    document.addEventListener('keydown', onDocumentKeydown, false);
+    renderErrorBlock: function () {
+      var errorBlock = errorTemplate.content.cloneNode(true);
+      var reloadButton = document.querySelector('.error__button');
+      fragment = document.createDocumentFragment();
+      fragment.appendChild(errorBlock);
+      mainBlock.insertBefore(fragment, header);
+      reloadButton.addEventListener('click', onReloadButtonClick, false);
+      document.addEventListener('click', onDocumentClick, false);
+      document.addEventListener('keydown', onDocumentKeydown, false);
+    }
   };
-
 })();

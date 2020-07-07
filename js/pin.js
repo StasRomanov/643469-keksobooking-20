@@ -13,7 +13,7 @@
   var mapPinMainLocationY = mapPinMainWidth + 22;
 
   window.pin = {
-    createMainPinLocation: function () {
+    createLocation: function () {
       var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
       var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
       if (window.utilData.activeStatus) {
@@ -22,7 +22,7 @@
       window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
     },
 
-    renderMapPins: function (hotels, count) {
+    render: function (hotels, count) {
       fragment = document.createDocumentFragment();
       if (count > window.utilData.HOTEL_COUNTER) {
         count = window.utilData.HOTEL_COUNTER;
@@ -54,7 +54,7 @@
       window.utilData.mapPin.appendChild(fragment);
     },
 
-    deleteMapPins: function () {
+    delete: function () {
       window.utilData.mapPin = document.querySelector('.map__pins');
       for (var j = 0; j < window.utilData.mapPin.children.length; j++) {
         if (window.utilData.mapPin.children[2]) {
