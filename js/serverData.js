@@ -3,9 +3,7 @@
 (function () {
   var DATA_LINK = 'https://javascript.pages.academy/keksobooking/data';
   var TIMEOUT_IN_MS = 10000;
-  var StatusCode = {
-    ok: 200
-  };
+  var STATUS_CODE_OK = 200;
   var JSON_TYPE = 'json';
 
   var loadData = function (url, dataType, onSuccess, onError) {
@@ -15,7 +13,7 @@
     xhr.open('GET', url);
     xhr.send();
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.ok) {
+      if (xhr.status === STATUS_CODE_OK) {
         onSuccess(xhr.response);
       } else {
         onError();

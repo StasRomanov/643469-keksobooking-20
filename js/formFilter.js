@@ -2,8 +2,8 @@
 
 (function () {
   var FilterData = {
-    moneyLow: 10000,
-    moneyHigh: 50000
+    MONEY_LOW: 10000,
+    MONEY_HIGH: 50000
   };
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
@@ -53,15 +53,15 @@
       }
       if (housePriceFilter.value !== 'any') {
         if (housePriceFilter.value === 'low') {
-          if (hotelInfo.offer.price >= FilterData.moneyLow) {
+          if (hotelInfo.offer.price >= FilterData.MONEY_LOW) {
             return false;
           }
         } else if (housePriceFilter.value === 'middle') {
-          if (hotelInfo.offer.price < FilterData.moneyLow || hotelInfo.offer.price >= FilterData.moneyHigh) {
+          if (hotelInfo.offer.price < FilterData.MONEY_LOW || hotelInfo.offer.price >= FilterData.MONEY_HIGH) {
             return false;
           }
         } else if (housePriceFilter.value === 'high') {
-          if (hotelInfo.offer.price < FilterData.moneyHigh) {
+          if (hotelInfo.offer.price < FilterData.MONEY_HIGH) {
             return false;
           }
         }
