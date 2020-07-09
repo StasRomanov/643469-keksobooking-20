@@ -7,6 +7,8 @@
   var MAP_SAFE_BORDER_ZONE = 70;
   var ENTER_KEY_CODE = 'Enter';
   var ESC_KEY_CODE = 'Escape';
+  var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
+  var GUESTS_DECLENSION = ['гостя', 'гостей', 'гостей'];
   var mapPin = document.querySelector('.map__pins');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -15,8 +17,6 @@
   var addressInput = document.querySelector('#address');
   var formBlock = document.querySelector('.ad-form');
   var fragment = document.createDocumentFragment();
-  var ROOMS_DECLENSION = ['комната', 'комнаты', 'комнат'];
-  var GUESTS_DECLENSION = ['гостя', 'гостей', 'гостей'];
   var hotels = [];
   var hotelsSequence = [];
   var activeStatus = false;
