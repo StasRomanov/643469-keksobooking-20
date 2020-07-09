@@ -31,8 +31,8 @@
     return currentResult;
   };
 
-  var filterFeatureResult = function (currentHotel, data, iteration) {
-    return currentHotel.filter(function (hotelInfo) {
+  var filterFeatureResult = function (currentHotels, data, iteration) {
+    return currentHotels.filter(function (hotelInfo) {
       for (var i = 0; i < hotelInfo.offer.features.length; i++) {
         if (hotelInfo.offer.features[i] === data[iteration]) {
           return hotelInfo;
