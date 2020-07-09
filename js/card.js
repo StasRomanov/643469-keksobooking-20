@@ -5,30 +5,28 @@
   var cardTemplate = document.querySelector('#card').content.cloneNode(true);
   var mapFiltersContainer = document.querySelector('.map__filters-container');
   var popupClose = null;
-  var popupCard = null;
 
   var removePopup = function () {
-    popupCard = document.querySelector('.popup');
-    if (popupCard !== null) {
-      window.utilData.map.removeChild(popupCard);
+    var card = document.querySelector('.popup');
+    if (card) {
+      card.remove();
+      removePopupListener();
     }
   };
+
   var onPopupCloseClick = function (evt) {
-    removePopupListener();
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
       removePopup();
     }
   };
 
   var onPopupCloseKeydown = function (evt) {
-    removePopupListener();
     if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === true) {
       removePopup();
     }
   };
 
   var onDocumentKeydown = function (evt) {
-    removePopupListener();
     if (evt.code === window.utilData.ESC_KEY_CODE && window.utilData.activeStatus === true) {
       removePopup();
     }
@@ -124,7 +122,7 @@
       var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, window.utilData.ROOMS_DECLENSION) + ' для '
         + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, window.utilData.GUESTS_DECLENSION);
       var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
-      window.card.removePopup();
+      removePopup();
       fragment = document.createDocumentFragment();
       hotelHeaderBlock.textContent = hotel.offer.title;
       hotelAddressBlock.textContent = hotel.offer.address;
@@ -139,7 +137,6 @@
       hotelAvatarBlock.src = hotel.author.avatar;
       window.utilData.map.insertBefore(cloneCardTemplate, mapFiltersContainer);
       popupClose = document.querySelector('.popup__close');
-      popupCard = document.querySelector('.popup');
       popupClose.addEventListener('click', onPopupCloseClick, false);
       popupClose.addEventListener('keydown', onPopupCloseKeydown, false);
       document.addEventListener('keydown', onDocumentKeydown, false);
