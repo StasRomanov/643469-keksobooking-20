@@ -56,14 +56,9 @@
 
     delete: function () {
       window.utilData.mapPin = document.querySelector('.map__pins');
-      for (var j = 0; j < window.utilData.mapPin.children.length; j++) {
-        if (window.utilData.mapPin.children[2]) {
-          if (!window.utilData.mapPin.children[2].classList.contains('map__pin--main') &&
-            window.utilData.mapPin.children[j].classList.contains('map__pin')) {
-            window.utilData.mapPin.children[2].remove();
-            j--;
-          }
-        }
+      while (document.querySelector('.map__pin:not(.map__pin--main)')) {
+        var currentPin = document.querySelector('.map__pin:not(.map__pin--main)');
+        currentPin.remove();
       }
     }
   };
