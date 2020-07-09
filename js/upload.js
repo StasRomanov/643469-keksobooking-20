@@ -9,6 +9,7 @@
   var DATA_LINK = 'https://javascript.pages.academy/keksobooking';
   var TIMEOUT_IN_MS = 30000;
   var statusCodeOk = 200;
+  var reloadButton = null;
 
   var sendFormData = function (url, onSuccess, onError) {
     window.utilData.addressInput.removeAttribute('disabled');
@@ -45,10 +46,11 @@
     if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
+        successListener(false);
       } else if (mainBlock.querySelector('.error')) {
         mainBlock.querySelector('.error').remove();
+        errorListener(false, reloadButton);
       }
-      document.removeEventListener('click', onDocumentClick, false);
     }
   };
 
@@ -56,10 +58,11 @@
     if (evt.code === window.utilData.ESC_KEY_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
+        successListener(false);
       } else {
         mainBlock.querySelector('.error').remove();
+        errorListener(false, reloadButton);
       }
-      document.removeEventListener('keydown', onDocumentKeydown, false);
     }
   };
 
@@ -67,11 +70,11 @@
     if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
+        successListener(false);
       } else {
         mainBlock.querySelector('.error').remove();
         location.reload();
       }
-      document.removeEventListener('click', onDocumentClick, false);
     }
   };
 
@@ -79,13 +82,34 @@
     window.utilData.addressInput.setAttribute('disabled', 'true');
     renderSuccessBlock();
     window.main.startPassiveMode();
-    document.addEventListener('click', onDocumentClick, false);
-    document.addEventListener('keydown', onDocumentKeydown, false);
+    successListener(true);
   };
 
   var onError = function () {
     window.utilData.addressInput.setAttribute('disabled', 'true');
     window.upload.renderErrorBlock();
+  };
+
+  var errorListener = function (toggle, element) {
+    if (toggle) {
+      element.addEventListener('click', onReloadButtonClick, false);
+      document.addEventListener('click', onDocumentClick, false);
+      document.addEventListener('keydown', onDocumentKeydown, false);
+    } else {
+      element.removeEventListener('click', onReloadButtonClick, false);
+      document.removeEventListener('click', onDocumentClick, false);
+      document.removeEventListener('keydown', onDocumentKeydown, false);
+    }
+  };
+
+  var successListener = function (toggle) {
+    if (toggle) {
+      document.addEventListener('click', onDocumentClick, false);
+      document.addEventListener('keydown', onDocumentKeydown, false);
+    } else {
+      document.removeEventListener('click', onDocumentClick, false);
+      document.removeEventListener('keydown', onDocumentKeydown, false);
+    }
   };
 
   window.upload = {
@@ -96,13 +120,11 @@
 
     renderErrorBlock: function () {
       var errorBlock = errorTemplate.content.cloneNode(true);
-      var reloadButton = document.querySelector('.error__button');
+      reloadButton = document.querySelector('.error__button');
       fragment = document.createDocumentFragment();
       fragment.appendChild(errorBlock);
       mainBlock.insertBefore(fragment, header);
-      reloadButton.addEventListener('click', onReloadButtonClick, false);
-      document.addEventListener('click', onDocumentClick, false);
-      document.addEventListener('keydown', onDocumentKeydown, false);
+      errorListener(true, reloadButton);
     }
   };
 })();
