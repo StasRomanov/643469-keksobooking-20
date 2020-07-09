@@ -21,6 +21,7 @@
   var hotelsSequence = [];
   var activeStatus = false;
   var filterStatus = false;
+  var loadStatus = false;
 
   window.utilData = {
     HOTEL_COUNTER: HOTEL_COUNTER,
@@ -42,6 +43,7 @@
     mapOverlay: mapOverlay,
     MAP_SAFE_BORDER_ZONE: MAP_SAFE_BORDER_ZONE,
     formBlock: formBlock,
-    filterStatus: filterStatus
+    filterStatus: filterStatus,
+    loadStatus: loadStatus
   };
 })();
