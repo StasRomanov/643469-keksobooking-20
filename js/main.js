@@ -18,4 +18,6 @@
       }
     }
   };
+
+  window.main.startPassiveMode();
 })();

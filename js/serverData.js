@@ -8,36 +8,47 @@
   };
   var JSON_TYPE = 'json';
 
-  var loadData = function (url, dataType, onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = dataType;
-    xhr.open('GET', url);
-    xhr.send();
-    xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.ok) {
-        window.utilData.hotels = xhr.response;
-        onSuccess();
-      } else {
+  var loadData = function (url, dataType, onSuccess, onError, toggle) {
+    if (toggle) {
+      window.utilData.loadStatus = true;
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = dataType;
+      xhr.open('GET', url);
+      xhr.send();
+      xhr.addEventListener('load', function () {
+        if (xhr.status === StatusCode.ok) {
+          onSuccess(xhr.response);
+        } else {
+          onError();
+        }
+      });
+      xhr.addEventListener('error', function () {
         onError();
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
+      });
+      xhr.addEventListener('timeout', function () {
+        onError();
+      });
 
-    xhr.timeout = TIMEOUT_IN_MS;
+      xhr.timeout = TIMEOUT_IN_MS;
+    } else {
+      window.main.startActiveMode();
+    }
   };
 
-  var onSuccess = function () {
-    window.main.startPassiveMode();
+  var onSuccess = function (data) {
+    if (window.utilData.hotels.length === 0) {
+      window.utilData.hotels = data;
+    }
+    window.main.startActiveMode();
   };
 
   var onError = function () {
     window.upload.renderErrorBlock();
   };
 
-  loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
+  window.serverData = {
+    load: function (toggle) {
+      loadData(DATA_LINK, JSON_TYPE, onSuccess, onError, toggle);
+    }
+  };
 })();
