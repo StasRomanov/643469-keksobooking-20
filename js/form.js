@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var pinDefaultLeftPosition = 570;
-  var pinDefaultTopPosition = 375;
+  var PIN_DEFAULT_LEFT_POSITION = 570;
+  var PIN_DEFAULT_TOP_POSITION = 375;
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
@@ -54,8 +54,8 @@
 
   var setDefaultValue = function () {
     priceInput.setAttribute('placeholder', '1000');
-    window.utilData.mapPinMain.style.left = pinDefaultLeftPosition + 'px';
-    window.utilData.mapPinMain.style.top = pinDefaultTopPosition + 'px';
+    window.utilData.mapPinMain.style.left = PIN_DEFAULT_LEFT_POSITION + 'px';
+    window.utilData.mapPinMain.style.top = PIN_DEFAULT_TOP_POSITION + 'px';
     window.pin.createLocation();
   };
 

@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
+  var MAP_PIN_DEFAULT_LOCATION_X = 570;
+  var MAP_PIN_DEFAULT_LOCATION_Y = 375;
   var fragment = document.createDocumentFragment();
-  var mapPinDefaultLocationX = 570;
-  var mapPinDefaultLocationY = 375;
   var template = document.querySelector('#pin').content;
   var templateMapPin = template.querySelector('.map__pin');
   var mapPinPhoto = template.querySelector('img');
@@ -14,10 +14,10 @@
 
   window.pin = {
     createLocation: function () {
-      var mainPinLocationX = Math.round(mapPinMainLocationX + mapPinDefaultLocationX);
-      var mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY);
+      var mainPinLocationX = Math.round(mapPinMainLocationX + MAP_PIN_DEFAULT_LOCATION_X);
+      var mainPinLocationY = Math.round(mapPinMainLocationY + MAP_PIN_DEFAULT_LOCATION_Y);
       if (window.utilData.activeStatus) {
-        mainPinLocationY = Math.round(mapPinMainLocationY + mapPinDefaultLocationY + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
+        mainPinLocationY = Math.round(mapPinMainLocationY + MAP_PIN_DEFAULT_LOCATION_Y + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
       }
       window.utilData.addressInput.value = mainPinLocationX + ', ' + mainPinLocationY;
     },

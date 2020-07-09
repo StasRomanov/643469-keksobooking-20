@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
+  var DATA_LINK = 'https://javascript.pages.academy/keksobooking';
+  var TIMEOUT_IN_MS = 30000;
+  var STATUS_CODE_OK = 200;
   var fragment = document.createDocumentFragment();
   var mainBlock = document.body.querySelector('main');
   var header = mainBlock.querySelector('.promo');
   var errorTemplate = document.querySelector('#error');
   var successTemplate = document.querySelector('#success');
-  var DATA_LINK = 'https://javascript.pages.academy/keksobooking';
-  var TIMEOUT_IN_MS = 30000;
-  var statusCodeOk = 200;
   var reloadButton = null;
 
   var sendFormData = function (url, onSuccess, onError) {
@@ -19,7 +19,7 @@
     xhr.open('POST', url);
     xhr.send(new FormData(window.utilData.formBlock));
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusCodeOk) {
+      if (xhr.status === STATUS_CODE_OK) {
         onSuccess();
       } else {
         onError();
