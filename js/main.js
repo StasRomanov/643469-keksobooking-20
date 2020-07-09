@@ -15,6 +15,7 @@
         window.form.disable();
         window.map.disable();
         window.pin.delete();
+        window.pictureUpload.disable();
         window.utilData.filterStatus = false;
       }
     },

@@ -4,7 +4,8 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var avatar = {
     input: document.querySelector('.ad-form__field input[type=file]'),
-    picture: document.querySelector('.ad-form-header__preview img')
+    picture: document.querySelector('.ad-form-header__preview img'),
+    pictureDefault: 'img/muffin-grey.svg'
   };
   var hotel = {
     input: document.querySelector('.ad-form__upload input[type=file]'),
@@ -47,6 +48,16 @@
         photo.setAttribute('src', String(reader.result));
       });
       reader.readAsDataURL(file);
+    }
+  };
+
+  window.pictureUpload = {
+    disable: function () {
+      var hotelPhoto = hotel.pictureBlock.querySelector('img');
+      avatar.picture.src = avatar.pictureDefault;
+      if (hotelPhoto) {
+        hotelPhoto.remove();
+      }
     }
   };
 
