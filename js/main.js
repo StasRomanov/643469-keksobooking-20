@@ -9,12 +9,21 @@
       window.map.enable();
       window.pin.createLocation();
     },
+
     startPassiveMode: function () {
       if (window.utilData.activeStatus === false) {
         window.form.disable();
         window.map.disable();
         window.pin.delete();
         window.utilData.filterStatus = false;
+      }
+    },
+
+    dataLoader: function (toggle) {
+      if (toggle) {
+        window.serverData.load();
+      } else if (window.utilData.hotels.length === 0 || !window.utilData.activeStatus) {
+        window.main.startActiveMode();
       }
     }
   };

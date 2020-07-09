@@ -8,31 +8,27 @@
   };
   var JSON_TYPE = 'json';
 
-  var loadData = function (url, dataType, onSuccess, onError, toggle) {
-    if (toggle) {
-      window.utilData.loadStatus = true;
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = dataType;
-      xhr.open('GET', url);
-      xhr.send();
-      xhr.addEventListener('load', function () {
-        if (xhr.status === StatusCode.ok) {
-          onSuccess(xhr.response);
-        } else {
-          onError();
-        }
-      });
-      xhr.addEventListener('error', function () {
+  var loadData = function (url, dataType, onSuccess, onError) {
+    window.utilData.loadStatus = true;
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = dataType;
+    xhr.open('GET', url);
+    xhr.send();
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.ok) {
+        onSuccess(xhr.response);
+      } else {
         onError();
-      });
-      xhr.addEventListener('timeout', function () {
-        onError();
-      });
+      }
+    });
+    xhr.addEventListener('error', function () {
+      onError();
+    });
+    xhr.addEventListener('timeout', function () {
+      onError();
+    });
 
-      xhr.timeout = TIMEOUT_IN_MS;
-    } else {
-      window.main.startActiveMode();
-    }
+    xhr.timeout = TIMEOUT_IN_MS;
   };
 
   var onSuccess = function (data) {
@@ -47,8 +43,8 @@
   };
 
   window.serverData = {
-    load: function (toggle) {
-      loadData(DATA_LINK, JSON_TYPE, onSuccess, onError, toggle);
+    load: function () {
+      loadData(DATA_LINK, JSON_TYPE, onSuccess, onError);
     }
   };
 })();

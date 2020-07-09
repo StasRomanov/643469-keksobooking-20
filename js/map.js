@@ -37,24 +37,14 @@
       window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
       window.card.delete();
       window.utilData.mapPin.addEventListener('click', onMapPinClick, false);
-      // window.utilData.mapPinMain.addEventListener('mouseup', function (evt) {
-      //   if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === false) {
-      //     // window.main.startActiveMode();
-      //     if (!window.utilData.loadStatus) {
-      //       window.serverData.load(true);
-      //     } else {
-      //       window.serverData.load(false);
-      //     }
-      //   }
-      // });
 
       window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
         if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
           // window.main.startActiveMode();
           if (!window.utilData.loadStatus) {
-            window.serverData.load(true);
+            window.main.dataLoader(true);
           } else {
-            window.serverData.load(false);
+            window.main.dataLoader(false);
           }
         }
       });

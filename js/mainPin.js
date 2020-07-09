@@ -9,9 +9,9 @@
   window.onMainPinMove = function (evt) {
     var onMouseUp = function () {
       if (!window.utilData.activeStatus && !window.utilData.loadStatus) {
-        window.serverData.load(true);
+        window.main.dataLoader(true);
       } else {
-        window.serverData.load(false);
+        window.main.dataLoader(false);
       }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
