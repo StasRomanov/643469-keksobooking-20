@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var safeZone = {
+    bottom: 630,
+    top: 130
+  };
+
   window.onMainPinMove = function (evt) {
     var onMouseUp = function () {
       if (!window.utilData.activeStatus) {
@@ -34,15 +39,15 @@
         window.utilData.mapOverlay.offsetWidth) {
           window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
-        if (window.utilData.mapPinMain.offsetTop + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT >
-        window.utilData.mapOverlay.offsetHeight) {
+        if (window.utilData.mapPinMain.offsetTop + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT >=
+          safeZone.bottom) {
           window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
         if (window.utilData.mapPinMain.offsetLeft < 0) {
           window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
-        if (window.utilData.mapPinMain.offsetTop - window.utilData.SKY_HEIGHT + window.utilData.mapPinMain.offsetHeight +
-        window.utilData.MAP_PIN_TRIANGLE_HEIGHT < 0) {
+        if (window.utilData.mapPinMain.offsetTop + window.utilData.mapPinMain.offsetHeight +
+        window.utilData.MAP_PIN_TRIANGLE_HEIGHT <= safeZone.top) {
           window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
         }
       };

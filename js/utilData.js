@@ -7,8 +7,6 @@
   var MAP_SAFE_BORDER_ZONE = 70;
   var ENTER_KEY_CODE = 'Enter';
   var ESC_KEY_CODE = 'Escape';
-  var SKY_BLOCK = document.querySelector('.map__title');
-  var SKY_HEIGHT = parseInt(getComputedStyle(SKY_BLOCK).marginTop.replace(/\D+/g, ''), 10);
   var mapPin = document.querySelector('.map__pins');
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -29,7 +27,6 @@
     ENTER_KEY_CODE: ENTER_KEY_CODE,
     ESC_KEY_CODE: ESC_KEY_CODE,
     LEFT_MOUSE_CODE: LEFT_MOUSE_CODE,
-    SKY_HEIGHT: SKY_HEIGHT,
     MAP_PIN_TRIANGLE_HEIGHT: MAP_PIN_TRIANGLE_HEIGHT,
     mapPin: mapPin,
     map: map,
