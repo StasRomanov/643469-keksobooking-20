@@ -74,7 +74,7 @@
 
   resetButton.addEventListener('click', onResetButtonClick, false);
 
-  window.utilData.formBlock.addEventListener('submit', window.upload.onFormBlockSubmit, false);
+  window.utilData.formBlock.addEventListener('submit', window.backend.send, false);
 
   window.form = {
     setLimitsOnRooms: function () {

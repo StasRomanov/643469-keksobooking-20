@@ -22,7 +22,7 @@
 
     dataLoader: function (toggle) {
       if (toggle) {
-        window.serverData.load();
+        window.backend.load();
       } else if (window.utilData.hotels.length === 0 || !window.utilData.activeStatus) {
         window.main.startActiveMode();
       }

@@ -55,7 +55,6 @@
     },
 
     delete: function () {
-      window.utilData.mapPin = document.querySelector('.map__pins');
       while (document.querySelector('.map__pin:not(.map__pin--main)')) {
         var currentPin = document.querySelector('.map__pin:not(.map__pin--main)');
         currentPin.remove();
