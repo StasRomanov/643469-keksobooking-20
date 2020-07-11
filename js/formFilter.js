@@ -98,15 +98,15 @@
     disable: function () {
       filterBlock.reset();
       filterBlock.classList.add('ad-form--disabled');
-      for (var k = 0; k < filterBlock.length; k++) {
-        filterBlock[k].setAttribute('disabled', 'true');
-      }
+      Array.from(filterBlock, function (item) {
+        item.setAttribute('disabled', 'true');
+      });
     },
 
     enable: function () {
-      for (var k = 0; k < filterBlock.length; k++) {
-        filterBlock[k].removeAttribute('disabled');
-      }
+      Array.from(filterBlock, function (item) {
+        item.removeAttribute('disabled');
+      });
       filterBlock.classList.remove('ad-form--disabled');
     }
   };

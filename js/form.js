@@ -66,9 +66,9 @@
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
       window.utilData.formBlock.reset();
 
-      for (var j = 0; j < featuresCheckbox.length; j++) {
-        featuresCheckbox[j].checked = false;
-      }
+      Array.from(featuresCheckbox, function (item) {
+        item.checked = false;
+      });
       setDefaultValue();
       window.form.setLimitsOnRooms();
     }
@@ -80,30 +80,30 @@
 
   window.form = {
     setLimitsOnRooms: function () {
-      for (var i = 0; i < guestNumberInput.length; i++) {
-        guestNumberInput.children[i].setAttribute('disabled', 'true');
-      }
+      Array.from(guestNumberInput.children, function (item) {
+        item.setAttribute('disabled', 'true');
+      });
       guestNumberInput.value = guestNumberInput.value < MAX_GUEST_NUMBER ? roomNumberInput.value : String(MIN_GUEST_VALUE);
-      for (var j = 0; j < guestNumberInput.length; j++) {
-        if (guestNumberInput.children[j].getAttribute('value') <= roomNumberInput.value) {
-          enableNumberInput(j);
+      Array.from(guestNumberInput.children, function (item, index) {
+        if (item.getAttribute('value') <= roomNumberInput.value) {
+          enableNumberInput(index);
         }
         if (roomNumberInput.value === String(MAX_GUEST_NUMBER)) {
-          for (var l = 0; l < guestNumberInput.length; l++) {
-            guestNumberInput.children[l].setAttribute('disabled', 'true');
+          Array.from(guestNumberInput.children, function (children) {
+            children.setAttribute('disabled', 'true');
             guestNumberInput.value = '0';
-          }
+          });
         }
-        if (j === guestNumberInput.length - 1) {
-          guestNumberInput.children[j].setAttribute('disabled', 'true');
+        if (index === guestNumberInput.length - 1) {
+          item.setAttribute('disabled', 'true');
         }
-      }
+      });
     },
 
     enable: function () {
-      for (var i = 0; i < window.utilData.formsMain.length; i++) {
-        window.utilData.formsMain[i].removeAttribute('disabled');
-      }
+      Array.from(window.utilData.formsMain, function (item) {
+        item.removeAttribute('disabled');
+      });
       formHeader.removeAttribute('disabled');
       window.utilData.formBlock.classList.remove('ad-form--disabled');
       window.formFilter.enable();
@@ -111,13 +111,13 @@
 
     disable: function () {
       window.utilData.formBlock.classList.add('ad-form--disabled');
-      for (var j = 0; j < featuresCheckbox.length; j++) {
-        featuresCheckbox[j].checked = false;
-      }
+      Array.from(featuresCheckbox, function (item) {
+        item.checked = false;
+      });
       formHeader.setAttribute('disabled', 'true');
-      for (var i = 0; i < window.utilData.formsMain.length; i++) {
-        window.utilData.formsMain[i].setAttribute('disabled', 'true');
-      }
+      Array.from(window.utilData.formsMain, function (item) {
+        item.setAttribute('disabled', 'true');
+      });
       window.utilData.formBlock.reset();
       setDefaultValue();
       window.form.setLimitsOnRooms();
