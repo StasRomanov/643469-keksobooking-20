@@ -3,6 +3,8 @@
 (function () {
   var PIN_DEFAULT_LEFT_POSITION = 570;
   var PIN_DEFAULT_TOP_POSITION = 375;
+  var MAX_GUEST_NUMBER = 100;
+  var MIN_GUEST_VALUE = 0;
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
   var formHeader = document.querySelector('.ad-form-header');
@@ -81,12 +83,12 @@
       for (var i = 0; i < guestNumberInput.length; i++) {
         guestNumberInput.children[i].setAttribute('disabled', 'true');
       }
-      guestNumberInput.value = guestNumberInput.value < 100 ? roomNumberInput.value : '0';
+      guestNumberInput.value = guestNumberInput.value < MAX_GUEST_NUMBER ? roomNumberInput.value : String(MIN_GUEST_VALUE);
       for (var j = 0; j < guestNumberInput.length; j++) {
         if (guestNumberInput.children[j].getAttribute('value') <= roomNumberInput.value) {
           enableNumberInput(j);
         }
-        if (roomNumberInput.value === '100') {
+        if (roomNumberInput.value === String(MAX_GUEST_NUMBER)) {
           for (var l = 0; l < guestNumberInput.length; l++) {
             guestNumberInput.children[l].setAttribute('disabled', 'true');
             guestNumberInput.value = '0';

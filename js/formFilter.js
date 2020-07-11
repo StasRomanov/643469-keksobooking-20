@@ -5,6 +5,13 @@
     MONEY_LOW: 10000,
     MONEY_HIGH: 50000
   };
+  var FilterValue = {
+    VALUE_ANY: 'any',
+    VALUE_LOW: 'low',
+    VALUE_MIDDLE: 'middle',
+    VALUE_HIGH: 'high'
+  };
+  var DEBOUNCE_TIME_MS = 500;
   var houseTypeFilter = document.querySelector('#housing-type');
   var housePriceFilter = document.querySelector('#housing-price');
   var houseRoomsFilter = document.querySelector('#housing-rooms');
@@ -46,32 +53,32 @@
     window.utilData.filterStatus = true;
     results = window.utilData.hotels;
     results = results.filter(function (hotelInfo) {
-      if (houseTypeFilter.value !== 'any') {
+      if (houseTypeFilter.value !== FilterValue.VALUE_ANY) {
         if (hotelInfo.offer.type !== houseTypeFilter.value) {
           return false;
         }
       }
-      if (housePriceFilter.value !== 'any') {
-        if (housePriceFilter.value === 'low') {
+      if (housePriceFilter.value !== FilterValue.VALUE_ANY) {
+        if (housePriceFilter.value === FilterValue.VALUE_LOW) {
           if (hotelInfo.offer.price >= FilterData.MONEY_LOW) {
             return false;
           }
-        } else if (housePriceFilter.value === 'middle') {
+        } else if (housePriceFilter.value === FilterValue.VALUE_MIDDLE) {
           if (hotelInfo.offer.price < FilterData.MONEY_LOW || hotelInfo.offer.price >= FilterData.MONEY_HIGH) {
             return false;
           }
-        } else if (housePriceFilter.value === 'high') {
+        } else if (housePriceFilter.value === FilterValue.VALUE_HIGH) {
           if (hotelInfo.offer.price < FilterData.MONEY_HIGH) {
             return false;
           }
         }
       }
-      if (houseRoomsFilter.value !== 'any') {
+      if (houseRoomsFilter.value !== FilterValue.VALUE_ANY) {
         if (String(houseRoomsFilter.value) !== String(hotelInfo.offer.rooms)) {
           return false;
         }
       }
-      if (houseGuestFilter.value !== 'any') {
+      if (houseGuestFilter.value !== FilterValue.VALUE_ANY) {
         if (String(houseGuestFilter.value) !== String(hotelInfo.offer.guests)) {
           return false;
         }
@@ -83,7 +90,7 @@
     window.card.removePopup();
     window.pin.delete();
     window.pin.render(results, results.length);
-  }, 500);
+  }, DEBOUNCE_TIME_MS);
 
   filterBlock.addEventListener('change', onFilterBlockChange, false);
 

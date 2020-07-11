@@ -3,6 +3,8 @@
 (function () {
   var MAP_PIN_DEFAULT_LOCATION_X = 570;
   var MAP_PIN_DEFAULT_LOCATION_Y = 375;
+  var MAP_SAFE_ZONE_WIDTH = window.utilData.mapOverlay.offsetWidth / 100 * 5;
+  var MAP_SAFE_ZONE_HEIGHT = window.utilData.mapOverlay.offsetHeight / 100 * 5;
   var fragment = document.createDocumentFragment();
   var template = document.querySelector('#pin').content;
   var templateMapPin = template.querySelector('.map__pin');
@@ -32,16 +34,14 @@
         var element = templateMapPin.cloneNode(false);
         element.style.left = hotels[i].location.x + 'px';
         element.style.top = hotels[i].location.y + 'px';
-        if (hotels[i].location.x > window.utilData.mapOverlay.offsetWidth -
-          window.utilData.mapOverlay.offsetWidth / 100 * 5) {
-          element.style.left = window.utilData.mapOverlay.offsetWidth - window.utilData.mapOverlay.offsetWidth / 100 * 5 + 'px';
+        if (hotels[i].location.x > window.utilData.mapOverlay.offsetWidth - MAP_SAFE_ZONE_WIDTH) {
+          element.style.left = window.utilData.mapOverlay.offsetWidth - MAP_SAFE_ZONE_WIDTH + 'px';
         }
         if (hotels[i].location.x < 0) {
           element.style.left = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';
         }
-        if (hotels[i].location.y > window.utilData.mapOverlay.offsetHeight -
-          window.utilData.mapOverlay.offsetHeight / 100 * 5) {
-          element.style.top = window.utilData.mapOverlay.offsetHeight - window.utilData.mapOverlay.offsetHeight / 100 * 5 + 'px';
+        if (hotels[i].location.y > window.utilData.mapOverlay.offsetHeight - MAP_SAFE_ZONE_HEIGHT) {
+          element.style.top = window.utilData.mapOverlay.offsetHeight - MAP_SAFE_ZONE_HEIGHT + 'px';
         }
         if (hotels[i].location.y < 0) {
           element.style.top = window.utilData.MAP_SAFE_BORDER_ZONE + 'px';

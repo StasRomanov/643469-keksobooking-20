@@ -143,7 +143,6 @@
     },
     delete: function () {
       if (popupClose !== null) {
-        window.utilData.map = document.querySelector('.map');
         removePopup();
         popupClose.removeEventListener('click', onPopupCloseClick, false);
         popupClose.removeEventListener('keydown', onPopupCloseKeydown, false);

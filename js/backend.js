@@ -7,9 +7,9 @@
   var STATUS_CODE_OK = 200;
   var JSON_TYPE = 'json';
 
-  var serverData = function (url, dataType, onSuccess, onError, method, send) {
+  var serverData = function (url, onSuccess, onError, method, send) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = dataType;
+    xhr.responseType = JSON_TYPE;
     xhr.open(method, url);
     xhr.send(send);
     xhr.addEventListener('load', function () {
@@ -41,6 +41,7 @@
   };
 
   var onSuccessSend = function () {
+    window.utilData.loadStatus = true;
     window.utilData.addressInput.setAttribute('disabled', 'true');
     window.serverInfo.renderSuccessBlock();
     window.main.startPassiveMode();
@@ -54,15 +55,14 @@
 
   window.backend = {
     load: function () {
-      window.utilData.loadStatus = true;
-      serverData(DATA_LINK_LOAD, JSON_TYPE, onSuccessLoad, onErrorLoad, 'GET', '');
+      serverData(DATA_LINK_LOAD, onSuccessLoad, onErrorLoad, 'GET', '');
     },
 
     send: function (evt) {
       evt.preventDefault();
       window.utilData.addressInput.removeAttribute('disabled');
       window.utilData.activeStatus = false;
-      serverData(DATA_LINK_SEND, JSON_TYPE, onSuccessSend, onErrorSend, 'POST', new FormData(window.utilData.formBlock));
+      serverData(DATA_LINK_SEND, onSuccessSend, onErrorSend, 'POST', new FormData(window.utilData.formBlock));
     }
   };
 })();
