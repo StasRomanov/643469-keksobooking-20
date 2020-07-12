@@ -40,7 +40,6 @@
 
       window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
         if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
-          // window.main.startActiveMode();
           if (!window.utilData.loadStatus) {
             window.main.dataLoader(true);
           } else {
