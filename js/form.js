@@ -7,12 +7,14 @@
   var MIN_GUEST_VALUE = 0;
   var priceInput = document.querySelector('#price');
   var guestNumberInput = document.querySelector('#capacity');
+  var guestNumberInputValues = guestNumberInput.querySelectorAll('option');
   var formHeader = document.querySelector('.ad-form-header');
   var timeInInput = document.querySelector('#timein');
   var typeInput = document.querySelector('#type');
   var timeOutInput = document.querySelector('#timeout');
   var roomNumberInput = document.querySelector('#room_number');
   var featuresCheckbox = document.querySelectorAll('.feature__checkbox');
+  var formFields = document.querySelectorAll('.ad-form__element');
   var resetButton = document.querySelector('.ad-form__reset');
 
   var enableNumberInput = function (childrenNumber) {
@@ -66,7 +68,7 @@
     if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
       window.utilData.formBlock.reset();
 
-      Array.from(featuresCheckbox, function (item) {
+      featuresCheckbox.forEach(function (item) {
         item.checked = false;
       });
       setDefaultValue();
@@ -80,16 +82,16 @@
 
   window.form = {
     setLimitsOnRooms: function () {
-      Array.from(guestNumberInput.children, function (item) {
+      guestNumberInputValues.forEach(function (item) {
         item.setAttribute('disabled', 'true');
       });
       guestNumberInput.value = guestNumberInput.value < MAX_GUEST_NUMBER ? roomNumberInput.value : String(MIN_GUEST_VALUE);
-      Array.from(guestNumberInput.children, function (item, index) {
+      guestNumberInputValues.forEach(function (item, index) {
         if (item.getAttribute('value') <= roomNumberInput.value) {
           enableNumberInput(index);
         }
         if (roomNumberInput.value === String(MAX_GUEST_NUMBER)) {
-          Array.from(guestNumberInput.children, function (children) {
+          guestNumberInputValues.forEach(function (children) {
             children.setAttribute('disabled', 'true');
             guestNumberInput.value = '0';
           });
@@ -101,7 +103,7 @@
     },
 
     enable: function () {
-      Array.from(window.utilData.formsMain, function (item) {
+      window.utilData.formsMain.forEach(function (item) {
         item.removeAttribute('disabled');
       });
       formHeader.removeAttribute('disabled');
@@ -111,11 +113,11 @@
 
     disable: function () {
       window.utilData.formBlock.classList.add('ad-form--disabled');
-      Array.from(featuresCheckbox, function (item) {
+      featuresCheckbox.forEach(function (item) {
         item.checked = false;
       });
       formHeader.setAttribute('disabled', 'true');
-      Array.from(window.utilData.formsMain, function (item) {
+      formFields.forEach(function (item) {
         item.setAttribute('disabled', 'true');
       });
       window.utilData.formBlock.reset();
