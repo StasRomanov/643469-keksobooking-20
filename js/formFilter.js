@@ -24,8 +24,8 @@
   var elevatorFilter = checkboxFilter.querySelector('#filter-elevator');
   var conditionerFilter = checkboxFilter.querySelector('#filter-conditioner');
   var filterBlock = document.querySelector('.map__filters');
-  var filterBlockCheckbox = filterBlock.querySelectorAll('.map__checkbox');
-  var filterBlockSelect = filterBlock.querySelectorAll('.map__filter');
+  var filterBlocksCheckbox = filterBlock.querySelectorAll('.map__checkbox');
+  var filterBlocksSelect = filterBlock.querySelectorAll('.map__filter');
   var features = [wifiFilter.value, dishwasherFilter.value, parkingFilter.value, washerFilter.value, elevatorFilter.value, conditionerFilter.value];
   var featuresBlocks = [wifiFilter, dishwasherFilter, parkingFilter, washerFilter, elevatorFilter, conditionerFilter];
   var results = [];
@@ -100,19 +100,19 @@
     disable: function () {
       filterBlock.reset();
       filterBlock.classList.add('ad-form--disabled');
-      filterBlockCheckbox.forEach(function (item) {
+      filterBlocksCheckbox.forEach(function (item) {
         item.setAttribute('disabled', 'true');
       });
-      filterBlockSelect.forEach(function (item) {
+      filterBlocksSelect.forEach(function (item) {
         item.setAttribute('disabled', 'true');
       });
     },
 
     enable: function () {
-      filterBlockCheckbox.forEach(function (item) {
+      filterBlocksCheckbox.forEach(function (item) {
         item.removeAttribute('disabled');
       });
-      filterBlockSelect.forEach(function (item) {
+      filterBlocksSelect.forEach(function (item) {
         item.removeAttribute('disabled');
       });
       filterBlock.classList.remove('ad-form--disabled');
