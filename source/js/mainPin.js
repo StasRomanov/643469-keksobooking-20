@@ -8,7 +8,7 @@
 
   window.onMainPinMove = function (evt) {
     var onMouseUp = function () {
-      if (!window.utilData.activeStatus && !window.utilData.loadStatus) {
+      if (!window.data.activeStatus && !window.data.loadStatus) {
         window.main.dataLoader(true);
       } else {
         window.main.dataLoader(false);
@@ -17,7 +17,7 @@
       document.removeEventListener('mouseup', onMouseUp);
     };
 
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
+    if (evt.button === window.data.LEFT_MOUSE_CODE) {
       var startCoords = {
         x: evt.clientX,
         y: evt.clientY
@@ -32,25 +32,25 @@
           y: moveEvt.clientY
         };
 
-        window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - shift.x) + 'px';
-        window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - shift.y) + 'px';
-        window.utilData.addressInput.value = String(Math.round(window.utilData.mapPinMain.offsetLeft - shift.x + window.utilData.mapPinMain.offsetWidth / 2)) + ', '
-        + String(window.utilData.mapPinMain.offsetTop - shift.y + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT);
+        window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft - shift.x) + 'px';
+        window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop - shift.y) + 'px';
+        window.data.addressInput.value = String(Math.round(window.data.mapPinMain.offsetLeft - shift.x + window.data.mapPinMain.offsetWidth / 2)) + ', '
+        + String(window.data.mapPinMain.offsetTop - shift.y + window.data.mapPinMain.offsetHeight + window.data.MAP_PIN_TRIANGLE_HEIGHT);
 
-        while (window.utilData.mapPinMain.offsetLeft + window.utilData.mapPinMain.offsetWidth >
-        window.utilData.mapOverlay.offsetWidth) {
-          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
+        while (window.data.mapPinMain.offsetLeft + window.data.mapPinMain.offsetWidth >
+        window.data.mapOverlay.offsetWidth) {
+          window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft - window.data.MAP_SAFE_BORDER_ZONE) + 'px';
         }
-        while (window.utilData.mapPinMain.offsetTop + window.utilData.mapPinMain.offsetHeight + window.utilData.MAP_PIN_TRIANGLE_HEIGHT >=
+        while (window.data.mapPinMain.offsetTop + window.data.mapPinMain.offsetHeight + window.data.MAP_PIN_TRIANGLE_HEIGHT >=
           safeZone.bottom) {
-          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop - window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
+          window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop - window.data.MAP_SAFE_BORDER_ZONE) + 'px';
         }
-        while (window.utilData.mapPinMain.offsetLeft < 0) {
-          window.utilData.mapPinMain.style.left = (window.utilData.mapPinMain.offsetLeft + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
+        while (window.data.mapPinMain.offsetLeft < 0) {
+          window.data.mapPinMain.style.left = (window.data.mapPinMain.offsetLeft + window.data.MAP_SAFE_BORDER_ZONE) + 'px';
         }
-        while (window.utilData.mapPinMain.offsetTop + window.utilData.mapPinMain.offsetHeight +
-        window.utilData.MAP_PIN_TRIANGLE_HEIGHT <= safeZone.top) {
-          window.utilData.mapPinMain.style.top = (window.utilData.mapPinMain.offsetTop + window.utilData.MAP_SAFE_BORDER_ZONE) + 'px';
+        while (window.data.mapPinMain.offsetTop + window.data.mapPinMain.offsetHeight +
+        window.data.MAP_PIN_TRIANGLE_HEIGHT <= safeZone.top) {
+          window.data.mapPinMain.style.top = (window.data.mapPinMain.offsetTop + window.data.MAP_SAFE_BORDER_ZONE) + 'px';
         }
       };
 

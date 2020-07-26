@@ -52,8 +52,8 @@
   };
 
   var onFilterBlockChange = window.debounce(function () {
-    window.utilData.filterStatus = true;
-    results = window.utilData.hotels;
+    window.data.filterStatus = true;
+    results = window.data.hotels;
     results = results.filter(function (hotelInfo) {
       if (houseTypeFilter.value !== FilterValue.VALUE_ANY) {
         if (hotelInfo.offer.type !== houseTypeFilter.value) {

@@ -9,7 +9,7 @@
   var reloadButton = null;
 
   var onDocumentClick = function (evt) {
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
+    if (evt.button === window.data.LEFT_MOUSE_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
         window.serverInfo.successListener(false);
@@ -21,7 +21,7 @@
   };
 
   var onDocumentKeydown = function (evt) {
-    if (evt.code === window.utilData.ESC_KEY_CODE) {
+    if (evt.code === window.data.ESC_KEY_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
         window.serverInfo.successListener(false);
@@ -33,7 +33,7 @@
   };
 
   var onReloadButtonClick = function (evt) {
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE) {
+    if (evt.button === window.data.LEFT_MOUSE_CODE) {
       if (mainBlock.querySelector('.success')) {
         mainBlock.querySelector('.success').remove();
         window.serverInfo.successListener(false);

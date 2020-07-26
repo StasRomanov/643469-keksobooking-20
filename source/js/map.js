@@ -2,7 +2,7 @@
 
 (function () {
   var onMapPinClick = function (evt) {
-    if (window.utilData.activeStatus) {
+    if (window.data.activeStatus) {
       var target = evt.target;
       if (target.tagName === 'IMG') {
         target = target.closest('button');
@@ -10,7 +10,7 @@
           return;
         }
       }
-      if (window.utilData.filterStatus) {
+      if (window.data.filterStatus) {
         if (target.tagName === 'BUTTON') {
           window.filterHotels.forEach(function (item, index) {
             if (String(index) === target.getAttribute('data-id')) {
@@ -19,7 +19,7 @@
           });
         }
       } else {
-        window.utilData.hotels.forEach(function (item, index) {
+        window.data.hotels.forEach(function (item, index) {
           if (String(index) === target.getAttribute('data-id')) {
             window.card.render(item);
           }
@@ -30,17 +30,17 @@
 
   window.map = {
     enable: function () {
-      window.utilData.map.classList.remove('map--faded');
+      window.data.map.classList.remove('map--faded');
     },
     disable: function () {
-      window.utilData.map.classList.add('map--faded');
-      window.utilData.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
+      window.data.map.classList.add('map--faded');
+      window.data.mapPinMain.addEventListener('mousedown', window.onMainPinMove, false);
       window.card.delete();
-      window.utilData.mapPin.addEventListener('click', onMapPinClick, false);
+      window.data.mapPin.addEventListener('click', onMapPinClick, false);
 
-      window.utilData.mapPinMain.addEventListener('keydown', function (evt) {
-        if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === false) {
-          if (!window.utilData.loadStatus) {
+      window.data.mapPinMain.addEventListener('keydown', function (evt) {
+        if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === false) {
+          if (!window.data.loadStatus) {
             window.main.dataLoader(true);
           } else {
             window.main.dataLoader(false);

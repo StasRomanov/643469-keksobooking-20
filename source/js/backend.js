@@ -30,8 +30,8 @@
   };
 
   var onSuccessLoad = function (data) {
-    if (window.utilData.hotels.length === 0) {
-      window.utilData.hotels = data;
+    if (window.data.hotels.length === 0) {
+      window.data.hotels = data;
     }
     window.main.startActiveMode();
   };
@@ -41,15 +41,15 @@
   };
 
   var onSuccessSend = function () {
-    window.utilData.loadStatus = true;
-    window.utilData.addressInput.setAttribute('disabled', 'true');
+    window.data.loadStatus = true;
+    window.data.addressInput.setAttribute('disabled', 'true');
     window.serverInfo.renderSuccessBlock();
     window.main.startPassiveMode();
     window.serverInfo.successListener(true);
   };
 
   var onErrorSend = function () {
-    window.utilData.addressInput.setAttribute('disabled', 'true');
+    window.data.addressInput.setAttribute('disabled', 'true');
     window.serverInfo.renderErrorBlock();
   };
 
@@ -60,9 +60,9 @@
 
     send: function (evt) {
       evt.preventDefault();
-      window.utilData.addressInput.removeAttribute('disabled');
-      window.utilData.activeStatus = false;
-      serverData(DATA_LINK_SEND, onSuccessSend, onErrorSend, 'POST', new FormData(window.utilData.formBlock));
+      window.data.addressInput.removeAttribute('disabled');
+      window.data.activeStatus = false;
+      serverData(DATA_LINK_SEND, onSuccessSend, onErrorSend, 'POST', new FormData(window.data.formBlock));
     }
   };
 })();

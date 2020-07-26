@@ -15,19 +15,19 @@
   };
 
   var onPopupCloseClick = function (evt) {
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
+    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
       removePopup();
     }
   };
 
   var onPopupCloseKeydown = function (evt) {
-    if (evt.code === window.utilData.ENTER_KEY_CODE && window.utilData.activeStatus === true) {
+    if (evt.code === window.data.ENTER_KEY_CODE && window.data.activeStatus === true) {
       removePopup();
     }
   };
 
   var onDocumentKeydown = function (evt) {
-    if (evt.code === window.utilData.ESC_KEY_CODE && window.utilData.activeStatus === true) {
+    if (evt.code === window.data.ESC_KEY_CODE && window.data.activeStatus === true) {
       removePopup();
     }
   };
@@ -119,8 +119,8 @@
       var hotelPhotosBlock = cloneCardTemplate.querySelector('.popup__photos');
       var hotelPhotoBlock = cloneCardTemplate.querySelector('.popup__photo');
       var hotelAvatarBlock = cloneCardTemplate.querySelector('.popup__avatar');
-      var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, window.utilData.ROOMS_DECLENSION) + ' для '
-        + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, window.utilData.GUESTS_DECLENSION);
+      var rooms = hotel.offer.rooms + ' ' + getWordDeclension(hotel.offer.rooms, window.data.ROOMS_DECLENSION) + ' для '
+        + hotel.offer.guests + ' ' + getGuests(hotel.offer.guests, window.data.GUESTS_DECLENSION);
       var time = 'Заезд после ' + hotel.offer.checkin + ', выезд до ' + hotel.offer.checkout;
       removePopup();
       fragment = document.createDocumentFragment();
@@ -135,7 +135,7 @@
       hotelDescriptionBlock.textContent = hotel.offer.description;
       renderHotelPhoto(hotel, hotelPhotosBlock, hotelPhotoBlock);
       hotelAvatarBlock.src = hotel.author.avatar;
-      window.utilData.map.insertBefore(cloneCardTemplate, mapFiltersContainer);
+      window.data.map.insertBefore(cloneCardTemplate, mapFiltersContainer);
       popupClose = document.querySelector('.popup__close');
       popupClose.addEventListener('click', onPopupCloseClick, false);
       popupClose.addEventListener('keydown', onPopupCloseKeydown, false);

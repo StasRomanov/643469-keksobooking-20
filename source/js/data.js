@@ -23,7 +23,7 @@
   var filterStatus = false;
   var loadStatus = false;
 
-  window.utilData = {
+  window.data = {
     HOTEL_COUNTER: HOTEL_COUNTER,
     ENTER_KEY_CODE: ENTER_KEY_CODE,
     ESC_KEY_CODE: ESC_KEY_CODE,

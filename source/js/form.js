@@ -58,15 +58,15 @@
 
   var setDefaultValue = function () {
     priceInput.setAttribute('placeholder', '1000');
-    window.utilData.mapPinMain.style.left = PIN_DEFAULT_LEFT_POSITION + 'px';
-    window.utilData.mapPinMain.style.top = PIN_DEFAULT_TOP_POSITION + 'px';
+    window.data.mapPinMain.style.left = PIN_DEFAULT_LEFT_POSITION + 'px';
+    window.data.mapPinMain.style.top = PIN_DEFAULT_TOP_POSITION + 'px';
     window.pin.createLocation();
   };
 
   var onResetButtonClick = function (evt) {
     evt.preventDefault();
-    if (evt.button === window.utilData.LEFT_MOUSE_CODE && window.utilData.activeStatus === true) {
-      window.utilData.formBlock.reset();
+    if (evt.button === window.data.LEFT_MOUSE_CODE && window.data.activeStatus === true) {
+      window.data.formBlock.reset();
 
       featuresCheckbox.forEach(function (item) {
         item.checked = false;
@@ -78,7 +78,7 @@
 
   resetButton.addEventListener('click', onResetButtonClick, false);
 
-  window.utilData.formBlock.addEventListener('submit', window.backend.send, false);
+  window.data.formBlock.addEventListener('submit', window.backend.send, false);
 
   window.form = {
     setLimitsOnRooms: function () {
@@ -103,16 +103,16 @@
     },
 
     enable: function () {
-      window.utilData.formsMain.forEach(function (item) {
+      window.data.formsMain.forEach(function (item) {
         item.removeAttribute('disabled');
       });
       formHeader.removeAttribute('disabled');
-      window.utilData.formBlock.classList.remove('ad-form--disabled');
+      window.data.formBlock.classList.remove('ad-form--disabled');
       window.formFilter.enable();
     },
 
     disable: function () {
-      window.utilData.formBlock.classList.add('ad-form--disabled');
+      window.data.formBlock.classList.add('ad-form--disabled');
       featuresCheckbox.forEach(function (item) {
         item.checked = false;
       });
@@ -120,7 +120,7 @@
       formFields.forEach(function (item) {
         item.setAttribute('disabled', 'true');
       });
-      window.utilData.formBlock.reset();
+      window.data.formBlock.reset();
       setDefaultValue();
       window.form.setLimitsOnRooms();
       window.formFilter.disable();
